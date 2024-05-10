@@ -8,6 +8,8 @@ import { TableData } from '@/components/viewsTables/tableData';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { center } from '@shopify/react-native-skia';
+import { AlfabetoButton } from '@/components/libras-componentes/alfabeto-button';
+import { CoresButton } from '@/components/libras-componentes/cores-button';
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
@@ -54,6 +56,9 @@ function App() {
       >
         Uma visão regional: Marabá
       </Text>
+
+      <AlfabetoButton></AlfabetoButton>
+      <CoresButton></CoresButton>
     </ScrollView>
   );
 }
