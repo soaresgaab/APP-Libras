@@ -1,16 +1,23 @@
 import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
+import { Link } from 'expo-router';
 
-export const CoresButton = (): React.ReactNode => {
+export const AlfabetoContainer = ({
+  router,
+  label,
+}: {
+  router: string;
+  label: string;
+}): React.ReactNode => {
   return (
-    <>
+    <Link href={`/${router}`} asChild>
       <Pressable style={styles.div}>
         <Image
           style={styles.image}
           source={require('../../assets/ImagemButtonCores.jpg')}
         ></Image>
-        <Text style={styles.label}>Cores</Text>
+        <Text style={styles.label}>{label}</Text>
       </Pressable>
-    </>
+    </Link>
   );
 };
 
@@ -37,9 +44,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   div: {
+    paddingTop: 25,
     width: '70%',
     height: 185,
-    marginTop: 50,
+    marginBottom: 30,
     borderRadius: 12,
     alignSelf: 'center',
     backgroundColor: 'white',

@@ -12,7 +12,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
 import { Dimensions } from 'react-native';
 import CustomDrawerContent from '@/components/customDrawer';
-import { RenderHeader } from '@/components/libras-componentes/image-header';
+import { RenderHeader } from '@/components/libras_componentes/image-header';
 
 import { useColorScheme } from '@/components/useColorScheme';
 
@@ -32,10 +32,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    APPOLO: require('../assets/fonts/APOLLO.otf'),
-    OMEGLE: require('../assets/fonts/OMEGLE.ttf'),
-    ThoseGlitchRegular: require('../assets/fonts/ThoseGlitchRegular.ttf'),
-    mytype: require('../assets/fonts/mytype.ttf'),
     ...FontAwesome.font,
   });
 

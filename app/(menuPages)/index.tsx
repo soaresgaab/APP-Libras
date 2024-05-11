@@ -7,6 +7,7 @@ import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
+import { AlfabetoContainer } from '@/components/libras_alfabeto_manual/alfabeto_container';
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
@@ -35,26 +36,9 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Dicionário da Língua Brasileira de Sinais
+        Alfabeto manual
       </Text>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          // fontFamily: 'OMEGLE',
-        }}
-      >
-        Uma visão regional: Marabá
-      </Text>
-      <AlfabetoButton />
-      <CoresButton router={'Números'} label={'Números'} />
-      <CoresButton router={'Calendários'} label={'Calendários'} />
-      <CoresButton router={'Redes de Comp.'} label={'Redes de Comp.'} />
-      <CoresButton router={'Cores'} label={'Cores'} />
-      <CoresButton router={'Cumprimentos'} label={'Cumprimentos'} />
+      <AlfabetoContainer router={'Números'} label={'Jessica'} />
     </ScrollView>
   );
 }

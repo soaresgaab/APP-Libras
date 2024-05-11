@@ -1,15 +1,21 @@
-import { Link } from 'expo-router';
 import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
+import { Link } from 'expo-router';
 
-export const AlfabetoButton = (): React.ReactNode => {
+export const CoresButton = ({
+  router,
+  label,
+}: {
+  router: string;
+  label: string;
+}): React.ReactNode => {
   return (
-    <Link href="/Alfabeto" asChild>
-      <Pressable style={styles.tinyLogo}>
+    <Link href={`/${router}`} asChild>
+      <Pressable style={styles.div}>
         <Image
           style={styles.image}
-          source={require('../../assets/ImagemButtonAlfabeto.jpg')}
+          source={require('../../assets/ImagemButtonCores.jpg')}
         ></Image>
-        <Text style={styles.label}>Alfabeto manual</Text>
+        <Text style={styles.label}>{label}</Text>
       </Pressable>
     </Link>
   );
@@ -20,8 +26,8 @@ const styles = StyleSheet.create({
     paddingTop: 25,
   },
   label: {
-    marginTop: -70,
-    paddingVertical: 8,
+    paddingVertical: 6,
+    marginTop: 10,
     alignSelf: 'center',
     // borderWidth: 2,
     // borderColor: '#e7503b',
@@ -33,18 +39,20 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: '100%',
-    height: 185,
-    borderRadius: 12,
-    // alignSelf: 'center',
+    width: '70%',
+    height: 90,
+    alignSelf: 'center',
   },
-  tinyLogo: {
+  div: {
     width: '70%',
     height: 185,
-    marginTop: 50,
+    marginBottom: 30,
     borderRadius: 12,
     alignSelf: 'center',
-    backgroundColor: 'red',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#e7503b',
   },
   logo: {
     width: 66,
