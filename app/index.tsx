@@ -51,7 +51,7 @@ function App() {
       </Text>
       <AlfabetoButton />
       <CoresButton router={'Números'} label={'Números'} />
-      <CoresButton router={'Calendários'} label={'Calendários'} />
+      <CoresButton router={'search/123'} label={'Calendários'} />
       <CoresButton router={'Redes de Comp.'} label={'Redes de Comp.'} />
       <CoresButton router={'Cores'} label={'Cores'} />
       <CoresButton router={'Cumprimentos'} label={'Cumprimentos'} />

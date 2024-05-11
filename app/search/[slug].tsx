@@ -8,10 +8,13 @@ import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button'
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
 import { AlfabetoContainer } from '@/components/libras_alfabeto_manual/alfabeto_container';
+import { useLocalSearchParams } from 'expo-router';
+
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
   const [refreshing, setRefreshing] = useState(true);
+  const { slug } = useLocalSearchParams();
 
   useEffect(() => {
     // fetchData();
@@ -36,9 +39,8 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Alfabeto manual
+        {slug}
       </Text>
-      <AlfabetoContainer />
     </ScrollView>
   );
 }
