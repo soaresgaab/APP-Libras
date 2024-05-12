@@ -20,15 +20,8 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack
-      screenOptions={
-        {
-          // Disable the static render of the header on web
-          // to prevent a hydration error in React Navigation v6.
-        }
-      }
-    >
-      <Stack.Screen name="/search/[slug]" options={{ headerShown: false }} />
+    <Stack screenOptions={{}}>
+      <Stack.Screen name="[slug]" options={{ headerShown: false }} />
     </Stack>
   );
 }

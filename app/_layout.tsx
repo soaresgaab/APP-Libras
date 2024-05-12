@@ -115,31 +115,19 @@ function RootLayoutNav() {
           <Drawer.Screen
             name="index"
             options={{
-              drawerLabel: 'Atendimentos por Sexo',
-              title: 'Atendimentos por Sexo',
+              drawerLabel: 'Página inicial',
+              title: 'Página inicial',
               drawerType: 'slide',
               drawerIcon: () => <Ionicons name="home" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
+
           <Drawer.Screen
-            name="atendimentoBairro"
+            name="(alfabeto)"
             options={{
-              title: 'Atendimento por Bairros',
-              drawerLabel: 'Atendimento por Bairros',
-              drawerPosition: 'left',
-              drawerType: 'slide',
-              drawerIcon: () => (
-                <Ionicons name="pie-chart" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="atendimentoFaixaEtaria"
-            options={{
-              title: 'Atendimentos por Faixa Etária',
-              drawerLabel: 'Atendimentos por Faixa Etária',
+              title: 'Alfabeto',
+              drawerLabel: 'Alfabeto',
               drawerPosition: 'left',
               drawerType: 'slide',
               drawerIcon: () => <Ionicons name="cellular" size={20}></Ionicons>,
@@ -147,7 +135,7 @@ function RootLayoutNav() {
             }}
           />
           <Drawer.Screen
-            name="atendimentoTipoOcorrencia"
+            name="(search)"
             options={{
               title: 'Atendimentos por Tipo',
               drawerLabel: 'Atendimentos por Tipo',
@@ -155,6 +143,8 @@ function RootLayoutNav() {
               drawerType: 'slide',
               drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
+
+              drawerItemStyle: { height: 0 },
             }}
           />
           <Drawer.Screen
@@ -191,19 +181,6 @@ function RootLayoutNav() {
               drawerIcon: () => <Ionicons name="shapes" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
               unmountOnBlur: true,
-            }}
-          />
-          <Drawer.Screen
-            name="tempoDeResposta"
-            options={{
-              title: 'Tempo de Resposta',
-              drawerLabel: 'tempo de Resposta',
-              drawerPosition: 'left',
-              drawerType: 'slide',
-              drawerIcon: () => (
-                <Ionicons name="pie-chart" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
             }}
           />
           <Drawer.Screen
@@ -271,6 +248,19 @@ function RootLayoutNav() {
           />
           <Drawer.Screen
             name="obitos"
+            options={{
+              title: 'obitos',
+              drawerLabel: 'Obitos',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="pie-chart" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="atendimentoBairro"
             options={{
               title: 'obitos',
               drawerLabel: 'Obitos',

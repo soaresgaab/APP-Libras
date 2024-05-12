@@ -3,15 +3,16 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, TextInput, Pressable, Text } from 'react-native';
 import { View } from '@/components/Themed';
 import { Ionicons } from '@expo/vector-icons';
+import { router } from 'expo-router';
 function MonthYear({ fetchData, setRefreshing }: any) {
-  const [mes, setMes] = useState('');
+  const [search, setMes] = useState('');
   const [ano, setAno] = useState('');
   return (
     <View style={styles.container2}>
       <TextInput
         style={[styles.input]}
         placeholder="Pesquisar"
-        value={mes}
+        value={search}
         onChangeText={setMes}
         cursorColor={'black'}
         inputMode="text"
@@ -19,8 +20,12 @@ function MonthYear({ fetchData, setRefreshing }: any) {
       />
       <Pressable
         onPress={() => {
-          setRefreshing(true);
-          fetchData(ano, mes);
+          //Usar o setData
+          // setRefreshing(true);
+          router.push({
+            pathname: '/(search)/[slug]',
+            params: { slug: `${search}` },
+          });
         }}
         style={({ pressed }) => [
           {

@@ -3,7 +3,7 @@ import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
 
 export const AlfabetoButton = (): React.ReactNode => {
   return (
-    <Link href="/(menuPages)" asChild>
+    <Link href="/(alfabeto)" asChild>
       <Pressable style={styles.div}>
         <Image
           style={styles.image}
