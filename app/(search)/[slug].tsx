@@ -4,20 +4,27 @@ import MonthYear from '@/components/formSearch/monthAndYear';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
-import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
-import { CoresButton } from '@/components/libras_componentes/cores-button';
-import { router } from 'expo-router';
-import { AlfabetoContainer } from '@/components/libras_alfabeto_manual/alfabeto_container';
 import { useLocalSearchParams } from 'expo-router';
+import { searchAxiosGet } from '@/components/axios/searchAxiosGet';
+import { TypeLibrasData, TypeLibrasDataSinais } from '@/@types/LibrasData';
+import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 
 function App() {
-  const [option, setData] = useState({});
-  const [data, setDataFetch] = useState();
+  const [data, setData] = useState<TypeLibrasData>();
   const [refreshing, setRefreshing] = useState(true);
   const { slug } = useLocalSearchParams();
+  console.log(slug);
+  async function searchData() {
+    const response = await searchAxiosGet();
+    console.log(response.data);
+    if (response.data) {
+      setData(response.data);
+    }
+  }
 
   useEffect(() => {
-    // fetchData();
+    searchData();
+    console.log(data);
   }, []);
 
   return (
@@ -28,19 +35,26 @@ function App() {
       }
     >
       <MonthYear></MonthYear>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-        }}
-      >
-        {slug}
-      </Text>
+      {data !== undefined ? (
+        data.sinais.map((item: TypeLibrasDataSinais, index: number) => (
+          <Text
+            key={index}
+            style={{
+              marginTop: 10,
+              alignSelf: 'center',
+              textAlign: 'center',
+              fontSize: 20,
+              width: '75%',
+              fontStyle: 'italic',
+              fontWeight: 'bold',
+            }}
+          >
+            {item.description !== null ? item.description : 'oi'}
+          </Text>
+        ))
+      ) : (
+        <NoResultsComponent slug={slug}></NoResultsComponent>
+      )}
     </ScrollView>
   );
 }
