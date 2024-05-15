@@ -12,6 +12,11 @@ export type TypeLibrasData = {
   ];
 };
 
+type Action = {
+  type: string;
+  Payload: TypeLibrasData;
+};
+
 type TypeLibrasDataSinais = Pick<
   TypeLibrasData['wordDefinitions'][number],
   'descriptionWordDefinition' | 'src' | 'category'
