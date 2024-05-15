@@ -1,12 +1,18 @@
 export type TypeLibrasData = {
-  name: string;
-  sinais: {
-    description: string | null;
-    type: string;
-  }[];
+  nameWord: string;
+  wordDefinitions: [
+    {
+      descriptionWordDefinition: string;
+      src: string;
+      category: {
+        nameCategory: string;
+        descriptionCategory: string;
+      };
+    },
+  ];
 };
 
 type TypeLibrasDataSinais = Pick<
-  LibrasData['sinais'][number],
-  'description' | 'type'
+  TypeLibrasData['wordDefinitions'][number],
+  'descriptionWordDefinition' | 'src' | 'category'
 >;
