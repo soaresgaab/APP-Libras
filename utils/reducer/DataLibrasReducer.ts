@@ -5,6 +5,9 @@ export function tasksReducer(
   action: Action,
 ): TypeLibrasData[] {
   switch (action.type) {
+    case 'addedMultiple ': {
+      return [...data];
+    }
     case 'added': {
       return [
         ...data,
