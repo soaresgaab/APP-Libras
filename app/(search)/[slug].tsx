@@ -20,6 +20,7 @@ import { initialStateDataLibrasReducer } from '../../utils/reducer/DataLibrasRed
 
 function App() {
   const [data, setData] = useState<TypeLibrasData[]>();
+  const [editable, setEditable] = useState<boolean>(false);
   const [updatedData, dispatchUpdateData] = useReducer(
     DataLibrasReducer,
     initialStateDataLibrasReducer,
@@ -67,35 +68,55 @@ function App() {
         {`Confira alguns significados para a palavra "${slug}" e seus respectivos sinais`}
       </Text>
       <Pressable
+        style={{
+          width: '100%',
+        }}
         onPress={() => {
+          setEditable(!editable);
           console.log(updatedData);
         }}
       >
-        {updatedData &&
-          updatedData.map((item, index) => (
-            <TextInput key={index} value={item.nameWord}></TextInput>
-          ))}
+        {/* teste para input */}
 
-        <Text> Aperta ae</Text>
+        <Text
+          style={{
+            marginTop: 15,
+            alignSelf: 'flex-end',
+            backgroundColor: '#e7503b',
+            borderRadius: 15,
+            paddingVertical: 5,
+            paddingHorizontal: 8,
+            marginRight: 5,
+          }}
+        >
+          {' '}
+          Editar
+        </Text>
       </Pressable>
-      {data &&
-        data.map((item: TypeLibrasData, index: number) => (
+      {updatedData &&
+        updatedData.map((item, index) => (
+          <TextInput
+            editable={editable}
+            key={index}
+            style={editable ? styles.input : styles.inputDisabled}
+            value={item.nameWord}
+            onChangeText={(text) => {
+              console.log(text);
+              const wordDefinition = item.wordDefinitions.map((item) => item);
+              dispatchUpdateData({
+                type: 'changed',
+                payload: {
+                  id: item.id,
+                  nameWord: text,
+                  wordDefinitions: item.wordDefinitions,
+                },
+              });
+            }}
+          ></TextInput>
+        ))}
+      {updatedData &&
+        updatedData.map((item: TypeLibrasData, index: number) => (
           <View key={`inner_${index}`}>
-            <Text
-              style={{
-                marginTop: 30,
-                alignSelf: 'center',
-                textAlign: 'center',
-                fontSize: 20,
-                width: '75%',
-                fontStyle: 'italic',
-                fontWeight: 'bold',
-                color: 'red',
-              }}
-            >
-              {item.nameWord !== null ? item.nameWord : 'oi'}
-            </Text>
-
             {data &&
               item.wordDefinitions.map(
                 (item: TypeLibrasDataSinais, innerindex: number) => (
@@ -167,6 +188,30 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: 'bold',
     borderRadius: 15,
+  },
+  input: {
+    marginTop: 14,
+    width: '75%',
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    color: 'Red',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    fontSize: 20,
+  },
+  inputDisabled: {
+    marginTop: 22,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    width: '75%',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    color: 'red',
   },
 });
 

@@ -16,6 +16,7 @@ export function DataLibrasReducer(
       return [
         ...data!,
         {
+          id: action.payload.id!,
           nameWord: action.payload.nameWord!,
           wordDefinitions: action.payload.wordDefinitions!,
         },
@@ -23,7 +24,8 @@ export function DataLibrasReducer(
     }
     case 'changed': {
       return data?.map((t) => {
-        if (t.nameWord === action.payload?.nameWord) {
+        if (t.id === action.payload?.id) {
+          console.log(action.payload?.nameWord);
           return action.payload;
         } else {
           return t;

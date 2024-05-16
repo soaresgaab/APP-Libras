@@ -1,4 +1,5 @@
 export type TypeLibrasData = {
+  id: number;
   nameWord: string;
   wordDefinitions: [
     {
@@ -17,7 +18,11 @@ type Action = {
   payload: TypeLibrasData;
 };
 
-type TypeLibrasDataSinais = Pick<
-  TypeLibrasData['wordDefinitions'][number],
-  'descriptionWordDefinition' | 'src' | 'category'
->;
+type TypeLibrasDataSinais = {
+  descriptionWordDefinition: string;
+  src: string;
+  category: {
+    nameCategory: string;
+    descriptionCategory: string;
+  };
+};
