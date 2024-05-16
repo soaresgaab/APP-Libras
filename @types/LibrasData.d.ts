@@ -14,7 +14,7 @@ export type TypeLibrasData = {
 
 type Action = {
   type: string;
-  Payload: TypeLibrasData;
+  payload: TypeLibrasData;
 };
 
 type TypeLibrasDataSinais = Pick<

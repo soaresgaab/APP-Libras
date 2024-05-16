@@ -1,5 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, RefreshControl, View } from 'react-native';
+import React, { useEffect, useReducer, useState } from 'react';
+import {
+  StyleSheet,
+  RefreshControl,
+  View,
+  Pressable,
+  TextInput,
+} from 'react-native';
 import MonthYear from '@/components/formSearch/monthAndYear';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -9,19 +15,29 @@ import { searchAxiosGet } from '@/components/axios/searchAxiosGet';
 import { TypeLibrasData, TypeLibrasDataSinais } from '@/@types/LibrasData';
 import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
+import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
+import { initialStateDataLibrasReducer } from '../../utils/reducer/DataLibrasReducer';
 
 function App() {
   const [data, setData] = useState<TypeLibrasData[]>();
+  const [updatedData, dispatchUpdateData] = useReducer(
+    DataLibrasReducer,
+    initialStateDataLibrasReducer,
+  );
   const [refreshing, setRefreshing] = useState(true);
   const { slug } = useLocalSearchParams();
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
-  console.log(slug);
   async function searchData() {
     const response = await searchAxiosGet();
-    console.log(response.data);
     if (response.data) {
+      response.data.map((item: TypeLibrasData) => {
+        dispatchUpdateData({
+          type: 'added',
+          payload: item,
+        });
+      });
       setData(response.data);
     }
   }
@@ -50,11 +66,22 @@ function App() {
       >
         {`Confira alguns significados para a palavra "${slug}" e seus respectivos sinais`}
       </Text>
+      <Pressable
+        onPress={() => {
+          console.log(updatedData);
+        }}
+      >
+        {updatedData &&
+          updatedData.map((item, index) => (
+            <TextInput key={index} value={item.nameWord}></TextInput>
+          ))}
+
+        <Text> Aperta ae</Text>
+      </Pressable>
       {data &&
         data.map((item: TypeLibrasData, index: number) => (
-          <>
+          <View key={`inner_${index}`}>
             <Text
-              key={`inner_${index}`}
               style={{
                 marginTop: 30,
                 alignSelf: 'center',
@@ -116,7 +143,7 @@ function App() {
                   </View>
                 ),
               )}
-          </>
+          </View>
         ))}
       {!data && <NoResultsComponent slug={slug}></NoResultsComponent>}
     </ScrollView>

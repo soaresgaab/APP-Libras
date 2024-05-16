@@ -1,36 +1,44 @@
 import { Action, TypeLibrasData } from '@/@types/LibrasData';
 
-export function tasksReducer(
+export function DataLibrasReducer(
   data: TypeLibrasData[],
   action: Action,
 ): TypeLibrasData[] {
   switch (action.type) {
     case 'addedMultiple ': {
-      return [...data];
+      return [...data!];
+    }
+    case 'teste': {
+      console.log(data);
+      return [...data!];
     }
     case 'added': {
       return [
-        ...data,
+        ...data!,
         {
-          nameWord: action.Payload.nameWord!,
-          wordDefinitions: action.Payload.wordDefinitions!,
+          nameWord: action.payload.nameWord!,
+          wordDefinitions: action.payload.wordDefinitions!,
         },
       ];
     }
     case 'changed': {
-      return data.map((t) => {
-        if (t.nameWord === action.Payload?.nameWord) {
-          return action.Payload;
+      return data?.map((t) => {
+        if (t.nameWord === action.payload?.nameWord) {
+          return action.payload;
         } else {
           return t;
         }
-      });
+      }) as TypeLibrasData[];
     }
     case 'deleted': {
-      return data.filter((t) => t.nameWord !== action.Payload.nameWord);
+      return data?.filter(
+        (t) => t.nameWord !== action.payload.nameWord,
+      ) as TypeLibrasData[];
     }
     default: {
       throw Error('Unknown action: ' + action.type);
     }
   }
 }
+
+export const initialStateDataLibrasReducer: TypeLibrasData[] = [];
