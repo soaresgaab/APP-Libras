@@ -7,7 +7,7 @@ export async function searchAxiosGet(
   return new Promise(async (resolver, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `https://run.mocky.io/v3/8236ae39-49a4-46d8-a7b4-b13f1de48a76`,
+        `https://run.mocky.io/v3/1544ea97-003d-4941-b8cb-5b8fe0523a31`,
       );
       setTimeout(() => {}, 5000);
       resolver(data);

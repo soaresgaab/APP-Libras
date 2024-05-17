@@ -91,28 +91,29 @@ function App() {
           Editar
         </Text>
       </Pressable>
-      {updatedData &&
+      {/* {updatedData &&
         updatedData.map((item, index) => (
-          <TextInput
-            editable={editable}
-            key={index}
-            style={editable ? styles.input : styles.inputDisabled}
-            value={item.nameWord}
-            onChangeText={(text) => {
-              dispatchUpdateData({
-                type: 'changed',
-                payload: {
-                  id: item.id,
-                  nameWord: text,
-                  wordDefinitions: item.wordDefinitions,
-                },
-              });
-            }}
-          ></TextInput>
-        ))}
+         
+        ))} */}
       {updatedData &&
         updatedData.map((item: TypeLibrasData, index: number) => (
           <View key={`inner_${index}`}>
+            <TextInput
+              editable={editable}
+              key={index}
+              style={editable ? styles.input : styles.inputDisabled}
+              value={item.nameWord}
+              onChangeText={(text) => {
+                dispatchUpdateData({
+                  type: 'changed',
+                  payload: {
+                    id: item.id,
+                    nameWord: text,
+                    wordDefinitions: item.wordDefinitions,
+                  },
+                });
+              }}
+            ></TextInput>
             {data &&
               item.wordDefinitions.map(
                 (item2: Partial<TypeLibrasDataSinais>, innerindex: number) => (
@@ -128,7 +129,7 @@ function App() {
                     <TextInput
                       editable={editable}
                       key={index}
-                      style={editable ? styles.input : styles.inputDisabled}
+                      style={editable ? styles.input : styles.inputDisabled2}
                       value={item2.category?.nameCategory}
                       onChangeText={(text) => {
                         dispatchUpdateData({
@@ -217,6 +218,17 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: 'bold',
     color: 'red',
+  },
+
+  inputDisabled2: {
+    marginTop: 22,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    width: '75%',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    color: 'black',
   },
 });
 
