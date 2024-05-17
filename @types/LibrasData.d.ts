@@ -3,8 +3,9 @@ export type TypeLibrasData = {
   nameWord: string;
   wordDefinitions: [
     {
-      descriptionWordDefinition: string;
-      src: string;
+      id: number;
+      descriptionWordDefinition?: string;
+      src?: string;
       category: {
         nameCategory: string;
         descriptionCategory: string;
@@ -18,11 +19,7 @@ type Action = {
   payload: TypeLibrasData;
 };
 
-type TypeLibrasDataSinais = {
-  descriptionWordDefinition: string;
-  src: string;
-  category: {
-    nameCategory: string;
-    descriptionCategory: string;
-  };
-};
+type TypeLibrasDataSinais = Pick<
+  TypeLibrasData,
+  'wordDefinitions'
+>['wordDefinitions'][number];

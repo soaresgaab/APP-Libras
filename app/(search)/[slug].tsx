@@ -76,8 +76,6 @@ function App() {
           console.log(updatedData);
         }}
       >
-        {/* teste para input */}
-
         <Text
           style={{
             marginTop: 15,
@@ -101,8 +99,6 @@ function App() {
             style={editable ? styles.input : styles.inputDisabled}
             value={item.nameWord}
             onChangeText={(text) => {
-              console.log(text);
-              const wordDefinition = item.wordDefinitions.map((item) => item);
               dispatchUpdateData({
                 type: 'changed',
                 payload: {
@@ -119,32 +115,41 @@ function App() {
           <View key={`inner_${index}`}>
             {data &&
               item.wordDefinitions.map(
-                (item: TypeLibrasDataSinais, innerindex: number) => (
+                (item2: Partial<TypeLibrasDataSinais>, innerindex: number) => (
                   <View key={`outer_${index}${innerindex}`}>
                     <Image
                       style={styles.image}
-                      source={item.src}
+                      source={item2.src}
                       contentFit="cover"
                       placeholder={{ blurhash }}
                       transition={1000}
                     />
-                    <Text
-                      style={{
-                        marginTop: 10,
-                        alignSelf: 'center',
-                        textAlign: 'center',
-                        fontSize: 20,
-                        width: '75%',
-                        fontStyle: 'italic',
-                        fontWeight: 'bold',
+                    {/* aki msm  */}
+                    <TextInput
+                      editable={editable}
+                      key={index}
+                      style={editable ? styles.input : styles.inputDisabled}
+                      value={item2.category?.nameCategory}
+                      onChangeText={(text) => {
+                        dispatchUpdateData({
+                          type: 'changed2',
+                          payload: {
+                            id: item.id,
+                            nameWord: item.nameWord,
+                            wordDefinitions: [
+                              {
+                                ...item2,
+                                id: item2.id!,
+                                category: {
+                                  ...item2.category!,
+                                  nameCategory: text,
+                                },
+                              },
+                            ],
+                          },
+                        });
                       }}
-                    >
-                      {`Categoria: ${
-                        item.category.nameCategory !== null
-                          ? item.category.nameCategory
-                          : 'oi'
-                      }`}
-                    </Text>
+                    ></TextInput>
 
                     <Text
                       style={{
@@ -157,8 +162,8 @@ function App() {
                         fontWeight: 'bold',
                       }}
                     >
-                      {item.descriptionWordDefinition !== null
-                        ? item.descriptionWordDefinition
+                      {item2.descriptionWordDefinition !== null
+                        ? item2.descriptionWordDefinition
                         : 'oi'}
                     </Text>
                   </View>
