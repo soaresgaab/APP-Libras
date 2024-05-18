@@ -132,6 +132,9 @@ function App() {
                       style={editable ? styles.input : styles.inputDisabled2}
                       value={item2.category?.nameCategory}
                       onChangeText={(text) => {
+                        console.log('deu certo');
+                        console.log(item2.id);
+                        console.log('deu certo2');
                         dispatchUpdateData({
                           type: 'changed2',
                           payload: {
@@ -167,6 +170,7 @@ function App() {
                         ? item2.descriptionWordDefinition
                         : 'oi'}
                     </Text>
+                    <View style={styles.borda}></View>
                   </View>
                 ),
               )}
@@ -196,6 +200,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   input: {
+    backgroundColor: 'white',
     marginTop: 14,
     width: '75%',
     alignSelf: 'center',
@@ -229,6 +234,13 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: 'bold',
     color: 'black',
+  },
+  borda: {
+    marginBottom: 50,
+    width: '80%',
+    alignSelf: 'center',
+    borderTopWidth: 0,
+    borderTopColor: '#cac9c99c',
   },
 });
 

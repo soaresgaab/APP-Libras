@@ -32,20 +32,30 @@ export function DataLibrasReducer(
       }) as TypeLibrasData[];
     }
     case 'changed2': {
-      console.log(action.payload?.id);
       const updatedData = data.map((item) => {
         if (item.id === action.payload?.id) {
           const updatedDefinitions = item.wordDefinitions.map(
-            (definition, index) =>
-              definition.id === action.payload?.wordDefinitions[index].id
-                ? action.payload.wordDefinitions[index]
-                : definition,
+            (wordDefinition, index) => {
+              const foundDefinition = action.payload?.wordDefinitions.find(
+                (updatedDefinition) =>
+                  updatedDefinition.id === wordDefinition.id,
+              );
+
+              if (foundDefinition) {
+                return {
+                  ...foundDefinition,
+                  category: {
+                    nameCategory: foundDefinition.category.nameCategory,
+                  },
+                };
+              }
+              return wordDefinition;
+            },
           );
           console.log(updatedDefinitions);
           return { ...item, wordDefinitions: updatedDefinitions };
-        } else {
-          return item;
         }
+        return item;
       });
       return updatedData as TypeLibrasData[];
     }
