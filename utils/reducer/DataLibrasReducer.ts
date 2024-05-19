@@ -14,9 +14,9 @@ export function DataLibrasReducer(
     }
     case 'added': {
       return [
-        ...data!,
+        ...data,
         {
-          id: action.payload?.id!,
+          _id: action.payload?._id!,
           nameWord: action.payload?.nameWord!,
           wordDefinitions: action.payload?.wordDefinitions!,
         },
@@ -24,7 +24,7 @@ export function DataLibrasReducer(
     }
     case 'changed': {
       return data?.map((t) => {
-        if (t.id === action.payload?.id) {
+        if (t._id === action.payload?._id) {
           return action.payload;
         } else {
           return t;
@@ -33,12 +33,12 @@ export function DataLibrasReducer(
     }
     case 'changed2': {
       const updatedData = data.map((item) => {
-        if (item.id === action.payload?.id) {
+        if (item._id === action.payload?._id) {
           const updatedDefinitions = item.wordDefinitions.map(
             (wordDefinition, index) => {
               const foundDefinition = action.payload?.wordDefinitions.find(
                 (updatedDefinition) =>
-                  updatedDefinition.id === wordDefinition.id,
+                  updatedDefinition._id === wordDefinition._id,
               );
 
               if (foundDefinition) {

@@ -107,7 +107,7 @@ function App() {
                 dispatchUpdateData({
                   type: 'changed',
                   payload: {
-                    id: item.id,
+                    _id: item._id,
                     nameWord: text,
                     wordDefinitions: item.wordDefinitions,
                   },
@@ -132,18 +132,15 @@ function App() {
                       style={editable ? styles.input : styles.inputDisabled2}
                       value={item2.category?.nameCategory}
                       onChangeText={(text) => {
-                        console.log('deu certo');
-                        console.log(item2.id);
-                        console.log('deu certo2');
                         dispatchUpdateData({
                           type: 'changed2',
                           payload: {
-                            id: item.id,
+                            _id: item._id,
                             nameWord: item.nameWord,
                             wordDefinitions: [
                               {
                                 ...item2,
-                                id: item2.id!,
+                                _id: item2._id!,
                                 category: {
                                   ...item2.category!,
                                   nameCategory: text,
