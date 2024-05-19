@@ -1,9 +1,9 @@
 export type TypeLibrasData = {
-  id: number;
+  _id: number;
   nameWord: string;
   wordDefinitions: [
     {
-      id: number;
+      _id: number;
       descriptionWordDefinition?: string;
       src?: string;
       category: {

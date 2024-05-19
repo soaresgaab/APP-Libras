@@ -107,7 +107,7 @@ function App() {
                 dispatchUpdateData({
                   type: 'changed',
                   payload: {
-                    id: item.id,
+                    _id: item._id,
                     nameWord: text,
                     wordDefinitions: item.wordDefinitions,
                   },
@@ -120,7 +120,7 @@ function App() {
                   <View key={`outer_${index}${innerindex}`}>
                     <Image
                       style={styles.image}
-                      source={item2.src}
+                      source={{ uri: `data:image/jpeg;base64,${item2.src}` }}
                       contentFit="cover"
                       placeholder={{ blurhash }}
                       transition={1000}
@@ -133,17 +133,17 @@ function App() {
                       value={item2.category?.nameCategory}
                       onChangeText={(text) => {
                         console.log('deu certo');
-                        console.log(item2.id);
+                        console.log(item2._id);
                         console.log('deu certo2');
                         dispatchUpdateData({
                           type: 'changed2',
                           payload: {
-                            id: item.id,
+                            _id: item._id,
                             nameWord: item.nameWord,
                             wordDefinitions: [
                               {
                                 ...item2,
-                                id: item2.id!,
+                                _id: item2._id!,
                                 category: {
                                   ...item2.category!,
                                   nameCategory: text,
