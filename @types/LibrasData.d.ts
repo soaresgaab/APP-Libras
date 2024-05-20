@@ -6,7 +6,7 @@ export type TypeLibrasData = {
       _id: number;
       descriptionWordDefinition?: string;
       src?: string;
-      category: {
+      category?: {
         nameCategory: string;
         descriptionCategory: string;
       };

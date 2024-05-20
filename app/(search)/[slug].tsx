@@ -5,6 +5,7 @@ import {
   View,
   Pressable,
   TextInput,
+  Button,
 } from 'react-native';
 import MonthYear from '@/components/formSearch/monthAndYear';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -17,8 +18,10 @@ import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
 import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
 import { initialStateDataLibrasReducer } from '../../utils/reducer/DataLibrasReducer';
+import * as ImagePicker from 'expo-image-picker';
 
 function App() {
+  const [base64Image, setBase64Image] = useState('');
   const [data, setData] = useState<TypeLibrasData[]>();
   const [editable, setEditable] = useState<boolean>(false);
   const [updatedData, dispatchUpdateData] = useReducer(
@@ -27,8 +30,50 @@ function App() {
   );
   const [refreshing, setRefreshing] = useState(true);
   const { slug } = useLocalSearchParams();
+
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+  const handleSelectImage = async (
+    item: TypeLibrasData,
+    item2: Partial<TypeLibrasData>,
+  ) => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Permissão para acessar a biblioteca de mídia é necessária.');
+      return;
+    }
+
+    const result: ImagePicker.ImagePickerResult =
+      await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 0.2,
+        base64: true,
+      });
+
+    if (!result.canceled && result.assets[0].base64) {
+      console.log(result.assets[0].base64);
+      setBase64Image(result.assets[0].base64);
+
+      dispatchUpdateData({
+        type: 'changed2',
+        payload: {
+          _id: item._id,
+          nameWord: item.nameWord,
+          wordDefinitions: [
+            {
+              ...item2,
+              _id: item2._id!,
+              src: result.assets[0].base64,
+            },
+          ],
+        },
+      });
+    }
+  };
 
   async function searchData() {
     const response = await searchAxiosGet();
@@ -118,13 +163,32 @@ function App() {
               item.wordDefinitions.map(
                 (item2: Partial<TypeLibrasDataSinais>, innerindex: number) => (
                   <View key={`outer_${index}${innerindex}`}>
-                    <Image
-                      style={styles.image}
-                      source={{ uri: `data:image/jpeg;base64,${item2.src}` }}
-                      contentFit="cover"
-                      placeholder={{ blurhash }}
-                      transition={1000}
-                    />
+                    <View>
+                      <Image
+                        style={styles.image}
+                        source={{
+                          uri: `data:image/jpeg;base64,${item2.src}`,
+                        }}
+                        contentFit="cover"
+                        placeholder={{ blurhash }}
+                        transition={1000}
+                      />
+                    </View>
+                    {editable && (
+                      <Pressable
+                        style={({ pressed }) => [
+                          {
+                            backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                          },
+                          styles.button,
+                        ]}
+                        onPress={() => handleSelectImage(item, item2)}
+                      >
+                        <Text style={{ fontSize: 17 }}>
+                          Selecionar Nova Imagem
+                        </Text>
+                      </Pressable>
+                    )}
                     {/* aki msm  */}
                     <TextInput
                       editable={editable}
@@ -132,9 +196,6 @@ function App() {
                       style={editable ? styles.input : styles.inputDisabled2}
                       value={item2.category?.nameCategory}
                       onChangeText={(text) => {
-                        console.log('deu certo');
-                        console.log(item2._id);
-                        console.log('deu certo2');
                         dispatchUpdateData({
                           type: 'changed2',
                           payload: {
@@ -187,6 +248,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F2DA',
     width: 'auto',
     paddingVertical: 0,
+  },
+  button: {
+    width: 250,
+    paddingVertical: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
+    // margin: 1,
+    // borderColor: '#e7503b',
+    // marginLeft: 7
+    // borderWidth: 2,
   },
   image: {
     width: 290,
