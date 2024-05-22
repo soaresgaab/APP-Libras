@@ -59,7 +59,7 @@ function App() {
       setBase64Image(result.assets[0].base64);
 
       dispatchUpdateData({
-        type: 'changed2',
+        type: 'changed3',
         payload: {
           _id: item._id,
           nameWord: item.nameWord,
