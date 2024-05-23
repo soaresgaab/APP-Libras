@@ -12,7 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
-import { searchAxiosGet } from '@/components/axios/searchAxiosGet';
+import { searchAxiosGetWords } from '@/components/axios/searchAxiosGet';
 import { TypeLibrasData, TypeLibrasDataSinais } from '@/@types/LibrasData';
 import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
@@ -29,8 +29,8 @@ function App() {
     initialStateDataLibrasReducer,
   );
   const [refreshing, setRefreshing] = useState(true);
+  const [ConfirmData, setConfirmData] = useState('');
   const { slug } = useLocalSearchParams();
-
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
@@ -55,7 +55,6 @@ function App() {
       });
 
     if (!result.canceled && result.assets[0].base64) {
-      console.log(result.assets[0].base64);
       setBase64Image(result.assets[0].base64);
 
       dispatchUpdateData({
@@ -76,21 +75,21 @@ function App() {
   };
 
   async function searchData() {
-    const response = await searchAxiosGet();
-    if (response.data) {
-      response.data.map((item: TypeLibrasData) => {
+    const response = await searchAxiosGetWords(slug);
+    setConfirmData(response.data);
+    if (response!.data) {
+      response!.data.map((item: TypeLibrasData) => {
         dispatchUpdateData({
           type: 'added',
           payload: item,
         });
       });
-      setData(response.data);
+      setData(response!.data);
     }
   }
 
   useEffect(() => {
     searchData();
-    console.log(data);
   }, []);
 
   return (
@@ -101,45 +100,51 @@ function App() {
       }
     >
       <MonthYear></MonthYear>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 18,
-          width: '95%',
-        }}
-      >
-        {`Confira alguns significados para a palavra "${slug}" e seus respectivos sinais`}
-      </Text>
-      <Pressable
-        style={{
-          width: '100%',
-        }}
-        onPress={() => {
-          setEditable(!editable);
-          console.log(updatedData);
-        }}
-      >
-        <Text
-          style={{
-            marginTop: 15,
-            alignSelf: 'flex-end',
-            backgroundColor: '#e7503b',
-            borderRadius: 15,
-            paddingVertical: 5,
-            paddingHorizontal: 8,
-            marginRight: 5,
-          }}
-        >
-          {' '}
-          Editar
-        </Text>
-      </Pressable>
+
       {/* {updatedData &&
         updatedData.map((item, index) => (
          
         ))} */}
+      {updatedData.length > 0 && (
+        <>
+          <Text
+            style={{
+              marginTop: 10,
+              alignSelf: 'center',
+              textAlign: 'center',
+              fontSize: 18,
+              width: '95%',
+            }}
+          >
+            {`Confira alguns significados para a palavra "${slug}" e seus respectivos sinais`}
+          </Text>
+          <Pressable
+            style={{
+              width: '100%',
+            }}
+            onPress={() => {
+              setEditable(!editable);
+              console.log(updatedData);
+            }}
+          >
+            <Text
+              style={{
+                marginTop: 15,
+                alignSelf: 'flex-end',
+                backgroundColor: '#e7503b',
+                borderRadius: 15,
+                paddingVertical: 5,
+                paddingHorizontal: 8,
+                marginRight: 5,
+              }}
+            >
+              {' '}
+              Editar
+            </Text>
+          </Pressable>
+        </>
+      )}
+
       {updatedData &&
         updatedData.map((item: TypeLibrasData, index: number) => (
           <View key={`inner_${index}`}>
@@ -237,7 +242,9 @@ function App() {
               )}
           </View>
         ))}
-      {!data && <NoResultsComponent slug={slug}></NoResultsComponent>}
+      {updatedData.length === 0 && (
+        <NoResultsComponent slug={slug}></NoResultsComponent>
+      )}
     </ScrollView>
   );
 }
