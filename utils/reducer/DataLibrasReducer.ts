@@ -9,7 +9,6 @@ export function DataLibrasReducer(
       return [...data!];
     }
     case 'teste': {
-      console.log(data);
       return [...data!];
     }
     case 'added': {
@@ -52,7 +51,6 @@ export function DataLibrasReducer(
               return wordDefinition;
             },
           );
-          console.log(updatedDefinitions);
           return { ...item, wordDefinitions: updatedDefinitions };
         }
         return item;

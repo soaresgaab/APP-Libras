@@ -9,9 +9,9 @@ export async function searchAxiosGetWords(
       const data: AxiosResponse<any> = await axios.get(
         `http://192.168.100.133:4002/word/${Query}`,
       );
-      resolve(data); // Resolve com a resposta se houver dados
+      resolve(data);
     } catch (error) {
-      reject(error); // Rejeita a promessa em caso de erro
+      reject(error);
     }
   });
 }
