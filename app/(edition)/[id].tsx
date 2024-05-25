@@ -6,6 +6,7 @@ import {
   Pressable,
   TextInput,
   Button,
+  Modal,
 } from 'react-native';
 import MonthYear from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -21,6 +22,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/components/axios/pushUpdateCategoryById';
+import { BlurView } from 'expo-blur';
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
@@ -28,12 +30,14 @@ function App() {
     nameCategory: '',
     descriptionCategory: '',
   });
+  const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushUpdateCategoryById(data);
     console.log(result.status);
+    setModalVisible(true);
   }
 
   // ----------------------  function to fetch data ----------------------------
@@ -149,7 +153,6 @@ function App() {
       >
         <Text style={{ fontSize: 18 }}>Salvar</Text>
       </Pressable>
-
       <Pressable
         style={({ pressed }) => [
           {
@@ -163,6 +166,31 @@ function App() {
       >
         <Text style={{ fontSize: 18 }}>Cancelar</Text>
       </Pressable>
+      {/* ---------------------- confirmation modal ---------------------------- */}
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <BlurView
+          tint={'systemChromeMaterialDark'}
+          intensity={60}
+          style={styles.modalOverlay}
+        >
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalText}>
+              Alteração realizada com sucesso!
+            </Text>
+            <Pressable
+              style={styles.modalButton}
+              onPress={() => setModalVisible(false)}
+            >
+              <Text style={styles.modalButtonText}>OK</Text>
+            </Pressable>
+          </View>
+        </BlurView>
+      </Modal>
     </ScrollView>
   );
 }
@@ -299,6 +327,37 @@ const styles = StyleSheet.create({
     marginRight: '5%',
     borderWidth: 2,
     borderColor: '#6ca5f0',
+  },
+  //-------------------------  modal style---------------------------
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.0s)',
+  },
+  modalContainer: {
+    width: 300,
+    padding: 20,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#e7503b',
+  },
+  modalText: {
+    fontSize: 18,
+    marginBottom: 20,
+  },
+  modalButton: {
+    backgroundColor: '#e7503b',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+  },
+  modalButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
   },
 });
 
