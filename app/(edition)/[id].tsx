@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     searchData();
   }, []);
-
+  // ----------------------  Controller data change by input ----------------------------
   function handleTextCategory(text: string) {
     const newData = { ...data, nameCategory: text };
     setDataFetch(newData);
@@ -44,7 +44,7 @@ function App() {
     const newData = { ...data, descriptionCategory: text };
     setDataFetch(newData);
   }
-
+  // ----------------------  start of component return  ----------------------------
   return (
     <ScrollView
       style={styles.container}
@@ -66,6 +66,7 @@ function App() {
       >
         Editar Categoria
       </Text>
+      {/* ----------------------  Button and icon to exclude  ---------------------------- */}
       <Pressable
         style={({ pressed }) => [
           {
@@ -81,20 +82,21 @@ function App() {
           color="white"
         />
       </Pressable>
-
+      {/* ----------------------  form imput  ---------------------------- */}
       <Foundation
         style={styles.iconClip}
         name="paperclip"
         size={35}
         color="black"
       />
-      <View style={styles.groupDescription}>
+      {/* ---------------------- input name Category  ---------------------------- */}
+      <View style={styles.groupCategory}>
         <Text style={styles.labelCategory}>Nome</Text>
         <Feather
           style={styles.iconEditDescription}
           name="edit"
           size={24}
-          color="#e7503b"
+          color="white"
         />
       </View>
       <TextInput
@@ -104,6 +106,7 @@ function App() {
           handleTextCategory(text);
         }}
       ></TextInput>
+      {/* ---------------------- input description Category  ---------------------------- */}
       <View style={styles.groupDescription}>
         <Text style={styles.labelDescription}>Descrição</Text>
         <Feather
@@ -138,7 +141,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
-    borderRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     borderWidth: 2,
     borderColor: '#e7503b',
     color: 'Red',
@@ -156,7 +160,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
-    borderRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     borderWidth: 2,
     borderColor: '#e7503b',
     color: 'Red',
@@ -172,7 +177,7 @@ const styles = StyleSheet.create({
     width: '65%',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    color: '#e7503b',
+    color: 'white',
   },
   labelDescription: {
     alignSelf: 'center',
@@ -181,10 +186,11 @@ const styles = StyleSheet.create({
     width: '80%',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    color: '#e7503b',
+    color: 'white',
   },
   iconClip: {
     marginTop: 0,
+    marginBottom: 15,
     alignSelf: 'center',
     textAlign: 'center',
     fontStyle: 'italic',
@@ -196,12 +202,26 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    color: '#e7503b',
+    color: 'white',
   },
   groupDescription: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    backgroundColor: '#e7503b',
     marginTop: 10,
     flexDirection: 'row',
     width: '90%',
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+  },
+  groupCategory: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    backgroundColor: '#e7503b',
+    marginTop: 10,
+    flexDirection: 'row',
+    width: '75%',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
