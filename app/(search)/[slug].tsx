@@ -7,7 +7,7 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import MonthYear from '@/components/formSearch/monthAndYear';
+import MonthYear from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
@@ -264,10 +264,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     borderRadius: 10,
-    // margin: 1,
-    // borderColor: '#e7503b',
-    // marginLeft: 7
-    // borderWidth: 2,
   },
   image: {
     width: 290,

@@ -77,7 +77,6 @@ export function DataLibrasReducer(
               return wordDefinition;
             },
           );
-          console.log(updatedDefinitions);
           return { ...item, wordDefinitions: updatedDefinitions };
         }
         return item;
