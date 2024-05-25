@@ -23,11 +23,10 @@ import { Link } from 'expo-router';
 import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/components/axios/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { pushDeleteCategoryById } from '@/components/axios/pushDeleteCategoryById';
+import { pushCreateCategoryById } from '@/components/axios/pushCreateCategoryById';
 
 function App() {
-  const [data, setDataFetch] = useState<TypeCategory>({
-    _id: 0,
+  const [data, setDataFetch] = useState<Partial<TypeCategory>>({
     nameCategory: '',
     descriptionCategory: '',
   });
@@ -36,13 +35,7 @@ function App() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateCategoryById(data);
-    console.log(result.status);
-    setModalVisible(true);
-  }
-
-  async function deleteData() {
-    const result = await pushDeleteCategoryById(data);
+    const result = await pushCreateCategoryById(data);
     console.log(result.status);
     setModalVisible(true);
   }
@@ -53,9 +46,7 @@ function App() {
     setDataFetch(response.data);
   }
 
-  useEffect(() => {
-    searchData();
-  }, []);
+  useEffect(() => {}, []);
   // ----------------------  Controller data change by input ----------------------------
   function handleTextCategory(text: string) {
     const newData = { ...data, nameCategory: text };
@@ -85,27 +76,8 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Editar Categoria
+        Criar Categoria
       </Text>
-      {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonTrash,
-        ]}
-        onPress={() => {
-          deleteData();
-        }}
-      >
-        <FontAwesome6
-          styles={styles.iconTrash}
-          name="trash-can"
-          size={25}
-          color="white"
-        />
-      </Pressable>
       {/* ----------------------  form imput  ---------------------------- */}
       <Foundation
         style={styles.iconClip}

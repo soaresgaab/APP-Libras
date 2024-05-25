@@ -54,10 +54,7 @@ function App() {
       >
         Categorias das Palavras
       </Text>
-      <CreateButton
-        router="createCategory"
-        label="+ Incluir Categoria"
-      ></CreateButton>
+      <CreateButton router="add" label="+ Incluir Categoria"></CreateButton>
       {data?.map((category, index) => (
         <Pressable key={index} onPress={() => routePush(category._id)}>
           <View style={styles.div}>
