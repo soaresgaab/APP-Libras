@@ -20,6 +20,7 @@ import { Feather } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { router } from 'expo-router';
+import { pushUpdateCategoryById } from '@/components/axios/pushUpdateCategoryById';
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
@@ -29,6 +30,13 @@ function App() {
   });
   const { id } = useLocalSearchParams();
 
+  // ----------------------  Controller data change by input ----------------------------
+  async function sendData() {
+    const result = await pushUpdateCategoryById(data);
+    console.log(result.status);
+  }
+
+  // ----------------------  function to fetch data ----------------------------
   async function searchData() {
     const response = await searchById('Category', id);
     setDataFetch(response.data);
@@ -136,7 +144,7 @@ function App() {
           styles.buttonSalvar,
         ]}
         onPress={() => {
-          router.dismiss(1);
+          sendData();
         }}
       >
         <Text style={{ fontSize: 18 }}>Salvar</Text>
