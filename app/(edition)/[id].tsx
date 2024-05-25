@@ -18,6 +18,8 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
+import { Link } from 'expo-router';
+import { router } from 'expo-router';
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
@@ -124,6 +126,35 @@ function App() {
           handleTextDescription(text);
         }}
       ></TextInput>
+      {/* ---------------------- buttons to create Category  ---------------------------- */}
+
+      <Pressable
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
+          },
+          styles.buttonSalvar,
+        ]}
+        onPress={() => {
+          router.dismiss(1);
+        }}
+      >
+        <Text style={{ fontSize: 18 }}>Salvar</Text>
+      </Pressable>
+
+      <Pressable
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
+          },
+          styles.buttonCancelar,
+        ]}
+        onPress={() => {
+          router.dismiss(1);
+        }}
+      >
+        <Text style={{ fontSize: 18 }}>Cancelar</Text>
+      </Pressable>
     </ScrollView>
   );
 }
@@ -235,6 +266,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     marginRight: '5%',
+  },
+  buttonCancelar: {
+    marginTop: 15,
+    alignSelf: 'flex-end',
+    width: 190,
+    paddingVertical: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    marginRight: '5%',
+    borderWidth: 2,
+    borderColor: '#6ca5f0',
+    marginBottom: 25,
+  },
+  buttonSalvar: {
+    marginTop: 30,
+    alignSelf: 'flex-end',
+    width: 190,
+    paddingVertical: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 20,
+    marginRight: '5%',
+    borderWidth: 2,
+    borderColor: '#6ca5f0',
   },
 });
 

@@ -59,7 +59,7 @@ function App() {
         label="+ Incluir Categoria"
       ></CreateButton>
       {data?.map((category, index) => (
-        <Pressable onPress={() => routePush(category._id)}>
+        <Pressable key={index} onPress={() => routePush(category._id)}>
           <View style={styles.div}>
             <Text style={styles.labelCategory}>{category.nameCategory}</Text>
             <View style={styles.borda}></View>
