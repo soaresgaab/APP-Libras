@@ -9,16 +9,17 @@ import { router } from 'expo-router';
 import { CreateButton } from '@/components/createData/create-Button';
 import { searchAxiosGetWords } from '@/components/axios/searchAxiosGet';
 import { searchByRoute } from '@/components/axios/searchByRote';
+import { TypeCategory } from '@/@types/Category';
 
 function App() {
   const [option, setData] = useState({});
-  const [data, setDataFetch] = useState('');
+  const [data, setDataFetch] = useState<TypeCategory[]>();
   const [refreshing, setRefreshing] = useState(true);
 
   async function searchData() {
     const response = await searchByRoute('category');
     console.log(response.data);
-    setData(response.data);
+    setDataFetch(response.data);
   }
 
   useEffect(() => {
@@ -50,18 +51,17 @@ function App() {
         router="createCategory"
         label="+ Incluir Categoria"
       ></CreateButton>
-      <View style={styles.div}>
-        <Text style={styles.labelCategory}>Alfabeto</Text>
-        <View style={styles.borda}></View>
-        <ScrollView style={styles.divDescription}>
-          <Text style={styles.labelDescription}>
-            Animais, seres vivos heterotróficos, compõem uma vasta e
-            diversificada categoria biológica que abrange desde os pequenos e
-            intrigantes microorganismos até as majestosas e imponentes criaturas
-            dos oceanos e florestas.
-          </Text>
-        </ScrollView>
-      </View>
+      {data?.map((category, index) => (
+        <View key={category._id} style={styles.div}>
+          <Text style={styles.labelCategory}>{category.nameCategory}</Text>
+          <View style={styles.borda}></View>
+          <ScrollView style={styles.divDescription}>
+            <Text style={styles.labelDescription}>
+              {category.descriptionCategory}
+            </Text>
+          </ScrollView>
+        </View>
+      ))}
     </ScrollView>
   );
 }
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     width: '80%',
     height: 140,
     marginTop: 18,
-    marginBottom: 30,
+    marginBottom: 20,
     borderRadius: 12,
     alignSelf: 'center',
     backgroundColor: 'white',
