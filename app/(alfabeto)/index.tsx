@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, RefreshControl } from 'react-native';
-import MonthYear from '@/components/formSearch/searchInput';
+import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
@@ -24,7 +24,7 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <MonthYear></MonthYear>
+      <SearchInput></SearchInput>
       <Text
         style={{
           marginTop: 10,

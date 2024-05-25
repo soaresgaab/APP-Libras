@@ -5,7 +5,7 @@ import { View } from '@/components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
-function MonthYear({ fetchData, setRefreshing }: any) {
+function SearchInput({ fetchData, setRefreshing }: any) {
   const [search2, setMes] = useState('');
   const [ano, setAno] = useState('');
   const [error, setError] = useState('');
@@ -93,4 +93,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default MonthYear;
+export default SearchInput;

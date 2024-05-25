@@ -8,7 +8,7 @@ import {
   Button,
   Modal,
 } from 'react-native';
-import MonthYear from '@/components/formSearch/searchInput';
+import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
@@ -39,6 +39,12 @@ function App() {
     const result = await pushUpdateCategoryById(data);
     console.log(result.status);
     setModalVisible(true);
+  }
+  function closeModalAndBack() {
+    setModalVisible(false);
+    router.push({
+      pathname: '/(edition)',
+    });
   }
 
   async function deleteData() {
@@ -73,7 +79,7 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <MonthYear></MonthYear>
+      <SearchInput></SearchInput>
       <Text
         style={{
           marginTop: 10,
@@ -194,7 +200,7 @@ function App() {
             </Text>
             <Pressable
               style={styles.modalButton}
-              onPress={() => setModalVisible(false)}
+              onPress={() => closeModalAndBack()}
             >
               <Text style={styles.modalButtonText}>OK</Text>
             </Pressable>
