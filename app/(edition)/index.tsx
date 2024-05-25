@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, RefreshControl, View } from 'react-native';
-import MonthYear from '@/components/formSearch/monthAndYear';
+import { StyleSheet, RefreshControl, View, Pressable } from 'react-native';
+import MonthYear from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
@@ -25,6 +25,13 @@ function App() {
   useEffect(() => {
     searchData();
   }, []);
+
+  function routePush(id: number) {
+    router.push({
+      pathname: '/(edition)/[id]',
+      params: { id: `${id}` },
+    });
+  }
 
   return (
     <ScrollView
@@ -52,15 +59,17 @@ function App() {
         label="+ Incluir Categoria"
       ></CreateButton>
       {data?.map((category, index) => (
-        <View key={category._id} style={styles.div}>
-          <Text style={styles.labelCategory}>{category.nameCategory}</Text>
-          <View style={styles.borda}></View>
-          <ScrollView style={styles.divDescription}>
-            <Text style={styles.labelDescription}>
-              {category.descriptionCategory}
-            </Text>
-          </ScrollView>
-        </View>
+        <Pressable onPress={() => routePush(category._id)}>
+          <View style={styles.div}>
+            <Text style={styles.labelCategory}>{category.nameCategory}</Text>
+            <View style={styles.borda}></View>
+            <ScrollView style={styles.divDescription}>
+              <Text style={styles.labelDescription}>
+                {category.descriptionCategory}
+              </Text>
+            </ScrollView>
+          </View>
+        </Pressable>
       ))}
     </ScrollView>
   );
@@ -81,7 +90,7 @@ const styles = StyleSheet.create({
     width: '75%',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    color: '#e7503b',
+    color: 'white',
   },
   labelDescription: {
     alignSelf: 'center',
@@ -97,7 +106,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 12,
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: '#e7503b',
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#e7503b',
