@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   labelCategory: {
-    marginTop: 10,
+    marginTop: 3,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 20,
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
   },
   labelDescription: {
     alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'justify',
     fontSize: 15,
     width: '95%',
     color: 'black',
