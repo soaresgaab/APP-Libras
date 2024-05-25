@@ -6,6 +6,7 @@ import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
+import MonthYear from '@/components/formSearch/searchInput';
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
