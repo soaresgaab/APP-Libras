@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios';
+import { ProgressTransitionManager } from 'react-native-reanimated/lib/typescript/reanimated2/layoutReanimation';
 
 export async function searchAxiosGetWords(
   Query?: string | string[],
