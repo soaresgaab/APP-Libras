@@ -3,7 +3,6 @@ import { View, Text } from 'react-native';
 import { TypeSlug } from '@/@types/slug';
 
 export const NoResultsComponent = (userInput: TypeSlug) => {
-  console.log(userInput);
   return (
     <View
       style={{

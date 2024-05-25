@@ -9,7 +9,6 @@ export function DataLibrasReducer(
       return [...data!];
     }
     case 'teste': {
-      console.log(data);
       return [...data!];
     }
     case 'added': {
@@ -45,14 +44,39 @@ export function DataLibrasReducer(
                 return {
                   ...foundDefinition,
                   category: {
-                    nameCategory: foundDefinition.category.nameCategory,
+                    nameCategory: foundDefinition.category?.nameCategory,
                   },
                 };
               }
               return wordDefinition;
             },
           );
-          console.log(updatedDefinitions);
+          return { ...item, wordDefinitions: updatedDefinitions };
+        }
+        return item;
+      });
+      return updatedData as TypeLibrasData[];
+    }
+
+    case 'changed3': {
+      const updatedData = data.map((item) => {
+        if (item._id === action.payload?._id) {
+          const updatedDefinitions = item.wordDefinitions.map(
+            (wordDefinition, index) => {
+              const foundDefinition = action.payload?.wordDefinitions.find(
+                (updatedDefinition) =>
+                  updatedDefinition._id === wordDefinition._id,
+              );
+
+              if (foundDefinition) {
+                return {
+                  ...foundDefinition,
+                  src: foundDefinition.src,
+                };
+              }
+              return wordDefinition;
+            },
+          );
           return { ...item, wordDefinitions: updatedDefinitions };
         }
         return item;

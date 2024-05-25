@@ -1,14 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
 import { ProgressTransitionManager } from 'react-native-reanimated/lib/typescript/reanimated2/layoutReanimation';
+import { TypeCategory } from '@/@types/Category';
 
-export async function searchAxiosGetWords(
-  Query?: string | string[],
-  options?: { query?: string; mes?: string; ano?: string },
+export async function pushDeleteCategoryById(
+  dataCategory?: Partial<TypeCategory>,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
+    console.log(dataCategory);
     try {
-      const data: AxiosResponse<any> = await axios.get(
-        `http://192.168.100.133:4002/word/${Query}`,
+      const data: AxiosResponse<any> = await axios.delete(
+        `http://192.168.100.133:4002/category/${dataCategory?._id}`,
       );
       resolve(data);
     } catch (error) {
