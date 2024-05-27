@@ -14,16 +14,16 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
 import { TypeCategory } from '@/@types/Category';
-import { searchById } from '@/components/axios/searchById';
+import { searchById } from '@/utils/axios/searchById';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { router } from 'expo-router';
-import { pushUpdateCategoryById } from '@/components/axios/pushUpdateCategoryById';
+import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { pushCreateCategoryById } from '@/components/axios/pushCreateCategoryById';
+import { pushCreateCategoryById } from '@/utils/axios/Category/pushCreateCategoryById';
 
 function App() {
   const [data, setDataFetch] = useState<Partial<TypeCategory>>({

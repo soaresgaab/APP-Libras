@@ -9,17 +9,16 @@ import { router } from 'expo-router';
 import { CreateButton } from '@/components/createData/create-Button';
 import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import { TypeCategory } from '@/@types/Category';
+import { TypeLibrasData } from '@/@types/LibrasData';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 function App() {
   const [option, setData] = useState({});
-  const [data, setDataFetch] = useState<TypeCategory[]>();
+  const [data, setDataFetch] = useState<TypeLibrasData[]>();
   const [refreshing, setRefreshing] = useState(true);
 
   async function searchData() {
-    const response = await searchByRoute('category');
-    console.log(response.data);
+    const response = await searchByRoute('word');
     setDataFetch(response.data);
   }
 
@@ -29,11 +28,13 @@ function App() {
 
   function routePush(id: number) {
     router.push({
-      pathname: '/(edition)/[id]',
+      pathname: '/(editionwords)/[words]',
       params: { id: `${id}` },
     });
   }
-
+  {
+    /* ---------------------- start of component return---------------------------- */
+  }
   return (
     <ScrollView
       style={styles.container}
@@ -53,7 +54,7 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Categorias
+        Palavras
       </Text>
       <Pressable
         style={({ pressed }) => [
@@ -73,17 +74,17 @@ function App() {
           color="white"
         />
       </Pressable>
-      <CreateButton router="add" label="+ Incluir Categoria"></CreateButton>
-      {data?.map((category, index) => (
-        <Pressable key={index} onPress={() => routePush(category._id)}>
+      <CreateButton router="addWord" label="+ Incluir Palavra"></CreateButton>
+      {data?.map((word, index) => (
+        <Pressable key={index} onPress={() => routePush(word._id)}>
           <View style={styles.div}>
-            <Text style={styles.labelCategory}>{category.nameCategory}</Text>
+            <Text style={styles.labelWord}>{word.nameWord}</Text>
             <View style={styles.borda}></View>
-            <ScrollView style={styles.divDescription}>
+            <View style={styles.divDescription}>
               <Text style={styles.labelDescription}>
-                {category.descriptionCategory}
+                {word.wordDefinitions.length} definições
               </Text>
-            </ScrollView>
+            </View>
           </View>
         </Pressable>
       ))}
@@ -98,26 +99,25 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
-  labelCategory: {
+  labelWord: {
     marginTop: 3,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 20,
     width: '75%',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     color: 'white',
   },
   labelDescription: {
     alignSelf: 'center',
-    textAlign: 'justify',
-    fontSize: 15,
+    textAlign: 'center',
+    fontSize: 18,
     width: '95%',
     color: 'black',
   },
   div: {
     width: '80%',
-    height: 140,
+    height: 80,
     marginTop: 18,
     marginBottom: 20,
     borderRadius: 12,
@@ -129,12 +129,13 @@ const styles = StyleSheet.create({
   },
   divDescription: {
     width: '98%',
-    height: 220,
+    height: 40,
     marginTop: 3,
-    marginBottom: 5,
-    borderRadius: 12,
+    marginBottom: 4,
+    borderRadius: 8,
     alignSelf: 'center',
     backgroundColor: 'white',
+    justifyContent: 'center',
   },
   borda: {
     width: '100%',

@@ -12,7 +12,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
-import { searchAxiosGetWords } from '@/components/axios/searchAxiosGet';
+import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
 import { TypeLibrasData, TypeLibrasDataSinais } from '@/@types/LibrasData';
 import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
