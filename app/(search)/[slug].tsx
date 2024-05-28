@@ -7,12 +7,12 @@ import {
   TextInput,
   Button,
 } from 'react-native';
-import MonthYear from '@/components/formSearch/searchInput';
+import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
-import { searchAxiosGetWords } from '@/components/axios/searchAxiosGet';
+import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
 import { TypeLibrasData, TypeLibrasDataSinais } from '@/@types/LibrasData';
 import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
@@ -99,7 +99,7 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <MonthYear></MonthYear>
+      <SearchInput></SearchInput>
 
       {/* {updatedData &&
         updatedData.map((item, index) => (

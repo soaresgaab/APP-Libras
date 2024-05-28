@@ -6,6 +6,7 @@ import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
+import SearchInput from '@/components/formSearch/searchInput';
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
@@ -22,7 +23,7 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <MonthYear></MonthYear>
+      <SearchInput></SearchInput>
       <Text
         style={{
           marginTop: 10,

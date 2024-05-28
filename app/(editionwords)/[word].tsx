@@ -13,7 +13,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
-import { TypeCategory } from '@/@types/Category';
 import { searchById } from '@/utils/axios/searchById';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
@@ -24,53 +23,138 @@ import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
 import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
+import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import { TypeCategory } from '@/@types/Category';
+import { searchByRoute } from '@/utils/axios/searchByRote';
+import { Picker } from '@react-native-picker/picker';
+import { Image } from 'expo-image';
+import * as ImagePicker from 'expo-image-picker';
+import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 
-function App() {
-  const [data, setDataFetch] = useState<TypeCategory>({
-    _id: 0,
-    nameCategory: '',
-    descriptionCategory: '',
+function AppWord() {
+  const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
+    _id: undefined,
+    nameWord: '',
+    wordDefinitions: [
+      {
+        _id: undefined,
+        descriptionWordDefinition: '',
+        src: '',
+        category: undefined,
+      },
+    ],
   });
+  const [category, setCategory] = useState<TypeCategory[]>();
+  const [selectedCategory, setSelectedCategory] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
+  const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
+  // ----------------------  DropDawn logic ----------------------------
+
+  //   function DropDown(category: string) {
+  //     setSelectedCategory(cat);
+  //   }
+  const pickerStyle = {
+    placeholderColor: 'white',
+  };
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateCategoryById(data);
-    console.log(result.status);
+    const result = await pushUpdateWordById(data);
+    console.log(result.data);
     setModalVisible(true);
   }
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(edition)',
+      pathname: '/(editionwords)',
     });
   }
 
+  function handleNameWord(text: string) {
+    setDataFetch((prev) => ({ ...prev, nameWord: text }));
+  }
+
   async function deleteData() {
-    const result = await pushDeleteCategoryById(data);
-    console.log(result.status);
+    // const result = await pushDeleteCategoryById(data);
+    // console.log(result.status);
     setModalVisible(true);
   }
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    const response = await searchById('Category', id);
+    const response = await searchById('word_id', id);
+    const category = await searchByRoute('category');
+    setCategory(category.data);
     setDataFetch(response.data);
+  }
+
+  function categorySelect(item: number, definitionID: number | undefined) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition) => {
+        if (definition._id === definitionID) {
+          return {
+            ...definition,
+            category: item,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
   }
 
   useEffect(() => {
     searchData();
   }, []);
+  // ----------------------  Image Picker function ----------------------------
+  const handleSelectImage = async (itemID: number | undefined) => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Permissão para acessar a biblioteca de mídia é necessária.');
+      return;
+    }
+
+    const result: ImagePicker.ImagePickerResult =
+      await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 4],
+        quality: 0.2,
+        base64: true,
+      });
+    console.log(result.assets);
+
+    if (!result.canceled && result.assets[0].base64) {
+      const newData = {
+        ...data,
+        wordDefinitions: data!.wordDefinitions?.map((definition) => {
+          if (definition._id === itemID) {
+            return {
+              ...definition,
+              src: result.assets[0].base64,
+            };
+          }
+          return definition;
+        }),
+      };
+      setDataFetch(newData as TypeLibrasDataWithId);
+    }
+  };
+
   // ----------------------  Controller data change by input ----------------------------
-  function handleTextCategory(text: string) {
-    const newData = { ...data, nameCategory: text };
-    setDataFetch(newData);
-  }
-  function handleTextDescription(text: string) {
-    const newData = { ...data, descriptionCategory: text };
-    setDataFetch(newData);
-  }
+  //   function handleTextCategory(text: string) {
+  //     const newData = { ...data, nameCategory: text };
+  //     setDataFetch(newData);
+  //   }
+  //   function handleTextDescription(text: string) {
+  //     const newData = { ...data, descriptionCategory: text };
+  //     setDataFetch(newData);
+  //   }
   // ----------------------  start of component return  ----------------------------
   return (
     <ScrollView
@@ -91,7 +175,7 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Editar Categoria
+        Editar Palavra
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
       <Pressable
@@ -119,9 +203,85 @@ function App() {
         size={35}
         color="black"
       />
+      <Text
+        style={{
+          marginTop: 10,
+          alignSelf: 'center',
+          textAlign: 'center',
+          fontSize: 25,
+          width: '75%',
+          fontWeight: 'bold',
+        }}
+      >
+        Nome
+      </Text>
+      <TextInput
+        style={styles.inputNameWord}
+        value={data.nameWord}
+        multiline={true}
+        onChangeText={(text) => {
+          handleNameWord(text);
+        }}
+      ></TextInput>
+
+      {data &&
+        data.wordDefinitions?.map((definition, index) => (
+          <View key={index}>
+            {/* ----------------------  form picker  ---------------------------- */}
+            <Text style={styles.labelCategory}>Categoria</Text>
+            <View style={styles.dropdown}>
+              <Picker // Adicionando uma chave única para cada item
+                prompt="Escolha uma categoria"
+                style={{ fontSize: 18 }}
+                mode="dialog"
+                dropdownIconColor="#black"
+                dropdownIconRippleColor="#fcce9b"
+                selectedValue={definition.category}
+                onValueChange={(itemValue, itemIndex) => {
+                  // setSelectedCategory(itemValue);
+                  categorySelect(itemValue, definition._id);
+                }}
+              >
+                {category?.map((category, index2) => {
+                  return (
+                    <Picker.Item
+                      key={index2}
+                      label={category.nameCategory}
+                      value={category._id}
+                    />
+                  );
+                })}
+              </Picker>
+            </View>
+
+            {/* ---------------------- select image  ---------------------------- */}
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                },
+                styles.button,
+              ]}
+              onPress={() => handleSelectImage(definition._id)}
+            >
+              <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
+            </Pressable>
+            <Image
+              style={styles.image}
+              source={{
+                uri: `data:image/jpeg;base64,${definition.src}`,
+              }}
+              contentFit="cover"
+              placeholder={{ blurhash }}
+              transition={1000}
+            />
+            <View style={{ marginBottom: 60 }}></View>
+          </View>
+        ))}
+
       {/* ---------------------- input name Category  ---------------------------- */}
-      <View style={styles.groupCategory}>
-        <Text style={styles.labelCategory}>Nome</Text>
+      {/* <View style={styles.groupCategory}>
+        <Text style={styles.labelCategory}>Nome2</Text>
         <Feather
           style={styles.iconEditDescription}
           name="edit"
@@ -130,15 +290,15 @@ function App() {
         />
       </View>
       <TextInput
-        style={styles.inputCategory}
-        value={data?.nameCategory}
+        style={styles.inputNameWord}
+        value={data?.nameWord}
         onChangeText={(text) => {
           handleTextCategory(text);
         }}
-      ></TextInput>
+      ></TextInput> */}
       {/* ---------------------- input description Category  ---------------------------- */}
-      <View style={styles.groupDescription}>
-        <Text style={styles.labelDescription}>Descrição</Text>
+      {/* <View style={styles.groupDescription}>
+        <Text style={styles.labelDescription}>Descrição do sinal</Text>
         <Feather
           style={styles.iconEditDescription}
           name="edit"
@@ -146,14 +306,16 @@ function App() {
           color="#e7503b"
         />
       </View>
-      <TextInput
-        style={styles.inputDescription}
-        value={data?.descriptionCategory}
-        multiline={true}
-        onChangeText={(text) => {
-          handleTextDescription(text);
-        }}
-      ></TextInput>
+      <ScrollView>
+        <TextInput
+          style={styles.inputDescription}
+          value={data?.nameWord}
+          multiline={true}
+          onChangeText={(text) => {
+            handleTextDescription(text);
+          }}
+        ></TextInput>
+      </ScrollView> */}
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
       <Pressable
@@ -218,19 +380,18 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
-  inputCategory: {
+  inputNameWord: {
     backgroundColor: 'white',
     width: '75%',
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderRadius: 10,
     borderWidth: 2,
     borderColor: '#e7503b',
     color: 'Red',
-    fontWeight: 'bold',
     fontSize: 20,
+    marginBottom: 40,
   },
   inputDescription: {
     justifyContent: 'space-around',
@@ -238,7 +399,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     backgroundColor: 'white',
     width: '90%',
-    height: 140,
+    height: 70,
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
@@ -253,11 +414,11 @@ const styles = StyleSheet.create({
   labelCategory: {
     marginTop: 0,
     alignSelf: 'center',
-    textAlign: 'left',
+    textAlign: 'center',
     fontSize: 20,
     width: '65%',
     fontWeight: 'bold',
-    color: 'white',
+    color: 'black',
   },
   labelDescription: {
     alignSelf: 'center',
@@ -327,7 +488,6 @@ const styles = StyleSheet.create({
     marginBottom: 25,
   },
   buttonSalvar: {
-    marginTop: 30,
     alignSelf: 'flex-end',
     width: 190,
     paddingVertical: 6,
@@ -337,6 +497,26 @@ const styles = StyleSheet.create({
     marginRight: '5%',
     borderWidth: 2,
     borderColor: '#6ca5f0',
+  },
+  dropdown: {
+    marginTop: 10,
+    width: '70%',
+    alignSelf: 'center',
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: 'black',
+    backgroundColor: 'white',
+  },
+  image: {
+    width: 290,
+    height: 280,
+    marginTop: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    borderRadius: 15,
   },
   //-------------------------  modal style---------------------------
   modalOverlay: {
@@ -369,6 +549,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+
+  button: {
+    width: 150,
+    paddingVertical: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
+  },
 });
 
-export default gestureHandlerRootHOC(App);
+export default gestureHandlerRootHOC(AppWord);

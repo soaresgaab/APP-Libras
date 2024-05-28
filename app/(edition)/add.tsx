@@ -8,22 +8,22 @@ import {
   Button,
   Modal,
 } from 'react-native';
-import MonthYear from '@/components/formSearch/searchInput';
+import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
 import { TypeCategory } from '@/@types/Category';
-import { searchById } from '@/components/axios/searchById';
+import { searchById } from '@/utils/axios/searchById';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { router } from 'expo-router';
-import { pushUpdateCategoryById } from '@/components/axios/pushUpdateCategoryById';
+import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { pushCreateCategoryById } from '@/components/axios/pushCreateCategoryById';
+import { pushCreateCategoryById } from '@/utils/axios/Category/pushCreateCategoryById';
 
 function App() {
   const [data, setDataFetch] = useState<Partial<TypeCategory>>({
@@ -38,6 +38,13 @@ function App() {
     const result = await pushCreateCategoryById(data);
     console.log(result.status);
     setModalVisible(true);
+  }
+
+  function closeModalAndBack() {
+    setModalVisible(false);
+    router.push({
+      pathname: '/(edition)',
+    });
   }
 
   // ----------------------  function to fetch data ----------------------------
@@ -64,7 +71,7 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <MonthYear></MonthYear>
+      <SearchInput></SearchInput>
       <Text
         style={{
           marginTop: 10,
@@ -166,7 +173,7 @@ function App() {
             </Text>
             <Pressable
               style={styles.modalButton}
-              onPress={() => setModalVisible(false)}
+              onPress={() => closeModalAndBack()}
             >
               <Text style={styles.modalButtonText}>OK</Text>
             </Pressable>
@@ -195,7 +202,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#e7503b',
     color: 'Red',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     fontSize: 20,
   },
@@ -214,7 +220,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#e7503b',
     color: 'Red',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     fontSize: 15,
   },
@@ -224,7 +229,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 20,
     width: '65%',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     color: 'white',
   },
@@ -233,7 +237,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: 20,
     width: '80%',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     color: 'white',
   },
@@ -242,14 +245,12 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     alignSelf: 'center',
     textAlign: 'center',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     color: '#e7503b',
   },
   iconEditDescription: {
     alignSelf: 'center',
     textAlign: 'center',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     color: 'white',
   },
