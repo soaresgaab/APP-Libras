@@ -53,9 +53,6 @@ function AppWord() {
 
   // ----------------------  DropDawn logic ----------------------------
 
-  //   function DropDown(category: string) {
-  //     setSelectedCategory(cat);
-  //   }
   const pickerStyle = {
     placeholderColor: 'white',
   };
@@ -127,7 +124,6 @@ function AppWord() {
         quality: 0.2,
         base64: true,
       });
-    console.log(result.assets);
 
     if (!result.canceled && result.assets[0].base64) {
       const newData = {
@@ -234,7 +230,7 @@ function AppWord() {
                 prompt="Escolha uma categoria"
                 style={{ fontSize: 18 }}
                 mode="dialog"
-                dropdownIconColor="#black"
+                dropdownIconColor="black"
                 dropdownIconRippleColor="#fcce9b"
                 selectedValue={definition.category}
                 onValueChange={(itemValue, itemIndex) => {
