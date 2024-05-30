@@ -54,14 +54,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/a.png')}
+            source={require('../../assets/mock_image/alfabeto/a.png')}
           ></Image> }
           <Text style={styles.label}>A</Text>
         </Pressable>
         <Pressable style={styles.div}>
           { <Image
             style={styles.image}
-            source={require('../../assets/mock_image/b.png')}
+            source={require('../../assets/mock_image/alfabeto/b.png')}
           ></Image> }
           <Text style={styles.label}>B</Text>
         </Pressable>
@@ -70,14 +70,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           { <Image
             style={styles.image}
-            source={require('../../assets/mock_image/c.png')}
+            source={require('../../assets/mock_image/alfabeto/c.png')}
           ></Image> }
           <Text style={styles.label}>C</Text>
         </Pressable>
         <Pressable style={styles.div}>
           { <Image
             style={styles.image}
-            source={require('../../assets/mock_image/d.png')}
+            source={require('../../assets/mock_image/alfabeto/d.png')}
           ></Image> }
           <Text style={styles.label}>D</Text>
         </Pressable>
@@ -86,14 +86,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           { <Image
             style={styles.image}
-            source={require('../../assets/mock_image/e.png')}
+            source={require('../../assets/mock_image/alfabeto/e.png')}
           ></Image> }
           <Text style={styles.label}>E</Text>
         </Pressable>
         <Pressable style={styles.div}>
           { <Image
             style={styles.image}
-            source={require('../../assets/mock_image/f.png')}
+            source={require('../../assets/mock_image/alfabeto/f.png')}
           ></Image> }
           <Text style={styles.label}>F</Text>
         </Pressable>
@@ -102,14 +102,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/g.png')}
+            source={require('../../assets/mock_image/alfabeto/g.png')}
           ></Image> }
           <Text style={styles.label}>G</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/h.png')}
+            source={require('../../assets/mock_image/alfabeto/h.png')}
           ></Image> }
           <Text style={styles.label}>H</Text>
         </Pressable>
@@ -118,14 +118,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/i.png')}
+            source={require('../../assets/mock_image/alfabeto/i.png')}
           ></Image> }
           <Text style={styles.label}>I</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/j.png')}
+            source={require('../../assets/mock_image/alfabeto/j.png')}
           ></Image> }
           <Text style={styles.label}>J</Text>
         </Pressable>
@@ -134,14 +134,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/k.png')}
+            source={require('../../assets/mock_image/alfabeto/k.png')}
           ></Image>}
           <Text style={styles.label}>K</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/l.png')}
+            source={require('../../assets/mock_image/alfabeto/l.png')}
           ></Image>}
           <Text style={styles.label}>L</Text>
         </Pressable>
@@ -150,14 +150,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/m.png')}
+            source={require('../../assets/mock_image/alfabeto/m.png')}
           ></Image> }
           <Text style={styles.label}>M</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/n.png')}
+            source={require('../../assets/mock_image/alfabeto/n.png')}
           ></Image> }
           <Text style={styles.label}>N</Text>
         </Pressable>
@@ -166,14 +166,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/o.png')}
+            source={require('../../assets/mock_image/alfabeto/o.png')}
           ></Image>}
           <Text style={styles.label}>O</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/p.png')}
+            source={require('../../assets/mock_image/alfabeto/p.png')}
           ></Image> }
           <Text style={styles.label}>P</Text>
         </Pressable>
@@ -182,14 +182,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
         {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/q.png')}
+            source={require('../../assets/mock_image/alfabeto/q.png')}
           ></Image> }
           <Text style={styles.label}>Q</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/r.png')}
+            source={require('../../assets/mock_image/alfabeto/r.png')}
           ></Image> }
           <Text style={styles.label}>R</Text>
         </Pressable>
@@ -198,14 +198,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/s.png')}
+            source={require('../../assets/mock_image/alfabeto/s.png')}
           ></Image> }
           <Text style={styles.label}>S</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/t.png')}
+            source={require('../../assets/mock_image/alfabeto/t.png')}
           ></Image> }
           <Text style={styles.label}>T</Text>
         </Pressable>
@@ -214,14 +214,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/u.png')}
+            source={require('../../assets/mock_image/alfabeto/u.png')}
           ></Image> }
           <Text style={styles.label}>U</Text>
         </Pressable>
         <Pressable style={styles.div}>
         {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/v.png')}
+            source={require('../../assets/mock_image/alfabeto/v.png')}
           ></Image> }
           <Text style={styles.label}>V</Text>
         </Pressable>
@@ -230,14 +230,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/w.png')}
+            source={require('../../assets/mock_image/alfabeto/w.png')}
           ></Image> }
           <Text style={styles.label}>W</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/x.png')}
+            source={require('../../assets/mock_image/alfabeto/x.png')}
           ></Image> }
           <Text style={styles.label}>X</Text>
         </Pressable>
@@ -246,14 +246,14 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
         <Pressable style={styles.div}>
          {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/y.png')}
+            source={require('../../assets/mock_image/alfabeto/y.png')}
           ></Image> }
           <Text style={styles.label}>Y</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {<Image
             style={styles.image}
-            source={require('../../assets/mock_image/z.png')}
+            source={require('../../assets/mock_image/alfabeto/z.png')}
           ></Image> }
           <Text style={styles.label}>Z</Text>
         </Pressable>
