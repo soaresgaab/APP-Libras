@@ -106,6 +106,17 @@ function RootLayoutNav() {
               borderBottomEndRadius: 28,
               // marginHorizontal: '10%',
             },
+            sceneContainerStyle: {
+              backgroundColor: 'red',
+            },
+            drawerContentStyle: {
+              backgroundColor: 'red',
+            },
+            drawerActiveBackgroundColor: '#e7503b',
+            drawerStyle: {
+              backgroundColor: '#F6F2DA',
+            },
+            drawerActiveTintColor: 'black',
             // freezeOnBlur: false,
             // overlayColor: 'red',
             // headerShown: false,
@@ -161,8 +172,8 @@ function RootLayoutNav() {
           <Drawer.Screen
             name="(editionwords)"
             options={{
-              title: 'editar categoria',
-              drawerLabel: 'editar categoria',
+              title: 'editar words',
+              drawerLabel: 'editar words',
               drawerPosition: 'left',
               drawerType: 'slide',
               drawerIcon: () => (
