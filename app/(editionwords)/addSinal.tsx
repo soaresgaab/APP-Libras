@@ -30,11 +30,12 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
+import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
     _id: undefined,
-    nameWord: '',
+    nameWord: 'nada',
     wordDefinitions: [
       {
         _id: undefined,
@@ -59,7 +60,7 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateWordById(data);
+    const result = await pushAddSignalById(data);
     console.log(result.data);
     setModalVisible(true);
   }
@@ -80,12 +81,47 @@ function AppWord() {
     setModalVisible(true);
   }
 
+  function descriptionSinal(item: string, definitionID: number | undefined) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            descriptionWordDefinition: item,
+          };
+        }
+        return definition;
+      }),
+    };
+    console.log(newData);
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
+
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    const response = await searchById('word_id', id);
+    // const response = await searchById('word_id', id);
     const category = await searchByRoute('category');
     setCategory(category.data);
-    setDataFetch(response.data);
+    categorySelectNull(category.data[0]);
+    // setDataFetch(response.data)
+  }
+
+  function categorySelectNull(item: any) {
+    const newData = {
+      ...data,
+      _id: id,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            category: item._id,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
   }
 
   function categorySelect(item: number, definitionID: number | undefined) {
@@ -171,27 +207,10 @@ function AppWord() {
           fontWeight: 'bold',
         }}
       >
-        Editar Palavra
+        Adicionar Sinal
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonTrash,
-        ]}
-        onPress={() => {
-          deleteData();
-        }}
-      >
-        <FontAwesome6
-          styles={styles.iconTrash}
-          name="trash-can"
-          size={25}
-          color="white"
-        />
-      </Pressable>
+
       {/* ----------------------  form imput  ---------------------------- */}
       <Foundation
         style={styles.iconClip}
@@ -199,26 +218,6 @@ function AppWord() {
         size={35}
         color="black"
       />
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 25,
-          width: '75%',
-          fontWeight: 'bold',
-        }}
-      >
-        Nome
-      </Text>
-      <TextInput
-        style={styles.inputNameWord}
-        value={data.nameWord}
-        multiline={true}
-        onChangeText={(text) => {
-          handleNameWord(text);
-        }}
-      ></TextInput>
 
       {data &&
         data.wordDefinitions?.map((definition, index) => (
@@ -247,7 +246,7 @@ function AppWord() {
               style={styles.inputDescription}
               value={definition.descriptionWordDefinition}
               onChangeText={(text) => {
-                // descriptionSinal(text, definition._id);
+                descriptionSinal(text, definition._id);
               }}
             ></TextInput>
             {/* ----------------------  form picker  ---------------------------- */}
@@ -459,7 +458,7 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   iconClip: {
-    marginTop: 0,
+    marginTop: 5,
     marginBottom: 15,
     alignSelf: 'center',
     textAlign: 'center',

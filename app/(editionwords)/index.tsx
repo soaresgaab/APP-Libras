@@ -11,6 +11,8 @@ import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeLibrasData } from '@/@types/LibrasData';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 function App() {
   const [option, setData] = useState({});
@@ -32,6 +34,20 @@ function App() {
       params: { id: `${id}` },
     });
   }
+  function routePushAdd(id: number) {
+    router.push({
+      pathname: '/(editionwords)/addWord',
+      params: { id: `${id}` },
+    });
+  }
+
+  function routePushAddSinal(id: number) {
+    router.push({
+      pathname: '/(editionwords)/addSinal',
+      params: { id: `${id}` },
+    });
+  }
+
   {
     /* ---------------------- start of component return---------------------------- */
   }
@@ -50,7 +66,6 @@ function App() {
           textAlign: 'center',
           fontSize: 25,
           width: '75%',
-          fontStyle: 'italic',
           fontWeight: 'bold',
         }}
       >
@@ -61,22 +76,17 @@ function App() {
           {
             backgroundColor: pressed ? '#fcce9b' : '#e7503b',
           },
-          styles.buttonTrash,
+          styles.buttonReload,
         ]}
         onPress={() => {
           searchData();
         }}
       >
-        <MaterialCommunityIcons
-          styles={styles.iconTrash}
-          name="reload"
-          size={25}
-          color="white"
-        />
+        <MaterialCommunityIcons name="reload" size={25} color="white" />
       </Pressable>
       <CreateButton router="addWord" label="+ Incluir Palavra"></CreateButton>
       {data?.map((word, index) => (
-        <Pressable key={index} onPress={() => routePush(word._id)}>
+        <Pressable key={index} onPress={() => {}}>
           <View style={styles.div}>
             <Text style={styles.labelWord}>{word.nameWord}</Text>
             <View style={styles.borda}></View>
@@ -84,6 +94,58 @@ function App() {
               <Text style={styles.labelDescription}>
                 {word.wordDefinitions.length} definições
               </Text>
+              <View style={styles.divButton}>
+                <Pressable
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? '#fcce9b' : '#e7503b',
+                    },
+                    styles.buttonEdit,
+                  ]}
+                  onPress={() => {
+                    routePushAddSinal(word._id);
+                  }}
+                >
+                  <Text
+                    style={{
+                      alignSelf: 'center',
+                      textAlign: 'center',
+                      fontSize: 20,
+                      width: '65%',
+                      fontWeight: 'bold',
+                      color: 'white',
+                    }}
+                  >
+                    Adicionar
+                  </Text>
+                  <Entypo name="plus" size={25} color="white" />
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? '#fcce9b' : '#e7503b',
+                    },
+                    styles.buttonEdit,
+                  ]}
+                  onPress={() => {
+                    routePush(word._id);
+                  }}
+                >
+                  <Text
+                    style={{
+                      alignSelf: 'center',
+                      textAlign: 'center',
+                      fontSize: 20,
+                      width: '65%',
+                      fontWeight: 'bold',
+                      color: 'white',
+                    }}
+                  >
+                    Editar
+                  </Text>
+                  <Feather name="edit-3" size={25} color="white" />
+                </Pressable>
+              </View>
             </View>
           </View>
         </Pressable>
@@ -111,13 +173,15 @@ const styles = StyleSheet.create({
   labelDescription: {
     alignSelf: 'center',
     textAlign: 'center',
-    fontSize: 18,
+    fontSize: 20,
+    marginBottom: 15,
+    fontWeight: '400',
     width: '95%',
     color: 'black',
   },
   div: {
-    width: '80%',
-    height: 80,
+    width: '85%',
+    height: 150,
     marginTop: 18,
     marginBottom: 20,
     borderRadius: 12,
@@ -129,7 +193,7 @@ const styles = StyleSheet.create({
   },
   divDescription: {
     width: '98%',
-    height: 40,
+    height: 105,
     marginTop: 3,
     marginBottom: 4,
     borderRadius: 8,
@@ -145,7 +209,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#e7503b',
   },
   iconTrash: {},
-  buttonTrash: {
+  buttonReload: {
     alignSelf: 'flex-end',
     width: 45,
     paddingVertical: 8,
@@ -153,6 +217,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     marginRight: '5%',
+    flexDirection: 'row',
+    alignContent: 'center',
+  },
+  buttonEdit: {
+    alignSelf: 'flex-end',
+    width: 134,
+    paddingVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignContent: 'center',
+  },
+  divButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 
