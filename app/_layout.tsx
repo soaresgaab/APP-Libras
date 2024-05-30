@@ -182,6 +182,19 @@ function RootLayoutNav() {
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
+          <Drawer.Screen
+            name="(sendsuggestionn)"
+            options={{
+              title: 'Enviar Sugestão',
+              drawerLabel: 'Enviar Sugestão',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="mail-unread" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
         </Drawer>
       </GestureHandlerRootView>
     </ThemeProvider>
