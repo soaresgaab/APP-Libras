@@ -6,34 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="77677229-7016-4856-ae91-b9f5b096f76b" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/(numeros)/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/(numeros)/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/a.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/b.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/c.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/d.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/e.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/f.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/g.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/h.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/i.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/j.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/k.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/l.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/m.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/n.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/o.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/p.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/q.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/r.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/s.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/t.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/u.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/v.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/w.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/x.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/y.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/mock_image/z.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/components/libras_alfabeto_manual/alfabeto_container.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/components/libras_alfabeto_manual/alfabeto_container.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

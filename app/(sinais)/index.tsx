@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, RefreshControl } from 'react-native';
+import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
-import SearchInput from '@/components/formSearch/searchInput';
+import { AlfabetoContainer } from '@/components/libras_alfabeto_manual/alfabeto_container';
+import { Libras_numeros_container } from '@/components/libras_numeros_manual/Libras_numeros_container';
+import { Libras_saudacoes_container } from '@/components/libras_saudacoes_manual/Libras_saudacoes_container';
+import { Libras_sinais_container } from '@/components/libras_sinais_manual/Libras_sinais_container';
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
@@ -35,26 +39,9 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Dicionário da Língua Brasileira de Sinais
+        Sinais
       </Text>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          // fontFamily: 'OMEGLE',
-        }}
-      >
-        Uma visão regional: Marabá
-      </Text>
-      <AlfabetoButton />
-      <CoresButton router={'(numeros)'} label={'Números'} />
-      <CoresButton router={'(search)/123'} label={'Calendários'} />
-      <CoresButton router={'(saudacoes)'} label={'Saudações'} />
-      <CoresButton router={'(sinais)'} label={'Sinais'} />
-      <CoresButton router={'Cumprimentos'} label={'Cumprimentos'} />
+      <Libras_sinais_container/>
     </ScrollView>
   );
 }

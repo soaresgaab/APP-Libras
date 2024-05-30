@@ -37,7 +37,7 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Alfabeto manual
+        Números
       </Text>
       <Libras_numeros_container/>
     </ScrollView>
