@@ -79,6 +79,16 @@ function AppWord() {
     // console.log(result.status);
     setModalVisible(true);
   }
+  async function deleteDataSignal(id: number | undefined) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.filter(
+        (definition) => definition._id !== id,
+      ),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
+  // ----------------------  function to fetch data ----------------------------
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
@@ -141,6 +151,23 @@ function AppWord() {
       setDataFetch(newData as TypeLibrasDataWithId);
     }
   };
+
+  function descriptionSinal(item: string, definitionID: number | undefined) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (definition._id === definitionID) {
+          return {
+            ...definition,
+            descriptionWordDefinition: item,
+          };
+        }
+        return definition;
+      }),
+    };
+    console.log(newData);
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
 
   // ----------------------  Controller data change by input ----------------------------
   //   function handleTextCategory(text: string) {
@@ -223,6 +250,24 @@ function AppWord() {
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed ? '#fcce9b' : '#e7503b',
+                },
+                styles.buttonTrash,
+              ]}
+              onPress={() => {
+                deleteDataSignal(definition._id);
+              }}
+            >
+              <FontAwesome6
+                styles={styles.iconTrash}
+                name="trash-can"
+                size={25}
+                color="white"
+              />
+            </Pressable>
             <Text
               style={{
                 alignSelf: 'center',
@@ -230,6 +275,7 @@ function AppWord() {
                 fontSize: 25,
                 width: '85%',
                 fontWeight: 'bold',
+                marginTop: -10,
               }}
             >
               Sinal
@@ -247,7 +293,7 @@ function AppWord() {
               style={styles.inputDescription}
               value={definition.descriptionWordDefinition}
               onChangeText={(text) => {
-                // descriptionSinal(text, definition._id);
+                descriptionSinal(text, definition._id);
               }}
             ></TextInput>
             {/* ----------------------  form picker  ---------------------------- */}
@@ -459,8 +505,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   iconClip: {
-    marginTop: 0,
-    marginBottom: 15,
+    marginTop: -25,
+    marginBottom: 0,
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',

@@ -158,6 +158,19 @@ function RootLayoutNav() {
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
+          <Drawer.Screen
+            name="(editionwords)"
+            options={{
+              title: 'editar categoria',
+              drawerLabel: 'editar categoria',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="add-circle" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
         </Drawer>
       </GestureHandlerRootView>
     </ThemeProvider>
