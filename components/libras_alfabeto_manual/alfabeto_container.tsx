@@ -24,9 +24,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: '70%',
-    height: 90,
+    width: '95%',
+    height: 95,
     alignSelf: 'center',
+    borderRadius: 10,
   },
   div: {
     paddingTop: 25,
@@ -51,220 +52,213 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
     <>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/a.png')}
+          ></Image> }
           <Text style={styles.label}>A</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {/* <Image
+          { <Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/b.png')}
+          ></Image> }
           <Text style={styles.label}>B</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          { <Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/c.png')}
+          ></Image> }
           <Text style={styles.label}>C</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {/* <Image
+          { <Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/d.png')}
+          ></Image> }
           <Text style={styles.label}>D</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          { <Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/e.png')}
+          ></Image> }
           <Text style={styles.label}>E</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {/* <Image
+          { <Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/f.png')}
+          ></Image> }
           <Text style={styles.label}>F</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/g.png')}
+          ></Image> }
           <Text style={styles.label}>G</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/h.png')}
+          ></Image> }
           <Text style={styles.label}>H</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
-          <Text style={styles.label}>A</Text>
-        </Pressable>
-        <Pressable style={styles.div}>
-          {/* <Image
-            style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/i.png')}
+          ></Image> }
           <Text style={styles.label}>I</Text>
         </Pressable>
-      </View>
-      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/j.png')}
+          ></Image> }
           <Text style={styles.label}>J</Text>
         </Pressable>
+      </View>
+      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/k.png')}
+          ></Image>}
           <Text style={styles.label}>K</Text>
         </Pressable>
-      </View>
-      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/l.png')}
+          ></Image>}
           <Text style={styles.label}>L</Text>
         </Pressable>
+      </View>
+      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/m.png')}
+          ></Image> }
           <Text style={styles.label}>M</Text>
         </Pressable>
-      </View>
-      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/n.png')}
+          ></Image> }
           <Text style={styles.label}>N</Text>
         </Pressable>
+      </View>
+      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/o.png')}
+          ></Image>}
           <Text style={styles.label}>O</Text>
         </Pressable>
-      </View>
-      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/p.png')}
+          ></Image> }
           <Text style={styles.label}>P</Text>
         </Pressable>
+      </View>
+      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+        {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/q.png')}
+          ></Image> }
           <Text style={styles.label}>Q</Text>
         </Pressable>
-      </View>
-      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/r.png')}
+          ></Image> }
           <Text style={styles.label}>R</Text>
         </Pressable>
+      </View>
+      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/s.png')}
+          ></Image> }
           <Text style={styles.label}>S</Text>
         </Pressable>
-      </View>
-      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/t.png')}
+          ></Image> }
           <Text style={styles.label}>T</Text>
         </Pressable>
+      </View>
+      <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/u.png')}
+          ></Image> }
           <Text style={styles.label}>U</Text>
+        </Pressable>
+        <Pressable style={styles.div}>
+        {<Image
+            style={styles.image}
+            source={require('../../assets/mock_image/v.png')}
+          ></Image> }
+          <Text style={styles.label}>V</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
-          <Text style={styles.label}>V</Text>
+            source={require('../../assets/mock_image/w.png')}
+          ></Image> }
+          <Text style={styles.label}>W</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
+            source={require('../../assets/mock_image/x.png')}
+          ></Image> }
           <Text style={styles.label}>X</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {/* <Image
+         {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
-          <Text style={styles.label}>W</Text>
+            source={require('../../assets/mock_image/y.png')}
+          ></Image> }
+          <Text style={styles.label}>Y</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {/* <Image
+          {<Image
             style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
-          <Text style={styles.label}>Y</Text>
+            source={require('../../assets/mock_image/z.png')}
+          ></Image> }
+          <Text style={styles.label}>Z</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
-        <Pressable style={styles.div}>
-          {/* <Image
-            style={styles.image}
-            source={require('../../assets/ImagemButtonCores.jpg')}
-          ></Image> */}
-          <Text style={styles.label}>Z</Text>
-        </Pressable>
       </View>
     </>
   );
