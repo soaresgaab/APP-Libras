@@ -50,10 +50,10 @@ function App() {
         Uma visão regional: Marabá
       </Text>
       <AlfabetoButton />
-      <CoresButton router={'Números'} label={'Números'} />
+      <CoresButton router={'(numeros)'} label={'Números'} />
       <CoresButton router={'(search)/123'} label={'Calendários'} />
-      <CoresButton router={'Redes de Comp.'} label={'Redes de Comp.'} />
-      <CoresButton router={'Cores'} label={'Cores'} />
+      <CoresButton router={'(saudacoes)'} label={'Saudações'} />
+      <CoresButton router={'(sinais)'} label={'Sinais'} />
       <CoresButton router={'Cumprimentos'} label={'Cumprimentos'} />
     </ScrollView>
   );

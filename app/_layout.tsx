@@ -106,6 +106,17 @@ function RootLayoutNav() {
               borderBottomEndRadius: 28,
               // marginHorizontal: '10%',
             },
+            sceneContainerStyle: {
+              backgroundColor: 'red',
+            },
+            drawerContentStyle: {
+              backgroundColor: 'red',
+            },
+            drawerActiveBackgroundColor: '#e7503b',
+            drawerStyle: {
+              backgroundColor: '#F6F2DA',
+            },
+            drawerActiveTintColor: 'black',
             // freezeOnBlur: false,
             // overlayColor: 'red',
             // headerShown: false,
@@ -155,6 +166,32 @@ function RootLayoutNav() {
               drawerPosition: 'left',
               drawerType: 'slide',
               drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(editionwords)"
+            options={{
+              title: 'editar words',
+              drawerLabel: 'editar words',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="add-circle" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(sendsuggestionn)"
+            options={{
+              title: 'Enviar Sugestão',
+              drawerLabel: 'Enviar Sugestão',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="mail-unread" size={20}></Ionicons>
+              ),
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
