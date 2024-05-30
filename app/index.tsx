@@ -51,10 +51,10 @@ function App() {
       </Text>
       <AlfabetoButton />
       <CoresButton router={'(numeros)'} label={'Números'} />
-      <CoresButton router={'(search)/123'} label={'Calendários'} />
+      {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> */}
       <CoresButton router={'(saudacoes)'} label={'Saudações'} />
       <CoresButton router={'(sinais)'} label={'Sinais'} />
-      <CoresButton router={'Cumprimentos'} label={'Cumprimentos'} />
+      <CoresButton router={'/'} label={'Cumprimentos'} />
     </ScrollView>
   );
 }

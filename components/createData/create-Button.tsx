@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     paddingTop: 25,
   },
   label: {
+    marginTop: -30,
     paddingVertical: 8,
     paddingHorizontal: 16,
     alignSelf: 'center',

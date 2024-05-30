@@ -19,6 +19,7 @@ import { Image } from 'expo-image';
 import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
 import { initialStateDataLibrasReducer } from '../../utils/reducer/DataLibrasReducer';
 import * as ImagePicker from 'expo-image-picker';
+import { Foundation } from '@expo/vector-icons';
 
 function App() {
   const [base64Image, setBase64Image] = useState('');
@@ -164,6 +165,12 @@ function App() {
                 });
               }}
             ></TextInput>
+            <Foundation
+              style={styles.iconClip}
+              name="paperclip"
+              size={35}
+              color="black"
+            />
             {data &&
               item.wordDefinitions.map(
                 (item2: Partial<TypeLibrasDataSinais>, innerindex: number) => (
@@ -198,7 +205,9 @@ function App() {
                     <TextInput
                       editable={editable}
                       key={index}
-                      style={editable ? styles.input : styles.inputDisabled2}
+                      style={
+                        editable ? styles.inputCategory : styles.inputDisabled2
+                      }
                       value={item2.category?.nameCategory}
                       onChangeText={(text) => {
                         dispatchUpdateData({
@@ -286,31 +295,46 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderWidth: 2,
     borderColor: '#e7503b',
-    color: 'Red',
+    color: 'black',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 30,
   },
   inputDisabled: {
-    marginTop: 22,
+    marginTop: 2,
     alignSelf: 'center',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 30,
     width: '75%',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    color: 'red',
+    color: 'black',
+  },
+  inputCategory: {
+    backgroundColor: 'white',
+    marginTop: 14,
+    width: '75%',
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    color: 'black',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    fontSize: 25,
   },
 
   inputDisabled2: {
     marginTop: 22,
     alignSelf: 'center',
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: 25,
     width: '75%',
     fontStyle: 'italic',
     fontWeight: 'bold',
-    color: 'black',
+    color: 'red',
   },
   borda: {
     marginBottom: 50,
@@ -318,6 +342,14 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderTopWidth: 0,
     borderTopColor: '#cac9c99c',
+  },
+  iconClip: {
+    marginTop: 5,
+    marginBottom: 15,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: '#e7503b',
   },
 });
 
