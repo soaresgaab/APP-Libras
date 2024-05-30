@@ -34,6 +34,20 @@ function App() {
       params: { id: `${id}` },
     });
   }
+  function routePushAdd(id: number) {
+    router.push({
+      pathname: '/(editionwords)/addWord',
+      params: { id: `${id}` },
+    });
+  }
+
+  function routePushAddSinal(id: number) {
+    router.push({
+      pathname: '/(editionwords)/addSinal',
+      params: { id: `${id}` },
+    });
+  }
+
   {
     /* ---------------------- start of component return---------------------------- */
   }
@@ -72,7 +86,7 @@ function App() {
       </Pressable>
       <CreateButton router="addWord" label="+ Incluir Palavra"></CreateButton>
       {data?.map((word, index) => (
-        <Pressable key={index} onPress={() => routePush(word._id)}>
+        <Pressable key={index} onPress={() => {}}>
           <View style={styles.div}>
             <Text style={styles.labelWord}>{word.nameWord}</Text>
             <View style={styles.borda}></View>
@@ -89,7 +103,7 @@ function App() {
                     styles.buttonEdit,
                   ]}
                   onPress={() => {
-                    searchData();
+                    routePushAddSinal(word._id);
                   }}
                 >
                   <Text
@@ -114,7 +128,7 @@ function App() {
                     styles.buttonEdit,
                   ]}
                   onPress={() => {
-                    searchData();
+                    routePush(word._id);
                   }}
                 >
                   <Text
