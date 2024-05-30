@@ -25,14 +25,14 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '95%',
-    height: 95,
+    height: 140,
     alignSelf: 'center',
     borderRadius: 10,
   },
   div: {
     paddingTop: 25,
-    width: '35%',
-    height: 130,
+    width: '48%',
+    height: 180,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
@@ -52,87 +52,105 @@ export const Libras_numeros_container = ({}): React.ReactNode => {
     <>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {<Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero0.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero0.png')}
+            ></Image>
+          }
           <Text style={styles.label}>0</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero1.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero1.png')}
+            ></Image>
+          }
           <Text style={styles.label}>1</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero2.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero2.png')}
+            ></Image>
+          }
           <Text style={styles.label}>2</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero3.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero3.png')}
+            ></Image>
+          }
           <Text style={styles.label}>3</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero4.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero4.png')}
+            ></Image>
+          }
           <Text style={styles.label}>4</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero5.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero5.png')}
+            ></Image>
+          }
           <Text style={styles.label}>5</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {<Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero6.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero6.png')}
+            ></Image>
+          }
           <Text style={styles.label}>6</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {<Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero7.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero7.png')}
+            ></Image>
+          }
           <Text style={styles.label}>7</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {<Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero8.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero8.png')}
+            ></Image>
+          }
           <Text style={styles.label}>8</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          {<Image
-            style={styles.image}
-            source={require('../../assets/mock_image/numeros/numero9.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/numeros/numero9.png')}
+            ></Image>
+          }
           <Text style={styles.label}>9</Text>
         </Pressable>
-      
       </View>
-      <View style={styles.container}>
-      </View>
+      <View style={styles.container}></View>
     </>
   );
 };

@@ -135,17 +135,6 @@ function RootLayoutNav() {
           />
 
           <Drawer.Screen
-            name="(alfabeto)"
-            options={{
-              title: 'Alfabeto',
-              drawerLabel: 'Alfabeto',
-              drawerPosition: 'left',
-              drawerType: 'slide',
-              drawerIcon: () => <Ionicons name="cellular" size={20}></Ionicons>,
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
             name="(search)"
             options={{
               title: 'Atendimentos por Tipo',
@@ -187,6 +176,56 @@ function RootLayoutNav() {
             options={{
               title: 'Enviar Sugestão',
               drawerLabel: 'Enviar Sugestão',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="mail-unread" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(alfabeto)"
+            options={{
+              title: 'Alfabeto',
+              drawerLabel: 'Alfabeto',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="aperture-outline" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(saudacoes)"
+            options={{
+              title: 'Saudações',
+              drawerLabel: 'Saudações',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(sinais)"
+            options={{
+              title: 'sinais',
+              drawerLabel: 'sinais',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => <Ionicons name="apps" size={20}></Ionicons>,
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(numeros)"
+            options={{
+              title: 'Números',
+              drawerLabel: 'Números',
               drawerPosition: 'left',
               drawerType: 'slide',
               drawerIcon: () => (
