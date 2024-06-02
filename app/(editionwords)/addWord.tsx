@@ -76,7 +76,7 @@ function AppWord() {
   }
 
   async function deleteData() {
-    // const result = await pushDeleteCategoryById(data);
+    // const 2result = await pushDeleteCategoryById(data);
     // console.log(result.status);
     setModalVisible(true);
   }
