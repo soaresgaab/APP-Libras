@@ -198,7 +198,7 @@ function AppWord() {
           fontWeight: 'bold',
         }}
       >
-        Criar Palavra
+        Criar uma Palavra
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
