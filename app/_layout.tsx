@@ -16,6 +16,9 @@ import { RenderHeader } from '@/components/libras_componentes/image-header';
 
 import { useColorScheme } from '@/components/useColorScheme';
 
+// Import your global CSS file
+import '../global.css';
+
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,

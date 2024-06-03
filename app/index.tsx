@@ -7,65 +7,15 @@ import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button'
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
-function App() {
-  const [option, setData] = useState({});
-  const [data, setDataFetch] = useState();
-  const [refreshing, setRefreshing] = useState(true);
 
-  useEffect(() => {
-    // fetchData();
-  }, []);
+import { View } from 'react-native';
 
+const App = () => {
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={false} progressViewOffset={70} />
-      }
-    >
-      <SearchInput></SearchInput>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-        }}
-      >
-        Dicionário da Língua Brasileira de Sinais
-      </Text>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          // fontFamily: 'OMEGLE',
-        }}
-      >
-        Uma visão regional: Marabá
-      </Text>
-      <AlfabetoButton />
-      <CoresButton router={'(numeros)'} label={'Números'} />
-      {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> */}
-      <CoresButton router={'(saudacoes)'} label={'Saudações'} />
-      <CoresButton router={'(sinais)'} label={'Sinais'} />
-      <CoresButton router={'/'} label={'Cumprimentos'} />
-    </ScrollView>
+    <View className="flex-1 items-center justify-center bg-slate-50">
+      <Text className="text-slate-800">Try editing me! 🎉</Text>
+    </View>
   );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F6F2DA',
-    width: 'auto',
-    paddingVertical: 0,
-  },
-});
+};
 
 export default gestureHandlerRootHOC(App);
