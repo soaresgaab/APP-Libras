@@ -8,7 +8,7 @@ export async function searchById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `https://ad84-170-233-149-18.ngrok-free.app/${rota}/${id}`,
+        `https://8826-170-233-149-18.ngrok-free.app/${rota}/${id}`,
       );
       resolve(data);
     } catch (error) {

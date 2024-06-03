@@ -8,7 +8,7 @@ export async function pushUpdateCategoryById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.put(
-        `https://ad84-170-233-149-18.ngrok-free.app/category/${dataCategory?._id}`,
+        `https://8826-170-233-149-18.ngrok-free.app/category/${dataCategory?._id}`,
         dataCategory,
       );
       resolve(data);
