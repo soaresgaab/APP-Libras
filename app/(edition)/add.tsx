@@ -79,7 +79,6 @@ function App() {
           textAlign: 'center',
           fontSize: 20,
           width: '75%',
-          fontStyle: 'italic',
           fontWeight: 'bold',
         }}
       >
@@ -236,8 +235,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'left',
     fontSize: 20,
-    width: '80%',
     fontWeight: 'bold',
+    width: '80%',
     color: 'white',
   },
   iconClip: {

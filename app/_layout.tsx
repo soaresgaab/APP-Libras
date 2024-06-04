@@ -112,9 +112,9 @@ function RootLayoutNav() {
             sceneContainerStyle: {
               backgroundColor: 'red',
             },
-            drawerContentStyle: {
-              backgroundColor: 'red',
-            },
+            // drawerContentStyle: {
+            //   backgroundColor: 'red',
+            // },
             drawerActiveBackgroundColor: '#e7503b',
             drawerStyle: {
               backgroundColor: '#F6F2DA',
@@ -165,7 +165,7 @@ function RootLayoutNav() {
             name="(editionwords)"
             options={{
               title: 'editar words',
-              drawerLabel: 'editar words',
+              drawerLabel: 'editar palavras',
               drawerPosition: 'left',
               drawerType: 'slide',
               drawerIcon: () => (
