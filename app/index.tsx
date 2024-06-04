@@ -7,35 +7,22 @@ import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button'
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
-import * as Crypto from 'expo-crypto';
+function App() {
+  const [option, setData] = useState({});
+  const [data, setDataFetch] = useState();
+  const [refreshing, setRefreshing] = useState(true);
 
-import { View } from 'react-native';
-import { TextInput } from 'react-native';
-import { Foundation } from '@expo/vector-icons';
-import { Pressable } from 'react-native';
-import { GetToken } from '@/utils/axios/auth/GetToken';
-
-const App = () => {
-  const [DataUser, setDataUser] = useState({
-    userName: '',
-    password: '',
-  });
-  const [refreshing, setRefreshing] = useState(false);
-
-  async function submitData() {
-    const response = await GetToken();
-    console.log(response.data);
-  }
-
-  async function handleInput(text: string, field: string) {
-    console.log(DataUser);
-    setDataUser((prev) => {
-      return { ...prev, [field]: text };
-    });
-  }
+  useEffect(() => {
+    // fetchData();
+  }, []);
 
   return (
-    <ScrollView style={{ backgroundColor: '#F6F2DA' }}>
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={false} progressViewOffset={70} />
+      }
+    >
       <SearchInput></SearchInput>
       <Text
         style={{
@@ -44,120 +31,40 @@ const App = () => {
           textAlign: 'center',
           fontSize: 20,
           width: '75%',
+          fontStyle: 'italic',
           fontWeight: 'bold',
         }}
       >
-        Acesso de usuários administradores
+        Dicionário da Língua Brasileira de Sinais
       </Text>
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
       <Text
         style={{
+          marginTop: 10,
           alignSelf: 'center',
-          width: '80%',
-          fontSize: 18,
-          fontWeight: 'bold',
+          textAlign: 'center',
+          fontSize: 20,
+          width: '75%',
+          // fontFamily: 'OMEGLE',
         }}
       >
-        Usuário:
+        Uma visão regional: Marabá
       </Text>
-      <View className="flex-1 items-center justify-center shadow">
-        <TextInput
-          className="rounded border w-96 shadow py-8"
-          style={{
-            paddingLeft: 15,
-            paddingVertical: 6,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: '#e7503b',
-            width: '90%',
-            fontSize: 16,
-          }}
-          placeholder="Ex: Usuario312"
-          value={DataUser.userName}
-          onChangeText={(text) => handleInput(text, 'userName')}
-        ></TextInput>
-      </View>
-      <View className="flex-1 items-center shadow ">
-        <Text
-          style={{
-            alignSelf: 'center',
-            width: '80%',
-            fontSize: 18,
-            fontWeight: 'bold',
-            marginTop: 15,
-          }}
-        >
-          Senha:
-        </Text>
-        <TextInput
-          style={{
-            paddingLeft: 15,
-            paddingVertical: 6,
-            borderRadius: 10,
-            borderWidth: 2,
-            borderColor: '#e7503b',
-            width: '90%',
-            fontSize: 16,
-          }}
-          className="rounded border w-96 shadow py-80"
-          secureTextEntry={true}
-          placeholder="Ex: Senha132"
-          value={DataUser.password}
-          onChangeText={(text) => {
-            handleInput(text, 'password');
-          }}
-        ></TextInput>
-      </View>
-
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fa8f80' : '#e7503b',
-          },
-          styles.buttonLogin,
-        ]}
-        onPress={() => {
-          submitData();
-        }}
-      >
-        <Text style={{ fontSize: 18 }}>Entrar</Text>
-      </Pressable>
+      <AlfabetoButton />
+      <CoresButton router={'(numeros)'} label={'Números'} />
+      {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> */}
+      <CoresButton router={'(saudacoes)'} label={'Saudações'} />
+      <CoresButton router={'(sinais)'} label={'Sinais'} />
+      <CoresButton router={'/'} label={'Cumprimentos'} />
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  iconClip: {
-    marginTop: 5,
-    marginBottom: 15,
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: '#e7503b',
-  },
-  labelDescription: {
-    alignSelf: 'center',
-    textAlign: 'left',
-    fontSize: 20,
-    width: '80%',
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  buttonLogin: {
-    marginTop: 30,
-    alignSelf: 'center',
-    width: 190,
-    paddingVertical: 6,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: '#ff1e00',
+  container: {
+    flex: 1,
+    backgroundColor: '#F6F2DA',
+    width: 'auto',
+    paddingVertical: 0,
   },
 });
 

@@ -8,7 +8,7 @@ export async function searchByRoute(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `https://8826-170-233-149-18.ngrok-free.app/${route}`,
+        `http://192.168.100.133:4002/${route}`,
       );
       resolve(data);
     } catch (error) {

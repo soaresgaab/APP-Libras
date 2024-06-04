@@ -237,6 +237,19 @@ function RootLayoutNav() {
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
+          <Drawer.Screen
+            name="(auth)"
+            options={{
+              title: 'Login',
+              drawerLabel: 'Login',
+              drawerPosition: 'left',
+              drawerType: 'slide',
+              drawerIcon: () => (
+                <Ionicons name="lock-closed" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
         </Drawer>
       </GestureHandlerRootView>
     </ThemeProvider>

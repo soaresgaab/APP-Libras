@@ -7,7 +7,7 @@ export async function AxiosGet(
   return new Promise(async (resolver, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `https://9de4-181-213-24-44.ngrok-free.app/api/v1/${rota}?nameTipo=${options?.query}&mes=${options?.mes}&ano=${options?.ano}`,
+        `http://192.168.100.133:4002/api/v1/${rota}?nameTipo=${options?.query}&mes=${options?.mes}&ano=${options?.ano}`,
       );
       setTimeout(() => {}, 5000);
       resolver(data);
