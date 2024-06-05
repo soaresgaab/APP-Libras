@@ -37,7 +37,6 @@ const App = () => {
   }
 
   async function handleInput(text: string, field: string) {
-    console.log(DataUser);
     setDataUser((prev) => {
       return { ...prev, [field]: text };
     });
@@ -74,10 +73,10 @@ const App = () => {
       >
         Usuário:
       </Text>
-      <View className="flex-1  items-center justify-center ">
+      <View>
         <TextInput
-          className="rounded"
           style={{
+            alignSelf: 'center',
             paddingLeft: 15,
             paddingVertical: 6,
             borderRadius: 10,
@@ -91,7 +90,7 @@ const App = () => {
           onChangeText={(text) => handleInput(text, 'userName')}
         ></TextInput>
       </View>
-      <View className="flex-1 items-center shadow ">
+      <View>
         <Text
           style={{
             alignSelf: 'center',
@@ -105,6 +104,7 @@ const App = () => {
         </Text>
         <TextInput
           style={{
+            alignSelf: 'center',
             paddingLeft: 15,
             paddingVertical: 6,
             borderRadius: 10,
@@ -113,7 +113,6 @@ const App = () => {
             width: '90%',
             fontSize: 16,
           }}
-          className="rounded border"
           secureTextEntry={true}
           placeholder="Ex: Senha132"
           value={DataUser.password}

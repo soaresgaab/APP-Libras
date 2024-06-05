@@ -16,9 +16,6 @@ import { RenderHeader } from '@/components/libras_componentes/image-header';
 
 import { useColorScheme } from '@/components/useColorScheme';
 
-// Import your global CSS file
-import '../global.css';
-
 export {
   // Catch any errors thrown by the Layout component.
   ErrorBoundary,
@@ -131,7 +128,7 @@ function RootLayoutNav() {
             options={{
               drawerLabel: 'Página inicial',
               title: 'Página inicial',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => <Ionicons name="home" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
             }}
@@ -143,7 +140,7 @@ function RootLayoutNav() {
               title: 'Atendimentos por Tipo',
               drawerLabel: 'Atendimentos por Tipo',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
 
@@ -156,7 +153,7 @@ function RootLayoutNav() {
               title: 'editar categoria',
               drawerLabel: 'editar categoria',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
             }}
@@ -167,7 +164,7 @@ function RootLayoutNav() {
               title: 'editar words',
               drawerLabel: 'editar palavras',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="add-circle" size={20}></Ionicons>
               ),
@@ -180,7 +177,7 @@ function RootLayoutNav() {
               title: 'Enviar Sugestão',
               drawerLabel: 'Enviar Sugestão',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="mail-unread" size={20}></Ionicons>
               ),
@@ -193,7 +190,7 @@ function RootLayoutNav() {
               title: 'Alfabeto',
               drawerLabel: 'Alfabeto',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="aperture-outline" size={20}></Ionicons>
               ),
@@ -206,7 +203,7 @@ function RootLayoutNav() {
               title: 'Saudações',
               drawerLabel: 'Saudações',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="hand-left" size={20}></Ionicons>
               ),
@@ -219,7 +216,7 @@ function RootLayoutNav() {
               title: 'sinais',
               drawerLabel: 'sinais',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => <Ionicons name="apps" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
             }}
@@ -230,7 +227,7 @@ function RootLayoutNav() {
               title: 'Números',
               drawerLabel: 'Números',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="mail-unread" size={20}></Ionicons>
               ),
@@ -243,7 +240,7 @@ function RootLayoutNav() {
               title: 'Login',
               drawerLabel: 'Login',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="lock-closed" size={20}></Ionicons>
               ),
