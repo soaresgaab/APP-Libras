@@ -136,16 +136,7 @@ function RootLayoutNav() {
 
           <Drawer.Screen
             name="(search)"
-            options={{
-              title: 'Atendimentos por Tipo',
-              drawerLabel: 'Atendimentos por Tipo',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
-              drawerLabelStyle: { marginLeft: -15 },
-
-              drawerItemStyle: { height: 0 },
-            }}
+            options={{ drawerItemStyle: { display: 'none' } }}
           />
           <Drawer.Screen
             name="(edition)"

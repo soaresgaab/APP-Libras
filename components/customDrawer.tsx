@@ -25,14 +25,54 @@ export default function CustomDrawerContent(props: any) {
   const { colors } = useTheme();
   const erick = Color(colors.text).alpha(0.68).rgb().string();
   const { top, bottom } = useSafeAreaInsets();
+
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props}>
+      <DrawerContentScrollView {...props} style={{ marginTop: -15 }}>
+        <View
+          style={{
+            paddingTop: 15,
+            alignSelf: 'center',
+          }}
+        >
+          <Text
+            style={{
+              marginTop: 10,
+              alignSelf: 'center',
+              textAlign: 'center',
+              fontSize: 20,
+              width: '75%',
+              fontWeight: 'bold',
+            }}
+          >
+            10 palavras
+          </Text>
+        </View>
+        <View
+          style={{
+            paddingTop: 3,
+            alignSelf: 'center',
+          }}
+        >
+          <Text
+            style={{
+              marginBottom: 10,
+              alignSelf: 'center',
+              textAlign: 'center',
+              fontSize: 20,
+              width: '75%',
+              fontWeight: 'bold',
+            }}
+          >
+            30 sinais
+          </Text>
+        </View>
         <DrawerItemList {...props} />
-        {/* <DrawerItem label={"teste"} onPress={()=>router.replace('/')}/>   */}
+        <DrawerItem label={'teste'} onPress={() => router.push('/')} />
+        <DrawerItem label={() => null} onPress={() => router.push('/teste')} />
       </DrawerContentScrollView>
 
-      <View style={{ paddingBottom: 5 + bottom }}>
+      <View style={{}}>
         <View style={styles.borda}></View>
         <DrawerItem
           label={'Sair'}
