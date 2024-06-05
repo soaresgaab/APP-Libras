@@ -22,6 +22,7 @@ import Color from 'color';
 import { Link, useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import useToken from '@/hooks/getToken';
 
 export default function CustomDrawerContent(props: any) {
   const { colors } = useTheme();
@@ -30,29 +31,29 @@ export default function CustomDrawerContent(props: any) {
   const [dataF, setDataF] = useState<any>();
   const noAuth = ['(numeros)'];
 
-  async function GetToken() {
-    const token = await AsyncStorage.getItem('token');
-    console.log(token);
-    if (!token) {
-      const filter = props.state.routes.filter(
-        (route: any) => !noAuth.includes(route.name),
-      );
-      const data = {
-        ...props,
-        state: { ...props.state, routes: filter },
-      };
-      console.log('opa');
-      return setDataF(data);
-    }
-    setDataF(null);
-  }
-  console.log('chamou2');
+  const token = useToken(props);
+
   useEffect(() => {
-    GetToken();
-  }, [props.state.routes]);
-  console.log('chamou3');
-  const data2 = !dataF ? props : dataF;
-  console.log(!dataF ? true : false);
+    const filterRoutes = () => {
+      console.log('entrou 2');
+      if (token === null) {
+        const filteredRoutes = props.state.routes.filter(
+          (route: any) => !noAuth.includes(route.name),
+        );
+        const newState = {
+          ...props,
+          state: { ...props.state, routes: filteredRoutes },
+        };
+        setDataF(newState);
+      } else {
+        setDataF(null);
+      }
+    };
+
+    filterRoutes();
+  }, [token]);
+
+  const data2 = dataF || props;
 
   return (
     <View style={{ flex: 1 }}>
