@@ -26,9 +26,16 @@ export default function CustomDrawerContent(props: any) {
   const erick = Color(colors.text).alpha(0.68).rgb().string();
   const { top, bottom } = useSafeAreaInsets();
 
+  const filter = props.state.routes.filter(
+    (route: any) => route.name !== '(numeros)',
+  );
+  const data = {
+    ...props,
+    state: { ...props.state, routes: filter },
+  };
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props} style={{ marginTop: -15 }}>
+      <DrawerContentScrollView {...data} style={{ marginTop: -15 }}>
         <View
           style={{
             paddingTop: 15,
@@ -67,7 +74,7 @@ export default function CustomDrawerContent(props: any) {
             30 sinais
           </Text>
         </View>
-        <DrawerItemList {...props} />
+        <DrawerItemList {...data} />
         <DrawerItem label={'teste'} onPress={() => router.push('/')} />
         <DrawerItem label={() => null} onPress={() => router.push('/teste')} />
       </DrawerContentScrollView>
