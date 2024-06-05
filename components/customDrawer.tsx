@@ -20,22 +20,43 @@ import {
 import { Entypo, Ionicons } from '@expo/vector-icons';
 import Color from 'color';
 import { Link, useTheme } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect, useState } from 'react';
 
 export default function CustomDrawerContent(props: any) {
   const { colors } = useTheme();
   const erick = Color(colors.text).alpha(0.68).rgb().string();
   const { top, bottom } = useSafeAreaInsets();
+  const [dataF, setDataF] = useState<any>();
+  const noAuth = ['(numeros)'];
 
-  const filter = props.state.routes.filter(
-    (route: any) => route.name !== '(numeros)',
-  );
-  const data = {
-    ...props,
-    state: { ...props.state, routes: filter },
-  };
+  async function GetToken() {
+    const token = await AsyncStorage.getItem('token');
+    console.log(token);
+    if (!token) {
+      const filter = props.state.routes.filter(
+        (route: any) => !noAuth.includes(route.name),
+      );
+      const data = {
+        ...props,
+        state: { ...props.state, routes: filter },
+      };
+      console.log('opa');
+      return setDataF(data);
+    }
+    setDataF(null);
+  }
+  console.log('chamou2');
+  useEffect(() => {
+    GetToken();
+  }, [props.state.routes]);
+  console.log('chamou3');
+  const data2 = !dataF ? props : dataF;
+  console.log(!dataF ? true : false);
+
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...data} style={{ marginTop: -15 }}>
+      <DrawerContentScrollView {...data2} style={{ marginTop: -15 }}>
         <View
           style={{
             paddingTop: 15,
@@ -74,9 +95,9 @@ export default function CustomDrawerContent(props: any) {
             30 sinais
           </Text>
         </View>
-        <DrawerItemList {...data} />
+        <DrawerItemList {...data2} />
         <DrawerItem label={'teste'} onPress={() => router.push('/')} />
-        <DrawerItem label={() => null} onPress={() => router.push('/teste')} />
+        <DrawerItem label={'abelha'} onPress={() => AsyncStorage.clear()} />
       </DrawerContentScrollView>
 
       <View style={{}}>
