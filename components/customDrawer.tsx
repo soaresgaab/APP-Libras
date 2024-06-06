@@ -29,7 +29,8 @@ export default function CustomDrawerContent(props: any) {
   const erick = Color(colors.text).alpha(0.68).rgb().string();
   const { top, bottom } = useSafeAreaInsets();
   const [dataF, setDataF] = useState<any>();
-  const noAuth = ['(numeros)'];
+  const noAuth = ['(edition)', '(editionwords)', '(auth)'];
+  const [labelLogout, setLabel] = useState<string | null>('');
 
   const token = useToken(props);
 
@@ -44,8 +45,10 @@ export default function CustomDrawerContent(props: any) {
           ...props,
           state: { ...props.state, routes: filteredRoutes },
         };
+        setLabel(null);
         setDataF(newState);
       } else {
+        setLabel('Logout');
         setDataF(null);
       }
     };
@@ -54,6 +57,16 @@ export default function CustomDrawerContent(props: any) {
   }, [token]);
 
   const data2 = dataF || props;
+  const label = labelLogout || 'Login';
+
+  const handlePressLogin = () => {
+    if (labelLogout) {
+      AsyncStorage.clear();
+      router.navigate('/');
+    } else {
+      router.navigate('(auth)');
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -97,23 +110,50 @@ export default function CustomDrawerContent(props: any) {
           </Text>
         </View>
         <DrawerItemList {...data2} />
-        <DrawerItem label={'teste'} onPress={() => router.push('/')} />
-        <DrawerItem label={'abelha'} onPress={() => AsyncStorage.clear()} />
+        {/* <DrawerItem label={'teste'} onPress={() => router.push('/')} />
+        <DrawerItem label={'abelha'} onPress={() => AsyncStorage.clear()} /> */}
       </DrawerContentScrollView>
 
       <View style={{}}>
         <View style={styles.borda}></View>
         <DrawerItem
-          label={'Sair'}
-          onPress={() => BackHandler.exitApp()}
-          icon={() => (
-            <Ionicons
-              style={{ alignSelf: 'center', position: 'relative', left: 80 }}
-              name="arrow-undo"
-              size={20}
-            ></Ionicons>
-          )}
-          labelStyle={{ alignSelf: 'center' }}
+          label={label}
+          onPress={() => handlePressLogin()}
+          icon={() => {
+            // Decida qual ícone renderizar com base no valor da variável
+            if (labelLogout) {
+              // Se myVariable não for nula, retorne o ícone "arrow-forward"
+              return (
+                <Ionicons
+                  style={{
+                    alignSelf: 'center',
+                    position: 'relative',
+                    left: 80,
+                  }}
+                  name="arrow-undo"
+                  size={20}
+                />
+              );
+            } else {
+              // Se myVariable for nula, retorne o ícone "arrow-undo"
+              return (
+                <Ionicons
+                  style={{
+                    alignSelf: 'center',
+                    position: 'relative',
+                    left: 80,
+                  }}
+                  name="log-in-sharp"
+                  size={25}
+                />
+              );
+            }
+          }}
+          labelStyle={{
+            alignSelf: 'center',
+            fontSize: 16,
+            color: 'black',
+          }}
         ></DrawerItem>
       </View>
     </View>
