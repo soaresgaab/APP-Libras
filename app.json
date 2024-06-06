@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "SAMU relatório",
-    "slug": "react-native-teste-build",
+    "name": "App Libras",
+    "slug": "AppLibras",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -16,15 +16,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.ericksousa312.reactnativetestebuild"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ericksousa312.reactnativetestebuild"
+      "package": "com.ericksousa312.AppLibras"
     },
     "web": {
       "bundler": "metro",
@@ -42,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "811a9f03-69ae-45d1-8218-d9d937c5ed2b"
+        "projectId": "2a623e0b-9fe8-4236-b4d2-6bede84fb361"
       }
     }
   }

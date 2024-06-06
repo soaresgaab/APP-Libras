@@ -13,23 +13,16 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
-import { searchById } from '@/utils/axios/searchById';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
-import { Link } from 'expo-router';
 import { router } from 'expo-router';
-import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
 
 function AppWord() {
@@ -76,7 +69,7 @@ function AppWord() {
   }
 
   async function deleteData() {
-    // const result = await pushDeleteCategoryById(data);
+    // const 2result = await pushDeleteCategoryById(data);
     // console.log(result.status);
     setModalVisible(true);
   }
@@ -198,7 +191,7 @@ function AppWord() {
           fontWeight: 'bold',
         }}
       >
-        Criar Palavra
+        Criar uma Palavra
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 

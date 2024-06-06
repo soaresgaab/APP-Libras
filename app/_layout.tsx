@@ -109,9 +109,9 @@ function RootLayoutNav() {
             sceneContainerStyle: {
               backgroundColor: 'red',
             },
-            drawerContentStyle: {
-              backgroundColor: 'red',
-            },
+            // drawerContentStyle: {
+            //   backgroundColor: 'red',
+            // },
             drawerActiveBackgroundColor: '#e7503b',
             drawerStyle: {
               backgroundColor: '#F6F2DA',
@@ -128,35 +128,15 @@ function RootLayoutNav() {
             options={{
               drawerLabel: 'Página inicial',
               title: 'Página inicial',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => <Ionicons name="home" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
 
           <Drawer.Screen
-            name="(alfabeto)"
-            options={{
-              title: 'Alfabeto',
-              drawerLabel: 'Alfabeto',
-              drawerPosition: 'left',
-              drawerType: 'slide',
-              drawerIcon: () => <Ionicons name="cellular" size={20}></Ionicons>,
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
             name="(search)"
-            options={{
-              title: 'Atendimentos por Tipo',
-              drawerLabel: 'Atendimentos por Tipo',
-              drawerPosition: 'left',
-              drawerType: 'slide',
-              drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
-              drawerLabelStyle: { marginLeft: -15 },
-
-              drawerItemStyle: { height: 0 },
-            }}
+            options={{ drawerItemStyle: { display: 'none' } }}
           />
           <Drawer.Screen
             name="(edition)"
@@ -164,7 +144,7 @@ function RootLayoutNav() {
               title: 'editar categoria',
               drawerLabel: 'editar categoria',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
               drawerLabelStyle: { marginLeft: -15 },
             }}
@@ -173,9 +153,9 @@ function RootLayoutNav() {
             name="(editionwords)"
             options={{
               title: 'editar words',
-              drawerLabel: 'editar words',
+              drawerLabel: 'editar palavras',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="add-circle" size={20}></Ionicons>
               ),
@@ -188,9 +168,72 @@ function RootLayoutNav() {
               title: 'Enviar Sugestão',
               drawerLabel: 'Enviar Sugestão',
               drawerPosition: 'left',
-              drawerType: 'slide',
+              drawerType: 'front',
               drawerIcon: () => (
                 <Ionicons name="mail-unread" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(alfabeto)"
+            options={{
+              title: 'Alfabeto',
+              drawerLabel: 'Alfabeto',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="aperture-outline" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(saudacoes)"
+            options={{
+              title: 'Saudações',
+              drawerLabel: 'Saudações',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(sinais)"
+            options={{
+              title: 'sinais',
+              drawerLabel: 'sinais',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => <Ionicons name="apps" size={20}></Ionicons>,
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(numeros)"
+            options={{
+              title: 'Números',
+              drawerLabel: 'Números',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="mail-unread" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(auth)"
+            options={{
+              title: 'Login',
+              drawerLabel: 'Login',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="lock-closed" size={20}></Ionicons>
               ),
               drawerLabelStyle: { marginLeft: -15 },
             }}

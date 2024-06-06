@@ -25,14 +25,14 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '95%',
-    height: 95,
+    height: 140,
     alignSelf: 'center',
     borderRadius: 10,
   },
   div: {
     paddingTop: 25,
-    width: '35%',
-    height: 130,
+    width: '48%',
+    height: 180,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
@@ -52,55 +52,66 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
     <>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {<Image
-            style={styles.image}
-            source={require('../../assets/mock_image/sinais/amigo.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/sinais/amigo.png')}
+            ></Image>
+          }
           <Text style={styles.label}>Amigo</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/sinais/amizade.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/sinais/amizade.png')}
+            ></Image>
+          }
           <Text style={styles.label}>Amizade</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/sinais/amor.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/sinais/amor.png')}
+            ></Image>
+          }
           <Text style={styles.label}>Amor</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/sinais/casa.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/sinais/casa.png')}
+            ></Image>
+          }
           <Text style={styles.label}>Casa</Text>
         </Pressable>
       </View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/sinais/importante.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/sinais/importante.png')}
+            ></Image>
+          }
           <Text style={styles.label}>Importante</Text>
         </Pressable>
         <Pressable style={styles.div}>
-          { <Image
-            style={styles.image}
-            source={require('../../assets/mock_image/sinais/jesus.png')}
-          ></Image> }
+          {
+            <Image
+              style={styles.image}
+              source={require('../../assets/mock_image/sinais/jesus.png')}
+            ></Image>
+          }
           <Text style={styles.label}>Jesus</Text>
         </Pressable>
       </View>
-      
-      <View style={styles.container}>
-      </View>
+
+      <View style={styles.container}></View>
     </>
   );
 };

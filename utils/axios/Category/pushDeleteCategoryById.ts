@@ -9,7 +9,7 @@ export async function pushDeleteCategoryById(
     console.log(dataCategory);
     try {
       const data: AxiosResponse<any> = await axios.delete(
-        `https://ad84-170-233-149-18.ngrok-free.app/category/${dataCategory?._id}`,
+        `http://192.168.100.133:4002/category/${dataCategory?._id}`,
       );
       resolve(data);
     } catch (error) {
