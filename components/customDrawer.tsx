@@ -34,17 +34,37 @@ export default function CustomDrawerContent(props: any) {
 
   const token = useToken(props);
 
+  console.log(props.state.index + 'oi');
+
   useEffect(() => {
     const filterRoutes = () => {
-      console.log('entrou 2');
+      // console.log('entrou 2');
+      // console.log(props);
       if (token === null) {
         const filteredRoutes = props.state.routes.filter(
           (route: any) => !noAuth.includes(route.name),
         );
+        const filterRoutesNames = props.state.routeNames.filter(
+          (route: any) => !noAuth.includes(route),
+        );
+        const teste = Object.keys(props.descriptors)
+          .filter((key) => !noAuth.some((noAuthKey) => key.includes(noAuthKey)))
+          .reduce((obj: any, key: any) => {
+            obj[key] = props.descriptors[key];
+            return obj;
+          }, {});
+        // console.log(props.state.index);
         const newState = {
           ...props,
-          state: { ...props.state, routes: filteredRoutes },
+          descriptors: teste,
+          state: {
+            ...props.state,
+            index: props.state.index,
+            routeNames: filterRoutesNames,
+            routes: filteredRoutes,
+          },
         };
+        // console.log(newState);
         setLabel(null);
         setDataF(newState);
       } else {
@@ -57,6 +77,15 @@ export default function CustomDrawerContent(props: any) {
   }, [token]);
 
   const data2 = dataF || props;
+  console.log('data2:' + data2.state.index);
+  const data3 = {
+    ...data2,
+    state: {
+      ...data2.state,
+      index: props.state.index,
+    },
+  };
+  console.log('data3:' + data3.state.index);
   const label = labelLogout || 'Login';
 
   const handlePressLogin = () => {
@@ -70,7 +99,7 @@ export default function CustomDrawerContent(props: any) {
 
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...data2} style={{ marginTop: -15 }}>
+      <DrawerContentScrollView {...data3} style={{ marginTop: -15 }}>
         <View
           style={{
             paddingTop: 15,
@@ -109,7 +138,7 @@ export default function CustomDrawerContent(props: any) {
             30 sinais
           </Text>
         </View>
-        <DrawerItemList {...data2} />
+        <DrawerItemList {...data3} />
         {/* <DrawerItem label={'teste'} onPress={() => router.push('/')} />
         <DrawerItem label={'abelha'} onPress={() => AsyncStorage.clear()} /> */}
       </DrawerContentScrollView>

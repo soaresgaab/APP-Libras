@@ -1,5 +1,5 @@
 import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
-import { Link } from 'expo-router';
+import { Link, router } from 'expo-router';
 import { View } from '../Themed';
 
 const styles = StyleSheet.create({
@@ -51,7 +51,10 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
   return (
     <>
       <View style={styles.container}>
-        <Pressable style={styles.div}>
+        <Pressable
+          style={styles.div}
+          onPress={() => router.navigate('(sinais)/imageMock')}
+        >
           {
             <Image
               style={styles.image}

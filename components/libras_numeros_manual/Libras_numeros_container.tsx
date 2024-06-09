@@ -1,6 +1,17 @@
-import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
+import {
+  Image,
+  Text,
+  StyleSheet,
+  Button,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import { Link } from 'expo-router';
 import { View } from '../Themed';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 const styles = StyleSheet.create({
   container: {
@@ -25,14 +36,14 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '95%',
-    height: 140,
+    height: isTablet ? 207 : 140,
     alignSelf: 'center',
     borderRadius: 10,
   },
   div: {
     paddingTop: 25,
     width: '48%',
-    height: 180,
+    height: isTablet ? 250 : 180,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',

@@ -135,34 +135,6 @@ function RootLayoutNav() {
           />
 
           <Drawer.Screen
-            name="(search)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(edition)"
-            options={{
-              title: 'editar categoria',
-              drawerLabel: 'editar categoria',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(editionwords)"
-            options={{
-              title: 'editar words',
-              drawerLabel: 'editar palavras',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="add-circle" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
             name="(sendsuggestionn)"
             options={{
               title: 'Enviar Sugestão',
@@ -227,13 +199,33 @@ function RootLayoutNav() {
           />
           <Drawer.Screen
             name="(auth)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+
+          <Drawer.Screen
+            name="(search)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(edition)"
             options={{
-              title: 'Login',
-              drawerLabel: 'Login',
+              title: 'editar categoria',
+              drawerLabel: 'editar categoria',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(editionwords)"
+            options={{
+              title: 'editar words',
+              drawerLabel: 'editar palavras',
               drawerPosition: 'left',
               drawerType: 'front',
               drawerIcon: () => (
-                <Ionicons name="lock-closed" size={20}></Ionicons>
+                <Ionicons name="add-circle" size={20}></Ionicons>
               ),
               drawerLabelStyle: { marginLeft: -15 },
             }}

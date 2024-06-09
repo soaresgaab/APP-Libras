@@ -25,14 +25,14 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '95%',
-    height: 140,
+    height: '96%',
     alignSelf: 'center',
     borderRadius: 10,
   },
   div: {
     paddingTop: 25,
     width: '48%',
-    height: 180,
+    height: 350,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
