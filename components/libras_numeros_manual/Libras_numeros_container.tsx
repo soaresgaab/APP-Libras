@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Link } from 'expo-router';
 import { View } from '../Themed';
+import ImageModal from '@/module/Image-modal/index';
 
 const { width, height } = Dimensions.get('window');
 
@@ -15,7 +16,6 @@ const isTablet = width >= 768 && height >= 1024;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 25,
     backgroundColor: '#F6F2DA',
     flexDirection: 'row',
     alignItems: 'center',
@@ -35,15 +35,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: '95%',
-    height: isTablet ? 207 : 140,
+    width: isTablet ? 347 : 180,
+    height: isTablet ? 207 : 150,
     alignSelf: 'center',
     borderRadius: 10,
   },
   div: {
-    paddingTop: 25,
-    width: '48%',
-    height: isTablet ? 250 : 180,
+    paddingTop: 5,
+    paddingBottom: 5,
+    width: isTablet ? 370 : 200,
+    height: isTablet ? 290 : 220,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
@@ -61,22 +62,23 @@ const styles = StyleSheet.create({
 export const Libras_numeros_container = ({}): React.ReactNode => {
   return (
     <>
+      <View style={{ marginTop: 15 }}></View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero0.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>0</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero1.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>1</Text>
         </Pressable>
@@ -84,19 +86,19 @@ export const Libras_numeros_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero2.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>2</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero3.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>3</Text>
         </Pressable>
@@ -104,19 +106,19 @@ export const Libras_numeros_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero4.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>4</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero5.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>5</Text>
         </Pressable>
@@ -124,19 +126,19 @@ export const Libras_numeros_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero6.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>6</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero7.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>7</Text>
         </Pressable>
@@ -144,19 +146,19 @@ export const Libras_numeros_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero8.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>8</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/numeros/numero9.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>9</Text>
         </Pressable>
