@@ -109,6 +109,7 @@ export default function CustomDrawerContent(props: any) {
           <Text
             style={{
               marginTop: 10,
+              marginBottom: 15,
               alignSelf: 'center',
               textAlign: 'center',
               fontSize: 20,
@@ -116,26 +117,7 @@ export default function CustomDrawerContent(props: any) {
               fontWeight: 'bold',
             }}
           >
-            10 palavras
-          </Text>
-        </View>
-        <View
-          style={{
-            paddingTop: 3,
-            alignSelf: 'center',
-          }}
-        >
-          <Text
-            style={{
-              marginBottom: 10,
-              alignSelf: 'center',
-              textAlign: 'center',
-              fontSize: 20,
-              width: '75%',
-              fontWeight: 'bold',
-            }}
-          >
-            30 sinais
+            App Libras
           </Text>
         </View>
         <DrawerItemList {...data3} />
