@@ -184,7 +184,7 @@ function App() {
                         contentFit="cover"
                         placeholder={{ blurhash }}
                         transition={1000}
-                      />
+                      ></Image>
                     </View>
                     {editable && (
                       <Pressable

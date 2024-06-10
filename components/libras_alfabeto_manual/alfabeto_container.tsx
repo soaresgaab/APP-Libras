@@ -1,10 +1,22 @@
-import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
+import {
+  Image,
+  Text,
+  StyleSheet,
+  Button,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import { Link } from 'expo-router';
 import { View } from '../Themed';
+import ImageModal from '@/module/Image-modal/index';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 25,
+    paddingTop: 5,
     backgroundColor: '#F6F2DA',
     flexDirection: 'row',
     alignItems: 'center',
@@ -24,15 +36,16 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: '95%',
-    height: 140,
+    width: isTablet ? 300 : 180,
+    height: isTablet ? 310 : 180,
     alignSelf: 'center',
     borderRadius: 10,
   },
   div: {
-    paddingTop: 25,
-    width: '48%',
-    height: 180,
+    width: isTablet ? 350 : 195,
+    height: isTablet ? 380 : 240,
+    paddingBottom: 60,
+    paddingTop: 60,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
@@ -50,22 +63,23 @@ const styles = StyleSheet.create({
 export const AlfabetoContainer = ({}): React.ReactNode => {
   return (
     <>
+      <View style={{ marginTop: 15 }}></View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/a.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>A</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/b.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>B</Text>
         </Pressable>
@@ -73,19 +87,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/c.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>C</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/d.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>D</Text>
         </Pressable>
@@ -93,19 +107,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/e.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>E</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/f.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>F</Text>
         </Pressable>
@@ -113,19 +127,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/g.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>G</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/h.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>H</Text>
         </Pressable>
@@ -133,19 +147,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/i.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>I</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/j.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>J</Text>
         </Pressable>
@@ -153,19 +167,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/k.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>K</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/l.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>L</Text>
         </Pressable>
@@ -173,19 +187,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/m.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>M</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/n.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>N</Text>
         </Pressable>
@@ -193,19 +207,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/o.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>O</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/p.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>P</Text>
         </Pressable>
@@ -213,19 +227,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/q.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Q</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/r.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>R</Text>
         </Pressable>
@@ -233,19 +247,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/s.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>S</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/t.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>T</Text>
         </Pressable>
@@ -253,19 +267,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/u.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>U</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/v.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>V</Text>
         </Pressable>
@@ -273,19 +287,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/w.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>W</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/x.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>X</Text>
         </Pressable>
@@ -293,19 +307,19 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/y.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Y</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/alfabeto/z.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Z</Text>
         </Pressable>

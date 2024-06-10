@@ -29,6 +29,7 @@ export default function TabLayout() {
       }
     >
       <Stack.Screen name="index" options={{ headerShown: false }} />
+      <Stack.Screen name="imageMock" options={{ headerShown: false }} />
     </Stack>
   );
 }

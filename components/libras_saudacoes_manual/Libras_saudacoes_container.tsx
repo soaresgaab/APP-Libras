@@ -1,12 +1,18 @@
-import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
+import { Text, StyleSheet, Button, Pressable, Dimensions } from 'react-native';
 import { Link } from 'expo-router';
 import { View } from '../Themed';
+import ImageModal from '@/module/Image-modal/index';
+import { Image } from 'expo-image';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 const styles = StyleSheet.create({
   container: {
     paddingTop: 25,
     backgroundColor: '#F6F2DA',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
@@ -24,15 +30,21 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: '95%',
-    height: 95,
+    width: isTablet ? 580 : 360,
+    // height: 25,
+    flex: 1,
+    marginLeft: 0,
+    marginRight: 0,
     alignSelf: 'center',
-    borderRadius: 10,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   div: {
-    paddingTop: 25,
-    width: '48%',
-    height: 180,
+    paddingBottom: 40,
+    paddingTop: 40,
+    width: isTablet ? 700 : 370,
+    height: isTablet ? 340 : 240,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
@@ -40,6 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#e7503b',
+    alignItems: 'center',
   },
   logo: {
     width: 66,
@@ -50,22 +63,23 @@ const styles = StyleSheet.create({
 export const Libras_saudacoes_container = ({}): React.ReactNode => {
   return (
     <>
+      <View style={{ marginTop: 15 }}></View>
       <View style={styles.container}>
         <Pressable style={styles.div}>
-          {
-            <Image
-              style={styles.image}
-              source={require('../../assets/mock_image/saudacoes/boa_noite.png')}
-            ></Image>
-          }
+          <ImageModal
+            resizeMode="contain"
+            style={styles.image}
+            source={require('../../assets/mock_image/saudacoes/boa_noite.png')}
+          />
           <Text style={styles.label}>Boa noite</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
+              resizeMode="contain"
               style={styles.image}
               source={require('../../assets/mock_image/saudacoes/boa_tarde.png')}
-            ></Image>
+            />
           }
           <Text style={styles.label}>Boa tarde</Text>
         </Pressable>
@@ -73,19 +87,21 @@ export const Libras_saudacoes_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
+              resizeMode="contain"
               style={styles.image}
               source={require('../../assets/mock_image/saudacoes/bom_dia.png')}
-            ></Image>
+            />
           }
           <Text style={styles.label}>Bom dia</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
+              resizeMode="contain"
               style={styles.image}
               source={require('../../assets/mock_image/saudacoes/obrigado.png')}
-            ></Image>
+            />
           }
           <Text style={styles.label}>Obrigado</Text>
         </Pressable>
@@ -93,19 +109,21 @@ export const Libras_saudacoes_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
+              resizeMode="contain"
               style={styles.image}
               source={require('../../assets/mock_image/saudacoes/por_favor.png')}
-            ></Image>
+            />
           }
           <Text style={styles.label}>Por favor</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
+              resizeMode="contain"
               style={styles.image}
               source={require('../../assets/mock_image/saudacoes/tchau.png')}
-            ></Image>
+            />
           }
           <Text style={styles.label}>Tchau</Text>
         </Pressable>

@@ -1,5 +1,16 @@
-import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
+import {
+  Image,
+  Text,
+  StyleSheet,
+  Button,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import { Link } from 'expo-router';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 export const CoresButton = ({
   router,
@@ -39,13 +50,13 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: '70%',
-    height: 90,
+    width: isTablet ? '80%' : '70%',
+    height: isTablet ? 220 : 90,
     alignSelf: 'center',
   },
   div: {
     width: '70%',
-    height: 185,
+    height: isTablet ? 300 : 185,
     marginBottom: 30,
     borderRadius: 12,
     alignSelf: 'center',

@@ -1,12 +1,24 @@
-import { Image, Text, StyleSheet, Button, Pressable } from 'react-native';
-import { Link } from 'expo-router';
+import {
+  Image,
+  Text,
+  StyleSheet,
+  Button,
+  Pressable,
+  Dimensions,
+} from 'react-native';
+import { Link, router } from 'expo-router';
 import { View } from '../Themed';
+import ImageModal from '@/module/Image-modal/index';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 25,
+    // paddingTop: 25,
     backgroundColor: '#F6F2DA',
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
   },
@@ -24,15 +36,15 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: '95%',
-    height: 140,
+    width: isTablet ? 660 : 340,
+    height: isTablet ? 295 : 180,
     alignSelf: 'center',
     borderRadius: 10,
   },
   div: {
-    paddingTop: 25,
-    width: '48%',
-    height: 180,
+    paddingTop: 0,
+    width: isTablet ? 700 : 370,
+    height: isTablet ? 370 : 250,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
@@ -40,6 +52,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 1,
     borderColor: '#e7503b',
+    marginTop: 5,
   },
   logo: {
     width: 66,
@@ -50,22 +63,26 @@ const styles = StyleSheet.create({
 export const Libras_sinais_container = ({}): React.ReactNode => {
   return (
     <>
+      <View style={{ marginTop: 15 }}></View>
       <View style={styles.container}>
-        <Pressable style={styles.div}>
+        <Pressable
+          style={styles.div}
+          onPress={() => router.navigate('(sinais)/imageMock')}
+        >
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/sinais/amigo.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Amigo</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/sinais/amizade.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Amizade</Text>
         </Pressable>
@@ -73,19 +90,19 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/sinais/amor.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Amor</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/sinais/casa.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Casa</Text>
         </Pressable>
@@ -93,19 +110,19 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
       <View style={styles.container}>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/sinais/importante.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Importante</Text>
         </Pressable>
         <Pressable style={styles.div}>
           {
-            <Image
+            <ImageModal
               style={styles.image}
               source={require('../../assets/mock_image/sinais/jesus.png')}
-            ></Image>
+            ></ImageModal>
           }
           <Text style={styles.label}>Jesus</Text>
         </Pressable>
