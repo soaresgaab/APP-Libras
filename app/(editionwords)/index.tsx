@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, RefreshControl, View, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  RefreshControl,
+  View,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -13,6 +19,10 @@ import { TypeLibrasData } from '@/@types/LibrasData';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 function App() {
   const [option, setData] = useState({});
@@ -180,7 +190,7 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   div: {
-    width: '85%',
+    width: isTablet ? '85%' : '95%',
     height: 150,
     marginTop: 18,
     marginBottom: 20,
@@ -222,7 +232,7 @@ const styles = StyleSheet.create({
   },
   buttonEdit: {
     alignSelf: 'flex-end',
-    width: 134,
+    width: isTablet ? '40%' : '48%',
     paddingVertical: 12,
     alignItems: 'center',
     justifyContent: 'center',

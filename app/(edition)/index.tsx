@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, RefreshControl, View, Pressable } from 'react-native';
+import {
+  StyleSheet,
+  RefreshControl,
+  View,
+  Pressable,
+  Dimensions,
+} from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -11,6 +17,12 @@ import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeCategory } from '@/@types/Category';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 function App() {
   const [option, setData] = useState({});
@@ -75,7 +87,7 @@ function App() {
       </Pressable>
       <CreateButton router="add" label="+ Incluir Categoria"></CreateButton>
       {data?.map((category, index) => (
-        <Pressable key={index} onPress={() => routePush(category._id)}>
+        <Pressable key={index}>
           <View style={styles.div}>
             <Text style={styles.labelCategory}>{category.nameCategory}</Text>
             <View style={styles.borda}></View>
@@ -84,6 +96,38 @@ function App() {
                 {category.descriptionCategory}
               </Text>
             </ScrollView>
+            <View style={styles.divButton}>
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? '#fcce9b' : '#e7d75d',
+                  },
+                  styles.buttonEdit,
+                ]}
+                onPress={() => {
+                  routePush(category._id);
+                }}
+              >
+                <Text
+                  style={{
+                    alignSelf: 'center',
+                    textAlign: 'center',
+                    fontSize: 20,
+                    width: '65%',
+                    fontWeight: 'bold',
+                    color: 'black',
+                  }}
+                >
+                  Editar
+                </Text>
+                <Feather
+                  style={styles.iconEditDescription}
+                  name="edit"
+                  size={27}
+                  color="black"
+                />
+              </Pressable>
+            </View>
           </View>
         </Pressable>
       ))}
@@ -108,6 +152,18 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
+  divButton: {
+    // marginTop: 3,
+    alignSelf: 'center',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '75%',
+    height: 60,
+    fontWeight: 'bold',
+    color: 'white',
+    // backgroundColor: 'blue',
+  },
   labelDescription: {
     alignSelf: 'center',
     textAlign: 'justify',
@@ -116,8 +172,8 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   div: {
-    width: '80%',
-    height: 140,
+    width: isTablet ? '80%' : '95%',
+    height: 240,
     marginTop: 18,
     marginBottom: 20,
     borderRadius: 12,
@@ -129,7 +185,7 @@ const styles = StyleSheet.create({
   },
   divDescription: {
     width: '98%',
-    height: 220,
+    height: 2,
     marginTop: 3,
     marginBottom: 5,
     borderRadius: 12,
@@ -152,6 +208,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     marginRight: '5%',
+  },
+  buttonEdit: {
+    alignSelf: 'center',
+    width: isTablet ? '40%' : '48%',
+    paddingVertical: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    flexDirection: 'row',
+    alignContent: 'center',
+  },
+  iconEditDescription: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontWeight: 'bold',
+    color: 'black',
   },
 });
 
