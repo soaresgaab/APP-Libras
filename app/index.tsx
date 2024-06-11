@@ -55,7 +55,7 @@ function App() {
       {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> */}
       <CoresButton router={'(saudacoes)'} label={'Saudações'} />
       <CoresButton router={'(sinais)'} label={'Sinais'} />
-      <CoresButton router={'/'} label={'Cumprimentos'} />
+      {/* <CoresButton router={'/'} label={'Cumprimentos'} /> */}
     </ScrollView>
   );
 }

@@ -6,7 +6,6 @@ const useToken = (dependency?: any) => {
 
   useEffect(() => {
     const getToken = async () => {
-      // console.log('entrou 3');
       const storedToken = await AsyncStorage.getItem('token');
       setToken(storedToken);
     };

@@ -11,6 +11,9 @@ export async function GetToken(DataAuth?: TypeUser): Promise<AxiosResponse> {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        validateStatus: function (status: number) {
+          return status < 500;
+        },
       };
 
       const data: AxiosResponse<any> = await axios.post(
