@@ -23,17 +23,22 @@ const App = () => {
     password: '',
   });
   const [refreshing, setRefreshing] = useState(false);
+  const [error, setError] = useState('');
   useEffect(() => {});
 
   async function submitData() {
     const response = await GetToken(DataUser);
-    await AsyncStorage.multiSet([
-      ['token', response.data.token],
-      ['user', response.data.user],
-    ]);
+    console.log(response);
+
     if (response.status === 201) {
+      await AsyncStorage.multiSet([
+        ['token', response.data.token],
+        ['user', response.data.user],
+      ]);
       router.navigate('/');
     }
+    setError('Usuário ou senha incorretos.');
+    setTimeout(() => setError(''), 3000); // Limpar erro após 3 segundos
   }
 
   async function handleInput(text: string, field: string) {
@@ -121,7 +126,19 @@ const App = () => {
           }}
         ></TextInput>
       </View>
-
+      {error ? (
+        <Text
+          style={{
+            color: 'red',
+            justifyContent: 'center',
+            alignSelf: 'center',
+            marginTop: 15,
+            fontSize: 22,
+          }}
+        >
+          {error}
+        </Text>
+      ) : null}
       <Pressable
         style={({ pressed }) => [
           {

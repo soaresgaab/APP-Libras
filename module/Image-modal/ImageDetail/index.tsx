@@ -1,4 +1,9 @@
-import React, { ReactNode, forwardRef, useImperativeHandle, useRef } from 'react';
+import React, {
+  ReactNode,
+  forwardRef,
+  useImperativeHandle,
+  useRef,
+} from 'react';
 import {
   StyleSheet,
   View,
@@ -107,7 +112,8 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
     }: Props,
     ref,
   ) => {
-    const { width: windowWidth, height: windowHeight } = Dimensions.get('window');
+    const { width: windowWidth, height: windowHeight } =
+      Dimensions.get('window');
     const _scale = useRef(INITIAL_SCALE);
     const _animatedScale = new Animated.Value(INITIAL_SCALE);
     const _animatedPosition = new Animated.ValueXY({ x: 0, y: 0 });
@@ -141,7 +147,9 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
       });
     };
 
-    const handlePanResponderReleaseResolve = (changedTouchesCount: number): void => {
+    const handlePanResponderReleaseResolve = (
+      changedTouchesCount: number,
+    ): void => {
       // When image is zoomed out and finger is released,
       // Move image position to the center of the screen.
       if (_scale.current < INITIAL_SCALE) {
@@ -160,7 +168,8 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
       // When image is zoomed in and finger is released,
       // Move image position
       if (_scale.current > INITIAL_SCALE) {
-        const verticalMax = (windowHeight * _scale.current - windowHeight) / 2 / _scale.current;
+        const verticalMax =
+          (windowHeight * _scale.current - windowHeight) / 2 / _scale.current;
         let { x: positionX, y: positionY } = _position.current;
         if (positionY < -verticalMax) {
           positionY = -verticalMax;
@@ -168,7 +177,8 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
           positionY = verticalMax;
         }
 
-        const horizontalMax = (windowWidth * _scale.current - windowWidth) / 2 / _scale.current;
+        const horizontalMax =
+          (windowWidth * _scale.current - windowWidth) / 2 / _scale.current;
         if (positionX < -horizontalMax) {
           positionX = -horizontalMax;
         } else if (positionX > horizontalMax) {
@@ -241,10 +251,12 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
       // Calculate center diff for pinch to zoom
       if (event.nativeEvent.changedTouches.length > 1) {
         const centerX =
-          (event.nativeEvent.changedTouches[0].pageX + event.nativeEvent.changedTouches[1].pageX) /
+          (event.nativeEvent.changedTouches[0].pageX +
+            event.nativeEvent.changedTouches[1].pageX) /
           2;
         const centerY =
-          (event.nativeEvent.changedTouches[0].pageY + event.nativeEvent.changedTouches[1].pageY) /
+          (event.nativeEvent.changedTouches[0].pageY +
+            event.nativeEvent.changedTouches[1].pageY) /
           2;
         _centerDiff.current = {
           x: centerX - windowWidth / 2,
@@ -264,7 +276,10 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
 
       // Double tap to zoom
       if (event.nativeEvent.changedTouches.length <= 1) {
-        if (new Date().getTime() - _lastClickTime.current < (DOUBLE_CLICK_INTERVAL || 0)) {
+        if (
+          new Date().getTime() - _lastClickTime.current <
+          (DOUBLE_CLICK_INTERVAL || 0)
+        ) {
           _lastClickTime.current = 0;
           onDoubleTap?.();
 
@@ -282,13 +297,16 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
             _scale.current = INITIAL_SCALE;
             _position.current = { x: 0, y: 0 };
           } else {
-            const { x: doubleClickX, y: doubleClickY } = _doubleClickPosition.current;
+            const { x: doubleClickX, y: doubleClickY } =
+              _doubleClickPosition.current;
             const beforeScale = _scale.current;
             _scale.current = 2;
 
             const diffScale = _scale.current - beforeScale;
-            const x = ((windowWidth / 2 - doubleClickX) * diffScale) / _scale.current;
-            const y = ((windowHeight / 2 - doubleClickY) * diffScale) / _scale.current;
+            const x =
+              ((windowWidth / 2 - doubleClickX) * diffScale) / _scale.current;
+            const y =
+              ((windowHeight / 2 - doubleClickY) * diffScale) / _scale.current;
             _position.current = {
               x,
               y,
@@ -374,7 +392,8 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
           let x = _position.current.x;
           x += diffX / _scale.current;
 
-          const horizontalMax = (windowWidth * _scale.current - windowWidth) / 2 / _scale.current;
+          const horizontalMax =
+            (windowWidth * _scale.current - windowWidth) / 2 / _scale.current;
           if (x < -horizontalMax) {
             x = -horizontalMax;
             _horizontalWholeOuterCounter.current += -1 / 1e10;
@@ -390,7 +409,9 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
 
         if (_horizontalWholeOuterCounter.current > (MAX_OVERFLOW || 0)) {
           _horizontalWholeOuterCounter.current = MAX_OVERFLOW || 0;
-        } else if (_horizontalWholeOuterCounter.current < -(MAX_OVERFLOW || 0)) {
+        } else if (
+          _horizontalWholeOuterCounter.current < -(MAX_OVERFLOW || 0)
+        ) {
           _horizontalWholeOuterCounter.current = -(MAX_OVERFLOW || 0);
         }
 
@@ -439,7 +460,8 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
         _zoomCurrentDistance.current = Number(diagonalDistance.toFixed(1));
         if (_zoomLastDistance.current !== INITIAL_ZOOM_DISTANCE) {
           // Update zoom
-          const distanceDiff = (_zoomCurrentDistance.current - _zoomLastDistance.current) / 200;
+          const distanceDiff =
+            (_zoomCurrentDistance.current - _zoomLastDistance.current) / 200;
           let zoom = _scale.current + distanceDiff;
           if (zoom < MIN_SCALE) {
             zoom = MIN_SCALE;
@@ -470,7 +492,11 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
         _longPressTimeout.current = undefined;
       }
 
-      if (_isDoubleClick.current || _isLongPress.current || _isAnimated.current) {
+      if (
+        _isDoubleClick.current ||
+        _isLongPress.current ||
+        _isAnimated.current
+      ) {
         return;
       }
 
@@ -479,13 +505,18 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
       );
       const { locationX, locationY, pageX, pageY } = event.nativeEvent;
 
-      if (event.nativeEvent.changedTouches.length === 1 && moveDistance < CLICK_DISTANCE) {
+      if (
+        event.nativeEvent.changedTouches.length === 1 &&
+        moveDistance < CLICK_DISTANCE
+      ) {
         _singleClickTimeout.current = setTimeout(() => {
           onTap?.({ locationX, locationY, pageX, pageY });
         }, DOUBLE_CLICK_INTERVAL);
       } else {
         responderRelease?.(gestureState.vx, _scale.current);
-        handlePanResponderReleaseResolve(event.nativeEvent.changedTouches.length);
+        handlePanResponderReleaseResolve(
+          event.nativeEvent.changedTouches.length,
+        );
       }
     };
 
@@ -503,10 +534,22 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
         willClose?.();
 
         Animated.parallel([
-          Animated.timing(_animatedScale, { toValue: INITIAL_SCALE, useNativeDriver: false }),
-          Animated.timing(_animatedPosition, { toValue: 0, useNativeDriver: false }),
-          Animated.timing(_animatedOpacity, { toValue: windowHeight, useNativeDriver: false }),
-          Animated.spring(_animatedFrame, { toValue: 0, useNativeDriver: false }),
+          Animated.timing(_animatedScale, {
+            toValue: INITIAL_SCALE,
+            useNativeDriver: false,
+          }),
+          Animated.timing(_animatedPosition, {
+            toValue: 0,
+            useNativeDriver: false,
+          }),
+          Animated.timing(_animatedOpacity, {
+            toValue: windowHeight,
+            useNativeDriver: false,
+          }),
+          Animated.spring(_animatedFrame, {
+            toValue: 0,
+            useNativeDriver: false,
+          }),
         ]).start(() => {
           onClose();
           _isAnimated.current = false;
@@ -620,7 +663,9 @@ const ImageDetail = forwardRef<ImageDetail, Props>(
           animatedOpacity={_animatedOpacity}
           onClose={handleClose}
         >
-          {typeof renderHeader === 'function' ? renderHeader(handleClose) : undefined}
+          {typeof renderHeader === 'function'
+            ? renderHeader(handleClose)
+            : undefined}
         </Header>
         {typeof renderFooter === 'function' && (
           <Footer

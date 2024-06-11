@@ -119,12 +119,12 @@ function App() {
           >
             {`Confira alguns significados para a palavra "${slug}" e seus respectivos sinais`}
           </Text>
-          <Pressable
+          {/* <Pressable
             style={{
               width: '100%',
             }}
             onPress={() => {
-              setEditable(!editable);
+              // setEditable(!editable);
               console.log(updatedData);
             }}
           >
@@ -142,7 +142,7 @@ function App() {
               {' '}
               Editar
             </Text>
-          </Pressable>
+          </Pressable> */}
         </>
       )}
 

@@ -34,12 +34,8 @@ export default function CustomDrawerContent(props: any) {
 
   const token = useToken(props);
 
-  console.log(props.state.index + 'oi');
-
   useEffect(() => {
     const filterRoutes = () => {
-      // console.log('entrou 2');
-      // console.log(props);
       if (token === null) {
         const filteredRoutes = props.state.routes.filter(
           (route: any) => !noAuth.includes(route.name),
@@ -53,7 +49,6 @@ export default function CustomDrawerContent(props: any) {
             obj[key] = props.descriptors[key];
             return obj;
           }, {});
-        // console.log(props.state.index);
         const newState = {
           ...props,
           descriptors: teste,
@@ -77,7 +72,6 @@ export default function CustomDrawerContent(props: any) {
   }, [token]);
 
   const data2 = dataF || props;
-  console.log('data2:' + data2.state.index);
   const data3 = {
     ...data2,
     state: {
@@ -85,7 +79,6 @@ export default function CustomDrawerContent(props: any) {
       index: props.state.index,
     },
   };
-  console.log('data3:' + data3.state.index);
   const label = labelLogout || 'Login';
 
   const handlePressLogin = () => {
@@ -109,6 +102,7 @@ export default function CustomDrawerContent(props: any) {
           <Text
             style={{
               marginTop: 10,
+              marginBottom: 15,
               alignSelf: 'center',
               textAlign: 'center',
               fontSize: 20,
@@ -116,26 +110,7 @@ export default function CustomDrawerContent(props: any) {
               fontWeight: 'bold',
             }}
           >
-            10 palavras
-          </Text>
-        </View>
-        <View
-          style={{
-            paddingTop: 3,
-            alignSelf: 'center',
-          }}
-        >
-          <Text
-            style={{
-              marginBottom: 10,
-              alignSelf: 'center',
-              textAlign: 'center',
-              fontSize: 20,
-              width: '75%',
-              fontWeight: 'bold',
-            }}
-          >
-            30 sinais
+            App Libras
           </Text>
         </View>
         <DrawerItemList {...data3} />

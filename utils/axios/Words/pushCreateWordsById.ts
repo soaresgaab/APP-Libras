@@ -12,7 +12,7 @@ export async function pushCreateWordById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.post(
-        `http://192.168.100.133:4002/word/`,
+        `https://libras.helpdesk-maraba.cloud/word/`,
         dataWord,
       );
       resolve(data);

@@ -17,7 +17,11 @@ interface Props {
   children: ReactNode;
 }
 
-const Footer = ({ renderToHardwareTextureAndroid, animatedOpacity, children }: Props) => {
+const Footer = ({
+  renderToHardwareTextureAndroid,
+  animatedOpacity,
+  children,
+}: Props) => {
   const { height: windowHeight } = Dimensions.get('window');
 
   return (
