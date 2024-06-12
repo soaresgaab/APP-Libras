@@ -18,7 +18,7 @@ export const RenderLeftHeader = ({
 
   return (
     <Pressable style={styles.container} onPress={() => openDrawer()}>
-      <Entypo name="list" size={isTablet ? 60 : 40} color={color} />
+      <Entypo name="list" size={isTablet ? 50 : 40} color={color} />
     </Pressable>
   );
 };

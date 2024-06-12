@@ -69,7 +69,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/a.png')}
+              source={require('../../assets/mock_image/alfabeto/a.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>A</Text>
@@ -78,7 +78,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/b.png')}
+              source={require('../../assets/mock_image/alfabeto/b.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>B</Text>
@@ -89,7 +89,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/c.png')}
+              source={require('../../assets/mock_image/alfabeto/c.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>C</Text>
@@ -98,7 +98,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/d.png')}
+              source={require('../../assets/mock_image/alfabeto/d.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>D</Text>
@@ -109,7 +109,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/e.png')}
+              source={require('../../assets/mock_image/alfabeto/e.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>E</Text>
@@ -118,7 +118,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/f.png')}
+              source={require('../../assets/mock_image/alfabeto/f.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>F</Text>
@@ -129,7 +129,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/g.png')}
+              source={require('../../assets/mock_image/alfabeto/g.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>G</Text>
@@ -138,7 +138,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/h.png')}
+              source={require('../../assets/mock_image/alfabeto/h.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>H</Text>
@@ -149,7 +149,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/i.png')}
+              source={require('../../assets/mock_image/alfabeto/i.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>I</Text>
@@ -158,7 +158,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/j.png')}
+              source={require('../../assets/mock_image/alfabeto/j.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>J</Text>
@@ -169,7 +169,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/k.png')}
+              source={require('../../assets/mock_image/alfabeto/k.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>K</Text>
@@ -178,7 +178,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/l.png')}
+              source={require('../../assets/mock_image/alfabeto/l.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>L</Text>
@@ -189,7 +189,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/m.png')}
+              source={require('../../assets/mock_image/alfabeto/m.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>M</Text>
@@ -198,7 +198,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/n.png')}
+              source={require('../../assets/mock_image/alfabeto/n.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>N</Text>
@@ -209,7 +209,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/o.png')}
+              source={require('../../assets/mock_image/alfabeto/o.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>O</Text>
@@ -218,7 +218,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/p.png')}
+              source={require('../../assets/mock_image/alfabeto/p.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>P</Text>
@@ -229,7 +229,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/q.png')}
+              source={require('../../assets/mock_image/alfabeto/q.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>Q</Text>
@@ -238,7 +238,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/r.png')}
+              source={require('../../assets/mock_image/alfabeto/r.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>R</Text>
@@ -249,7 +249,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/s.png')}
+              source={require('../../assets/mock_image/alfabeto/s.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>S</Text>
@@ -258,7 +258,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/t.png')}
+              source={require('../../assets/mock_image/alfabeto/t.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>T</Text>
@@ -269,7 +269,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/u.png')}
+              source={require('../../assets/mock_image/alfabeto/u.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>U</Text>
@@ -278,7 +278,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/v.png')}
+              source={require('../../assets/mock_image/alfabeto/v.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>V</Text>
@@ -289,7 +289,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/w.png')}
+              source={require('../../assets/mock_image/alfabeto/w.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>W</Text>
@@ -298,7 +298,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/x.png')}
+              source={require('../../assets/mock_image/alfabeto/x.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>X</Text>
@@ -309,7 +309,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/y.png')}
+              source={require('../../assets/mock_image/alfabeto/y.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>Y</Text>
@@ -318,7 +318,7 @@ export const AlfabetoContainer = ({}): React.ReactNode => {
           {
             <ImageModal
               style={styles.image}
-              source={require('../../assets/mock_image/alfabeto/z.png')}
+              source={require('../../assets/mock_image/alfabeto/z.jpg')}
             ></ImageModal>
           }
           <Text style={styles.label}>Z</Text>
