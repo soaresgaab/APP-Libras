@@ -20,11 +20,14 @@ import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
 import { initialStateDataLibrasReducer } from '../../utils/reducer/DataLibrasReducer';
 import * as ImagePicker from 'expo-image-picker';
 import { Foundation } from '@expo/vector-icons';
+import ImageModal, { ImageDetail } from '@/module/Image-modal';
 
 function App() {
   const [base64Image, setBase64Image] = useState('');
   const [data, setData] = useState<TypeLibrasData[]>();
   const [editable, setEditable] = useState<boolean>(false);
+  const [noData, setNoData] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [updatedData, dispatchUpdateData] = useReducer(
     DataLibrasReducer,
     initialStateDataLibrasReducer,
@@ -76,9 +79,13 @@ function App() {
   };
 
   async function searchData() {
-    const response = await searchAxiosGetWords(slug);
+    setLoading(true);
+    const response = await searchAxiosGetWords(slug).finally(() => {
+      setLoading(false);
+    });
     setConfirmData(response.data);
-    if (response!.data) {
+    const data: [] = response.data;
+    if (response!.data && data.length > 0) {
       response!.data.map((item: TypeLibrasData) => {
         dispatchUpdateData({
           type: 'added',
@@ -86,7 +93,9 @@ function App() {
         });
       });
       setData(response!.data);
+      return;
     }
+    setNoData(true);
   }
 
   useEffect(() => {
@@ -176,15 +185,12 @@ function App() {
                 (item2: Partial<TypeLibrasDataSinais>, innerindex: number) => (
                   <View key={`outer_${index}${innerindex}`}>
                     <View>
-                      <Image
+                      <ImageModal
                         style={styles.image}
                         source={{
                           uri: `data:image/jpeg;base64,${item2.src}`,
                         }}
-                        contentFit="cover"
-                        placeholder={{ blurhash }}
-                        transition={1000}
-                      ></Image>
+                      ></ImageModal>
                     </View>
                     {editable && (
                       <Pressable
@@ -202,58 +208,93 @@ function App() {
                       </Pressable>
                     )}
                     {/* aki msm  */}
-                    <TextInput
-                      editable={editable}
-                      key={index}
-                      style={
-                        editable ? styles.inputCategory : styles.inputDisabled2
-                      }
-                      value={item2.category?.nameCategory}
-                      onChangeText={(text) => {
-                        dispatchUpdateData({
-                          type: 'changed2',
-                          payload: {
-                            _id: item._id,
-                            nameWord: item.nameWord,
-                            wordDefinitions: [
-                              {
-                                ...item2,
-                                _id: item2._id!,
-                                category: {
-                                  ...item2.category!,
-                                  nameCategory: text,
-                                },
-                              },
-                            ],
-                          },
-                        });
-                      }}
-                    ></TextInput>
-
-                    <Text
+                    <View
                       style={{
-                        marginTop: 10,
+                        backgroundColor: '#F2D4B0',
+                        width: '85%',
+                        height: 100,
                         alignSelf: 'center',
-                        textAlign: 'center',
-                        fontSize: 20,
-                        width: '75%',
-                        fontStyle: 'italic',
-                        fontWeight: 'bold',
+                        marginTop: 15,
+                        borderRadius: 15,
                       }}
                     >
-                      {item2.descriptionWordDefinition !== null
-                        ? item2.descriptionWordDefinition
-                        : 'oi'}
-                    </Text>
+                      <TextInput
+                        editable={editable}
+                        key={index}
+                        style={
+                          editable
+                            ? styles.inputCategory
+                            : styles.inputDisabled2
+                        }
+                        value={item2.category?.nameCategory}
+                        onChangeText={(text) => {
+                          dispatchUpdateData({
+                            type: 'changed2',
+                            payload: {
+                              _id: item._id,
+                              nameWord: item.nameWord,
+                              wordDefinitions: [
+                                {
+                                  ...item2,
+                                  _id: item2._id!,
+                                  category: {
+                                    ...item2.category!,
+                                    nameCategory: text,
+                                  },
+                                },
+                              ],
+                            },
+                          });
+                        }}
+                      ></TextInput>
+
+                      <Text
+                        style={{
+                          marginTop: 10,
+                          alignSelf: 'center',
+                          textAlign: 'center',
+                          fontSize: 20,
+                          width: '75%',
+                          fontStyle: 'italic',
+                          fontWeight: 'bold',
+                        }}
+                      >
+                        {item2.descriptionWordDefinition !== null
+                          ? item2.descriptionWordDefinition
+                          : 'oi'}
+                      </Text>
+                    </View>
+
                     <View style={styles.borda}></View>
                   </View>
                 ),
               )}
           </View>
         ))}
-      {updatedData.length === 0 && (
+      {updatedData.length === 0 && noData && (
         <NoResultsComponent slug={slug}></NoResultsComponent>
       )}
+      {loading && (
+        <Text
+          style={{
+            marginTop: 30,
+            alignSelf: 'center',
+            textAlign: 'center',
+            fontSize: 20,
+            width: '95%',
+          }}
+        >
+          {' '}
+          Buscando informações sobre a palavra
+        </Text>
+      )}
+      {/* <Pressable
+        onPress={() => {
+          console.log(noData, updatedData.length);
+        }}
+      >
+        <Text>oiii</Text>
+      </Pressable> */}
     </ScrollView>
   );
 }
@@ -327,7 +368,7 @@ const styles = StyleSheet.create({
   },
 
   inputDisabled2: {
-    marginTop: 22,
+    marginTop: 10,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 25,

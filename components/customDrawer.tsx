@@ -12,6 +12,7 @@ import {
   Pressable,
   StyleSheet,
   BackHandler,
+  Dimensions,
 } from 'react-native';
 import {
   SafeAreaInsetsContext,
@@ -23,6 +24,12 @@ import { Link, useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
 import useToken from '@/hooks/getToken';
+import imageLogo from '@/assets/images/logoNoBackground.png';
+import ImageModal from '@/module/Image-modal';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 export default function CustomDrawerContent(props: any) {
   const { colors } = useTheme();
@@ -95,22 +102,32 @@ export default function CustomDrawerContent(props: any) {
       <DrawerContentScrollView {...data3} style={{ marginTop: -15 }}>
         <View
           style={{
-            paddingTop: 15,
+            paddingTop: 5,
             alignSelf: 'center',
           }}
         >
+          <ImageModal
+            disabled={true}
+            style={{
+              width: isTablet ? 160 : 120,
+              height: isTablet ? 160 : 120,
+              alignSelf: 'center',
+              borderRadius: 10,
+            }}
+            source={imageLogo}
+          ></ImageModal>
           <Text
             style={{
-              marginTop: 10,
-              marginBottom: 15,
+              marginTop: 0,
+              marginBottom: 10,
               alignSelf: 'center',
               textAlign: 'center',
               fontSize: 20,
               width: '75%',
-              fontWeight: 'bold',
+              fontWeight: '900',
             }}
           >
-            App Libras
+            ParáLibras
           </Text>
         </View>
         <DrawerItemList {...data3} />

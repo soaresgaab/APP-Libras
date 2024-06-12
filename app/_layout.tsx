@@ -13,6 +13,10 @@ import { Drawer } from 'expo-router/drawer';
 import { Dimensions } from 'react-native';
 import CustomDrawerContent from '@/components/customDrawer';
 import { RenderHeader } from '@/components/libras_componentes/image-header';
+import { Entypo } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useColorScheme } from '@/components/useColorScheme';
 
@@ -94,7 +98,7 @@ function RootLayoutNav() {
             headerTitleStyle: {
               // backgroundColor: 'red',
               paddingHorizontal: 0,
-              fontSize: 15,
+              fontSize: 18,
             },
             headerTitleContainerStyle: {
               paddingHorizontal: '0%',
@@ -107,7 +111,7 @@ function RootLayoutNav() {
               // marginHorizontal: '10%',
             },
             sceneContainerStyle: {
-              backgroundColor: 'red',
+              // backgroundColor: 'red',
             },
             // drawerContentStyle: {
             //   backgroundColor: 'red',
@@ -116,6 +120,9 @@ function RootLayoutNav() {
             drawerStyle: {
               backgroundColor: '#F6F2DA',
             },
+            // drawerLabelStyle: {
+            //   fontSize: 25,
+            // },
             drawerActiveTintColor: 'black',
             // freezeOnBlur: false,
             // overlayColor: 'red',
@@ -155,7 +162,24 @@ function RootLayoutNav() {
               drawerPosition: 'left',
               drawerType: 'front',
               drawerIcon: () => (
-                <Ionicons name="aperture-outline" size={20}></Ionicons>
+                <MaterialCommunityIcons
+                  name="format-letter-case"
+                  size={24}
+                  color="black"
+                />
+              ),
+              drawerLabelStyle: { marginLeft: -18 },
+            }}
+          />
+          <Drawer.Screen
+            name="(expregional)"
+            options={{
+              title: 'Expressões Regionais',
+              drawerLabel: 'Expressões Regionais',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
               ),
               drawerLabelStyle: { marginLeft: -15 },
             }}
@@ -176,11 +200,13 @@ function RootLayoutNav() {
           <Drawer.Screen
             name="(sinais)"
             options={{
-              title: 'sinais',
-              drawerLabel: 'sinais',
+              title: 'Sinais',
+              drawerLabel: 'Sinais',
               drawerPosition: 'left',
               drawerType: 'front',
-              drawerIcon: () => <Ionicons name="apps" size={20}></Ionicons>,
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
+              ),
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
@@ -192,9 +218,22 @@ function RootLayoutNav() {
               drawerPosition: 'left',
               drawerType: 'front',
               drawerIcon: () => (
-                <Ionicons name="mail-unread" size={20}></Ionicons>
+                <Octicons name="number" size={20} color="black" />
               ),
-              drawerLabelStyle: { marginLeft: -15 },
+              drawerLabelStyle: { marginLeft: -9 },
+            }}
+          />
+          <Drawer.Screen
+            name="(matematica)"
+            options={{
+              title: 'Matamática',
+              drawerLabel: 'Matemática',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Octicons name="number" size={20} color="black" />
+              ),
+              drawerLabelStyle: { marginLeft: -9 },
             }}
           />
           <Drawer.Screen
@@ -209,25 +248,34 @@ function RootLayoutNav() {
           <Drawer.Screen
             name="(edition)"
             options={{
-              title: 'editar categoria',
-              drawerLabel: 'editar categoria',
+              title: 'Editar categoria',
+              drawerLabel: 'Editar categoria',
               drawerPosition: 'left',
               drawerType: 'front',
-              drawerIcon: () => <Ionicons name="compass" size={20}></Ionicons>,
+              drawerIcon: () => <Feather name="edit" size={20} color="black" />,
               drawerLabelStyle: { marginLeft: -15 },
             }}
           />
           <Drawer.Screen
             name="(editionwords)"
             options={{
-              title: 'editar words',
-              drawerLabel: 'editar palavras',
+              title: 'Editar words',
+              drawerLabel: 'Editar palavras',
               drawerPosition: 'left',
               drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="add-circle" size={20}></Ionicons>
-              ),
+              drawerIcon: () => <Feather name="edit" size={20} color="black" />,
               drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(viewsugesstion)"
+            options={{
+              title: 'Vizualizar sugestões',
+              drawerLabel: 'Vizualizar sugestões',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => <Entypo name="list" size={25} color="black" />,
+              drawerLabelStyle: { marginLeft: -19 },
             }}
           />
         </Drawer>

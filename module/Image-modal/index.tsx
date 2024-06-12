@@ -178,6 +178,7 @@ const ImageModal = ({
             <Image
               source={source}
               style={style}
+              placeholder={{ uri: 'https://placehold.co/500x400' }}
               // resizeMode={resizeMode}
             />
           )}

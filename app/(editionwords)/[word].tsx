@@ -30,6 +30,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
+import { pushDeleteWordById } from '@/utils/axios/Words/pushDeleteWordById';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -75,8 +76,8 @@ function AppWord() {
   }
 
   async function deleteData() {
-    // const result = await pushDeleteCategoryById(data);
-    // console.log(result.status);
+    const result = await pushDeleteWordById(data);
+    console.log(result.status);
     setModalVisible(true);
   }
   async function deleteDataSignal(id: number | undefined) {

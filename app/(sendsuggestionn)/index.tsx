@@ -8,7 +8,6 @@ import {
   Button,
   Modal,
 } from 'react-native';
-import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
@@ -22,15 +21,13 @@ import { Link } from 'expo-router';
 import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
 import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
-import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
+import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -60,14 +57,14 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushCreateWordById(data);
+    const result = await pushCreateSuggestionById(data);
     console.log(result.data);
     setModalVisible(true);
   }
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(editionwords)',
+      pathname: '/',
     });
   }
 
@@ -188,10 +185,10 @@ function AppWord() {
     >
       <Text
         style={{
-          marginTop: 100,
+          marginTop: 110,
           alignSelf: 'center',
           textAlign: 'center',
-          fontSize: 20,
+          fontSize: 25,
           width: '85%',
           fontStyle: 'italic',
           fontWeight: 'bold',
