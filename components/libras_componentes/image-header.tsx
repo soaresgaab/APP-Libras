@@ -1,4 +1,8 @@
-import { Image, Text, StyleSheet } from 'react-native';
+import { Image, Text, StyleSheet, Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 export const RenderHeader = (): React.ReactNode => {
   // Aqui você pode construir sua lógica para renderizar o header
@@ -12,12 +16,12 @@ export const RenderHeader = (): React.ReactNode => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 25,
+    paddingTop: 0,
   },
   tinyLogo: {
-    width: 130,
-    height: 80,
-    marginTop: -18,
+    width: isTablet ? 180 : 130,
+    height: isTablet ? 130 : 80,
+    marginTop: isTablet ? -75 : -15,
   },
   logo: {
     width: 66,

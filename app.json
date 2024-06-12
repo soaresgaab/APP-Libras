@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "App Libras",
-    "slug": "AppLibras",
+    "name": "ParáLibras",
+    "slug": "ParaLibras",
     "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.ericksousa312.AppLibras"
+      "package": "com.ericksousa312.ParaLibras"
     },
     "web": {
       "bundler": "metro",
@@ -41,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "2a623e0b-9fe8-4236-b4d2-6bede84fb361"
+        "projectId": "c33fd3f2-5e4b-4852-9dfa-74a160bbff2b"
       }
     }
   }
