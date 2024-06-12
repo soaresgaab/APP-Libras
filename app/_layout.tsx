@@ -172,6 +172,19 @@ function RootLayoutNav() {
             }}
           />
           <Drawer.Screen
+            name="(expregional)"
+            options={{
+              title: 'Expressões Regionais',
+              drawerLabel: 'Expressões Regionais',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
             name="(saudacoes)"
             options={{
               title: 'Saudações',

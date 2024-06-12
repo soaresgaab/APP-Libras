@@ -107,6 +107,7 @@ export default function CustomDrawerContent(props: any) {
           }}
         >
           <ImageModal
+            disabled={true}
             style={{
               width: isTablet ? 160 : 120,
               height: isTablet ? 160 : 120,

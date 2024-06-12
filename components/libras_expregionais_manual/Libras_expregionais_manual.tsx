@@ -17,11 +17,11 @@ const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
-export const Libras_matematica_container = ({}): React.ReactNode => {
+export const Libras_regional_container = ({}): React.ReactNode => {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
 
   async function SearchData() {
-    const data = await searchByRoute('word/category/Matemática');
+    const data = await searchByRoute('word/category/Expressão regional');
     console.log(data);
     setFetchData(data.data);
   }

@@ -13,24 +13,18 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
-import { searchById } from '@/utils/axios/searchById';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
-import { Link } from 'expo-router';
 import { router } from 'expo-router';
-import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
-import { pushDeleteWordById } from '@/utils/axios/Words/pushDeleteWordById';
+import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
+import ImageModal from '@/module/Image-modal';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -60,7 +54,7 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateWordById(data);
+    const result = await pushCreateWordById(data);
     console.log(result.data);
     setModalVisible(true);
   }
@@ -76,43 +70,19 @@ function AppWord() {
   }
 
   async function deleteData() {
-    const result = await pushDeleteWordById(data);
-    console.log(result.status);
+    // const 2result = await pushDeleteCategoryById(data);
+    // console.log(result.status);
     setModalVisible(true);
   }
-  async function deleteDataSignal(id: number | undefined) {
-    const newData = {
-      ...data,
-      wordDefinitions: data!.wordDefinitions?.filter(
-        (definition) => definition._id !== id,
-      ),
-    };
-    setDataFetch(newData as TypeLibrasDataWithId);
-  }
-  // ----------------------  function to fetch data ----------------------------
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    const response = await searchById('word_id', id);
+    // const response = await searchById('word_id', id);
     const category = await searchByRoute('category');
     setCategory(category.data);
-    setDataFetch(response.data);
-  }
 
-  function categorySelect(item: number, definitionID: number | undefined) {
-    const newData = {
-      ...data,
-      wordDefinitions: data!.wordDefinitions?.map((definition) => {
-        if (definition._id === definitionID) {
-          return {
-            ...definition,
-            category: item,
-          };
-        }
-        return definition;
-      }),
-    };
-    setDataFetch(newData as TypeLibrasDataWithId);
+    categorySelectNull(category.data[0]);
+    // setDataFetch(response.data);
   }
 
   useEffect(() => {
@@ -131,7 +101,7 @@ function AppWord() {
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 4],
+        // aspect: [4, 4],
         quality: 0.2,
         base64: true,
       });
@@ -153,11 +123,27 @@ function AppWord() {
     }
   };
 
+  // ----------------------  Controller data change by input ----------------------------
+  function categorySelect(item: number, definitionID: number | undefined) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition) => {
+        if (definition._id === definitionID) {
+          return {
+            ...definition,
+            category: item,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
   function descriptionSinal(item: string, definitionID: number | undefined) {
     const newData = {
       ...data,
       wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
-        if (definition._id === definitionID) {
+        if (index === 0) {
           return {
             ...definition,
             descriptionWordDefinition: item,
@@ -170,15 +156,22 @@ function AppWord() {
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
-  // ----------------------  Controller data change by input ----------------------------
-  //   function handleTextCategory(text: string) {
-  //     const newData = { ...data, nameCategory: text };
-  //     setDataFetch(newData);
-  //   }
-  //   function handleTextDescription(text: string) {
-  //     const newData = { ...data, descriptionCategory: text };
-  //     setDataFetch(newData);
-  //   }
+  function categorySelectNull(item: any) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            category: item._id,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
+
   // ----------------------  start of component return  ----------------------------
   return (
     <ScrollView
@@ -194,32 +187,15 @@ function AppWord() {
           alignSelf: 'center',
           textAlign: 'center',
           fontSize: 20,
-          width: '75%',
+          width: '85%',
           fontStyle: 'italic',
           fontWeight: 'bold',
         }}
       >
-        Editar Palavra
+        Criar uma Palavra
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonTrash,
-        ]}
-        onPress={() => {
-          deleteData();
-        }}
-      >
-        <FontAwesome6
-          styles={styles.iconTrash}
-          name="trash-can"
-          size={25}
-          color="white"
-        />
-      </Pressable>
+
       {/* ----------------------  form imput  ---------------------------- */}
       <Foundation
         style={styles.iconClip}
@@ -233,7 +209,7 @@ function AppWord() {
           alignSelf: 'center',
           textAlign: 'center',
           fontSize: 25,
-          width: '75%',
+          width: '85%',
           fontWeight: 'bold',
         }}
       >
@@ -247,28 +223,12 @@ function AppWord() {
           handleNameWord(text);
         }}
       ></TextInput>
+      {/* ---------------------- input description word  ---------------------------- */}
 
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-                },
-                styles.buttonTrash,
-              ]}
-              onPress={() => {
-                deleteDataSignal(definition._id);
-              }}
-            >
-              <FontAwesome6
-                styles={styles.iconTrash}
-                name="trash-can"
-                size={25}
-                color="white"
-              />
-            </Pressable>
+            {/* ----------------------  form picker  ---------------------------- */}
             <Text
               style={{
                 alignSelf: 'center',
@@ -276,7 +236,6 @@ function AppWord() {
                 fontSize: 25,
                 width: '85%',
                 fontWeight: 'bold',
-                marginTop: -10,
               }}
             >
               Sinal
@@ -297,9 +256,8 @@ function AppWord() {
                 descriptionSinal(text, definition._id);
               }}
             ></TextInput>
-            {/* ----------------------  form picker  ---------------------------- */}
             <View style={styles.groupDescription}>
-              <Text style={styles.labelCategory}>Categoria</Text>
+              <Text style={styles.labelDescription}>Categoria</Text>
               <Feather
                 style={styles.iconEditDescription}
                 name="edit"
@@ -315,6 +273,7 @@ function AppWord() {
                 dropdownIconColor="black"
                 dropdownIconRippleColor="#fcce9b"
                 selectedValue={definition.category}
+                placeholder="Selecione uma categoria"
                 onValueChange={(itemValue, itemIndex) => {
                   // setSelectedCategory(itemValue);
                   categorySelect(itemValue, definition._id);
@@ -344,36 +303,16 @@ function AppWord() {
             >
               <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
             </Pressable>
-            <Image
+            <ImageModal
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
               }}
-              contentFit="cover"
-              placeholder={{ blurhash }}
-              transition={1000}
             />
             <View style={{ marginBottom: 60 }}></View>
           </View>
         ))}
 
-      {/* ---------------------- input name Category  ---------------------------- */}
-      {/* <View style={styles.groupCategory}>
-        <Text style={styles.labelCategory}>Nome2</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="white"
-        />
-      </View>
-      <TextInput
-        style={styles.inputNameWord}
-        value={data?.nameWord}
-        onChangeText={(text) => {
-          handleTextCategory(text);
-        }}
-      ></TextInput> */}
       {/* ---------------------- input description Category  ---------------------------- */}
       {/* <View style={styles.groupDescription}>
         <Text style={styles.labelDescription}>Descrição do sinal</Text>
@@ -429,11 +368,7 @@ function AppWord() {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <BlurView
-          tint={'systemChromeMaterialDark'}
-          intensity={60}
-          style={styles.modalOverlay}
-        >
+        <BlurView tint={'prominent'} intensity={60} style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
             <Text style={styles.modalText}>
               Alteração realizada com sucesso!
@@ -460,7 +395,7 @@ const styles = StyleSheet.create({
   },
   inputNameWord: {
     backgroundColor: 'white',
-    width: '75%',
+    width: '85%',
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
@@ -469,7 +404,7 @@ const styles = StyleSheet.create({
     borderColor: '#e7503b',
     color: 'Red',
     fontSize: 20,
-    marginBottom: 40,
+    marginBottom: 20,
   },
   inputDescription: {
     justifyContent: 'space-around',
@@ -490,6 +425,15 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   labelCategory: {
+    marginTop: 0,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    width: '65%',
+    fontWeight: 'bold',
+    color: 'black',
+  },
+  labelDescription: {
     alignSelf: 'center',
     textAlign: 'left',
     fontSize: 18,
@@ -497,17 +441,9 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
-  labelDescription: {
-    alignSelf: 'center',
-    textAlign: 'left',
-    fontSize: 20,
-    width: '80%',
-    fontWeight: 'bold',
-    color: 'white',
-  },
   iconClip: {
-    marginTop: -25,
-    marginBottom: 0,
+    marginTop: 0,
+    marginBottom: 15,
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',

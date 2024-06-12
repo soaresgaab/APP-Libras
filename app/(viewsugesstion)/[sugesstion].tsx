@@ -30,7 +30,8 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
-import { pushDeleteWordById } from '@/utils/axios/Words/pushDeleteWordById';
+import ImageModal from '@/module/Image-modal';
+import { pushDeleteSuggestionById } from '@/utils/axios/Suggestion/pushDeleteSuggestionById';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -67,7 +68,7 @@ function AppWord() {
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(editionwords)',
+      pathname: '/(viewsugesstion)',
     });
   }
 
@@ -76,8 +77,8 @@ function AppWord() {
   }
 
   async function deleteData() {
-    const result = await pushDeleteWordById(data);
-    console.log(result.status);
+    const result = await pushDeleteSuggestionById(data);
+    console.log(result);
     setModalVisible(true);
   }
   async function deleteDataSignal(id: number | undefined) {
@@ -93,7 +94,7 @@ function AppWord() {
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    const response = await searchById('word_id', id);
+    const response = await searchById('suggestion_id', id);
     const category = await searchByRoute('category');
     setCategory(category.data);
     setDataFetch(response.data);
@@ -131,7 +132,6 @@ function AppWord() {
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 4],
         quality: 0.2,
         base64: true,
       });
@@ -199,7 +199,7 @@ function AppWord() {
           fontWeight: 'bold',
         }}
       >
-        Editar Palavra
+        Vizualizar Palavra
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
       <Pressable
@@ -251,24 +251,6 @@ function AppWord() {
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-                },
-                styles.buttonTrash,
-              ]}
-              onPress={() => {
-                deleteDataSignal(definition._id);
-              }}
-            >
-              <FontAwesome6
-                styles={styles.iconTrash}
-                name="trash-can"
-                size={25}
-                color="white"
-              />
-            </Pressable>
             <Text
               style={{
                 alignSelf: 'center',
@@ -333,27 +315,13 @@ function AppWord() {
             </View>
 
             {/* ---------------------- select image  ---------------------------- */}
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                },
-                styles.button,
-              ]}
-              onPress={() => handleSelectImage(definition._id)}
-            >
-              <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
-            </Pressable>
-            <Image
+            <ImageModal
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
               }}
-              contentFit="cover"
-              placeholder={{ blurhash }}
-              transition={1000}
             />
-            <View style={{ marginBottom: 60 }}></View>
+            <View style={{ marginBottom: 15 }}></View>
           </View>
         ))}
 
@@ -399,19 +367,6 @@ function AppWord() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
-          },
-          styles.buttonSalvar,
-        ]}
-        onPress={() => {
-          sendData();
-        }}
-      >
-        <Text style={{ fontSize: 18 }}>Salvar</Text>
-      </Pressable>
-      <Pressable
-        style={({ pressed }) => [
-          {
             backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
           },
           styles.buttonCancelar,
@@ -420,7 +375,7 @@ function AppWord() {
           router.dismiss(1);
         }}
       >
-        <Text style={{ fontSize: 18 }}>Cancelar</Text>
+        <Text style={{ fontSize: 18 }}>Sair</Text>
       </Pressable>
       {/* ---------------------- confirmation modal ---------------------------- */}
       <Modal

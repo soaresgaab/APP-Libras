@@ -20,11 +20,15 @@ export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <Stack screenOptions={{}}>
+    <Stack
+      screenOptions={
+        {
+          // Disable the static render of the header on web
+          // to prevent a hydration error in React Navigation v6.
+        }
+      }
+    >
       <Stack.Screen name="index" options={{ headerShown: false }} />
-      <Stack.Screen name="[sugesstion]" options={{ headerShown: false }} />
-      <Stack.Screen name="addWord" options={{ headerShown: false }} />
-      <Stack.Screen name="addSinal" options={{ headerShown: false }} />
     </Stack>
   );
 }

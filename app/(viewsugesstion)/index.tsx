@@ -15,10 +15,10 @@ import { router } from 'expo-router';
 import { CreateButton } from '@/components/createData/create-Button';
 import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import { TypeCategory } from '@/@types/Category';
+import { TypeLibrasData } from '@/@types/LibrasData';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,12 +26,11 @@ const isTablet = width >= 768 && height >= 1024;
 
 function App() {
   const [option, setData] = useState({});
-  const [data, setDataFetch] = useState<TypeCategory[]>();
+  const [data, setDataFetch] = useState<TypeLibrasData[]>();
   const [refreshing, setRefreshing] = useState(true);
 
   async function searchData() {
-    const response = await searchByRoute('category');
-    console.log(response.data);
+    const response = await searchByRoute('suggestion');
     setDataFetch(response.data);
   }
 
@@ -41,11 +40,27 @@ function App() {
 
   function routePush(id: number) {
     router.push({
-      pathname: '/(edition)/[id]',
+      pathname: '/(viewsugesstion)/[sugesstion]',
+      params: { id: `${id}` },
+    });
+  }
+  function routePushAdd(id: number) {
+    router.push({
+      pathname: '/(editionwords)/addWord',
       params: { id: `${id}` },
     });
   }
 
+  function routePushAddSinal(id: number) {
+    router.push({
+      pathname: '/(editionwords)/addSinal',
+      params: { id: `${id}` },
+    });
+  }
+
+  {
+    /* ---------------------- start of component return---------------------------- */
+  }
   return (
     <ScrollView
       style={styles.container}
@@ -61,72 +76,58 @@ function App() {
           textAlign: 'center',
           fontSize: 25,
           width: '75%',
-          fontStyle: 'italic',
           fontWeight: 'bold',
         }}
       >
-        Categorias
+        Sugestões
       </Text>
       <Pressable
         style={({ pressed }) => [
           {
             backgroundColor: pressed ? '#fcce9b' : '#e7503b',
           },
-          styles.buttonTrash,
+          styles.buttonReload,
         ]}
         onPress={() => {
           searchData();
         }}
       >
-        <MaterialCommunityIcons
-          styles={styles.iconTrash}
-          name="reload"
-          size={25}
-          color="white"
-        />
+        <MaterialCommunityIcons name="reload" size={25} color="white" />
       </Pressable>
-      <CreateButton router="add" label="+ Incluir Categoria"></CreateButton>
-      {data?.map((category, index) => (
-        <Pressable key={index}>
+      {/* <CreateButton router="addWord" label="+ Incluir Palavra"></CreateButton> */}
+      {data?.map((word, index) => (
+        <Pressable key={index} onPress={() => {}}>
           <View style={styles.div}>
-            <Text style={styles.labelCategory}>{category.nameCategory}</Text>
+            <Text style={styles.labelWord}>{word.nameWord}</Text>
             <View style={styles.borda}></View>
-            <ScrollView style={styles.divDescription}>
-              <Text style={styles.labelDescription}>
-                {category.descriptionCategory}
-              </Text>
-            </ScrollView>
-            <View style={styles.divButton}>
-              <Pressable
-                style={({ pressed }) => [
-                  {
-                    backgroundColor: pressed ? '#fcce9b' : '#e7d75d',
-                  },
-                  styles.buttonEdit,
-                ]}
-                onPress={() => {
-                  routePush(category._id);
-                }}
-              >
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    textAlign: 'center',
-                    fontSize: 20,
-                    width: '65%',
-                    fontWeight: 'bold',
-                    color: 'black',
+            <View style={styles.divDescription}>
+              <View style={styles.divButton}>
+                <Pressable
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? '#fcce9b' : '#e7503b',
+                    },
+                    styles.buttonEdit,
+                  ]}
+                  onPress={() => {
+                    routePush(word._id);
                   }}
                 >
-                  Editar
-                </Text>
-                <Feather
-                  style={styles.iconEditDescription}
-                  name="edit"
-                  size={27}
-                  color="black"
-                />
-              </Pressable>
+                  <Text
+                    style={{
+                      alignSelf: 'center',
+                      textAlign: 'center',
+                      fontSize: 20,
+                      width: '65%',
+                      fontWeight: 'bold',
+                      color: 'white',
+                    }}
+                  >
+                    Vizualizar
+                  </Text>
+                  <Feather name="edit-3" size={25} color="white" />
+                </Pressable>
+              </View>
             </View>
           </View>
         </Pressable>
@@ -142,40 +143,29 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
-  labelCategory: {
+  labelWord: {
     marginTop: 3,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 20,
     width: '75%',
-    fontStyle: 'italic',
     fontWeight: 'bold',
     color: 'white',
-  },
-  divButton: {
-    // marginTop: 3,
-    alignSelf: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '75%',
-    height: 60,
-    fontWeight: 'bold',
-    color: 'white',
-    // backgroundColor: 'blue',
   },
   labelDescription: {
     alignSelf: 'center',
-    textAlign: 'justify',
-    fontSize: 19,
+    textAlign: 'center',
+    fontSize: 20,
+    marginBottom: 15,
+    fontWeight: '400',
     width: '95%',
     color: 'black',
   },
   div: {
-    width: isTablet ? '80%' : '95%',
-    height: 200,
+    width: isTablet ? '85%' : '95%',
+    height: 110,
     marginTop: 18,
-    marginBottom: 20,
+    marginBottom: 5,
     borderRadius: 12,
     alignSelf: 'center',
     backgroundColor: '#e7503b',
@@ -185,12 +175,13 @@ const styles = StyleSheet.create({
   },
   divDescription: {
     width: '98%',
-    height: 2,
+    height: 60,
     marginTop: 3,
-    marginBottom: 5,
-    borderRadius: 12,
+    marginBottom: 4,
+    borderRadius: 8,
     alignSelf: 'center',
     backgroundColor: 'white',
+    justifyContent: 'center',
   },
   borda: {
     width: '100%',
@@ -200,7 +191,7 @@ const styles = StyleSheet.create({
     borderTopColor: '#e7503b',
   },
   iconTrash: {},
-  buttonTrash: {
+  buttonReload: {
     alignSelf: 'flex-end',
     width: 45,
     paddingVertical: 8,
@@ -208,22 +199,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     marginRight: '5%',
+    flexDirection: 'row',
+    alignContent: 'center',
   },
   buttonEdit: {
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     width: isTablet ? '40%' : '48%',
-    paddingVertical: 12,
+    paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
     flexDirection: 'row',
     alignContent: 'center',
   },
-  iconEditDescription: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'black',
+  divButton: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 
