@@ -24,6 +24,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
+import ImageModal from '@/module/Image-modal';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -100,7 +101,7 @@ function AppWord() {
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 4],
+        // aspect: [4, 4],
         quality: 0.2,
         base64: true,
       });
@@ -302,14 +303,11 @@ function AppWord() {
             >
               <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
             </Pressable>
-            <Image
+            <ImageModal
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
               }}
-              contentFit="cover"
-              placeholder={{ blurhash }}
-              transition={1000}
             />
             <View style={{ marginBottom: 60 }}></View>
           </View>

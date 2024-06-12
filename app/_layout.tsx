@@ -211,6 +211,19 @@ function RootLayoutNav() {
             }}
           />
           <Drawer.Screen
+            name="(matematica)"
+            options={{
+              title: 'Matamática',
+              drawerLabel: 'Matemática',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Octicons name="number" size={20} color="black" />
+              ),
+              drawerLabelStyle: { marginLeft: -9 },
+            }}
+          />
+          <Drawer.Screen
             name="(auth)"
             options={{ drawerItemStyle: { display: 'none' } }}
           />
