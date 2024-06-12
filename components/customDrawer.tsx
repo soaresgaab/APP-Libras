@@ -36,7 +36,7 @@ export default function CustomDrawerContent(props: any) {
   const erick = Color(colors.text).alpha(0.68).rgb().string();
   const { top, bottom } = useSafeAreaInsets();
   const [dataF, setDataF] = useState<any>();
-  const noAuth = ['(edition)', '(editionwords)', '(auth)'];
+  const noAuth = ['(edition)', '(editionwords)', '(auth)', '(viewsugesstion)'];
   const [labelLogout, setLabel] = useState<string | null>('');
 
   const token = useToken(props);

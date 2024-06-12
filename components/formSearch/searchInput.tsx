@@ -1,9 +1,19 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { StyleSheet, TextInput, Pressable, Text } from 'react-native';
+import {
+  StyleSheet,
+  TextInput,
+  Pressable,
+  Text,
+  Dimensions,
+} from 'react-native';
 import { View } from '@/components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 function SearchInput({ fetchData, setRefreshing }: any) {
   const [search2, setMes] = useState('');
@@ -61,7 +71,7 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     backgroundColor: '#F6F2DA',
-    marginTop: 106,
+    marginTop: isTablet ? 164 : 122,
     width: 'auto',
     flexDirection: 'row',
     justifyContent: 'center',

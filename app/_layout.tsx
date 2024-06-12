@@ -19,6 +19,12 @@ import { Octicons } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useColorScheme } from '@/components/useColorScheme';
+import { RenderLeftHeader } from '@/components/libras_componentes/icon-left-header';
+import Color from 'color';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -68,6 +74,9 @@ function RootLayoutNav() {
             headerTitle(props) {
               return <RenderHeader />;
             },
+            headerLeft(props) {
+              return <RenderLeftHeader color={props.tintColor} />;
+            },
             swipeEdgeWidth: Dimensions.get('screen').width * 0.5,
             headerStyle: {
               borderBottomStartRadius: 15,
@@ -78,7 +87,7 @@ function RootLayoutNav() {
             headerTitleAlign: 'center',
             // headerTintColor: 'black',
             headerShadowVisible: false,
-            headerStatusBarHeight: 40,
+            headerStatusBarHeight: isTablet ? 100 : 55,
             // headerLeftLabelVisible: false,
             headerTintColor: '#e7503b',
             // headerPressColor: 'red',

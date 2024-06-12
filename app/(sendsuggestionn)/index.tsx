@@ -185,7 +185,7 @@ function AppWord() {
     >
       <Text
         style={{
-          marginTop: 110,
+          marginTop: 164,
           alignSelf: 'center',
           textAlign: 'center',
           fontSize: 25,
