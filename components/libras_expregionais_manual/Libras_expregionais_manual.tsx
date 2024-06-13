@@ -23,14 +23,14 @@ export const Libras_regional_container = ({}): React.ReactNode => {
   const [isLoading, setIsLoading] = useState(true);
 
   async function SearchData() {
-    const data = await searchByRoute('word/category/Expressão regional');
-    console.log(data);
+    const data = await searchByRoute(
+      'word/category/Expressão regional',
+    ).finally(() => setIsLoading(false));
     setFetchData(data.data);
   }
 
   useEffect(() => {
     SearchData();
-    setIsLoading(false);
   }, []);
 
   return (

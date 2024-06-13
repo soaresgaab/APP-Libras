@@ -22,14 +22,15 @@ export const Libras_matematica_container = ({}): React.ReactNode => {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
   const [isLoading, setIsLoading] = useState(true);
   async function SearchData() {
-    const data = await searchByRoute('word/category/Matemática');
-    console.log(data);
+    const data = await searchByRoute('word/category/Matemática').finally(() =>
+      setIsLoading(false),
+    );
     setFetchData(data.data);
   }
 
   useEffect(() => {
     SearchData();
-    setIsLoading(false);
+    setIsLoading(true);
   }, []);
 
   return (
