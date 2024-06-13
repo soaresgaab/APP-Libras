@@ -39,7 +39,7 @@ function App() {
       >
         Números
       </Text>
-      <Libras_numeros_container/>
+      <Libras_numeros_container />
     </ScrollView>
   );
 }

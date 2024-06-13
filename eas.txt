@@ -43,3 +43,7 @@ eas build -p android --profile preview
 }
 
 
+`npx expo prebuild --clean`
+
+- `npx expo run:android`
+- `eas build -p android`

@@ -5,6 +5,7 @@ import {
   Button,
   Pressable,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { Link } from 'expo-router';
 import { View } from '../Themed';
@@ -19,7 +20,7 @@ const isTablet = width >= 768 && height >= 1024;
 
 export const Libras_matematica_container = ({}): React.ReactNode => {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
-
+  const [isLoading, setIsLoading] = useState(true);
   async function SearchData() {
     const data = await searchByRoute('word/category/Matemática');
     console.log(data);
@@ -28,29 +29,46 @@ export const Libras_matematica_container = ({}): React.ReactNode => {
 
   useEffect(() => {
     SearchData();
+    setIsLoading(false);
   }, []);
 
   return (
     <>
-      {fetchData?.map((item, index) => (
-        <View key={index} style={{ backgroundColor: '#F6F2DA' }}>
-          {item.wordDefinitions?.map((item2, index2) => (
-            <View key={index2} style={styles.container}>
-              <Pressable style={styles.div}>
-                {
-                  <ImageModal
-                    style={styles.image}
-                    source={{
-                      uri: `data:image/jpeg;base64,${item2.src}`,
-                    }}
-                  ></ImageModal>
-                }
-                <Text style={styles.label}>{item.nameWord}</Text>
-              </Pressable>
+      {isLoading ? (
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: '',
+            marginTop: 20,
+          }}
+        >
+          <ActivityIndicator size="large" color="#123456" />
+        </View>
+      ) : (
+        <>
+          {fetchData?.map((item, index) => (
+            <View key={index} style={{ backgroundColor: '#F6F2DA' }}>
+              {item.wordDefinitions?.map((item2, index2) => (
+                <View key={index2} style={styles.container}>
+                  <Pressable style={styles.div}>
+                    {
+                      <ImageModal
+                        style={styles.image}
+                        source={{
+                          uri: `data:image/jpeg;base64,${item2.src}`,
+                        }}
+                      ></ImageModal>
+                    }
+                    <Text style={styles.label}>{item.nameWord}</Text>
+                  </Pressable>
+                </View>
+              ))}
             </View>
           ))}
-        </View>
-      ))}
+        </>
+      )}
     </>
   );
 };
