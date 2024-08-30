@@ -26,17 +26,26 @@ import { BlurView } from 'expo-blur';
 import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
     _id: 0,
     nameCategory: '',
     descriptionCategory: '',
+    showInMenu: false,
     imgCategory: '',
   });
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
 
+  // ----------------------  Controller dropdownpicker: create shortcut on main screen?  ----------------------------
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(data.showInMenu ? 'sim' : 'não');
+  const [items, setItems] = useState([
+    { label: 'Sim', value: 'sim' },
+    { label: 'Não', value: 'não' },
+  ]);
   // ----------------------  Select img category ----------------------------
   const handleSelectImage = async () => {
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -64,7 +73,7 @@ function App() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateCategoryById(data);
+    const result = await pushUpdateCategoryById({ ...data, showInMenu: value === 'sim' });
     console.log(result.status);
     setModalVisible(true);
   }
@@ -85,6 +94,7 @@ function App() {
   async function searchData() {
     const response = await searchById('Category', id);
     setDataFetch(response.data);
+    setValue(response.data.showInMenu ? 'sim' : 'não');
   }
 
   useEffect(() => {
@@ -202,6 +212,26 @@ function App() {
           handleTextDescription(text);
         }}
       ></TextInput>
+
+      {/* ---------------------- create shortcut on main screen?  ---------------------------- */}
+      <View style={styles.groupDescription}>
+        <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
+      </View>
+      <View style={styles.selectContainer}>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          placeholder="Selecione uma opção"
+          style={styles.dropdown}
+          dropDownContainerStyle={styles.dropdownContainer}
+        />
+      </View>
+      {data.showInMenu}
+
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
       <Pressable
@@ -396,6 +426,24 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: 'bold',
     borderRadius: 15,
+  },
+  selectContainer: {
+    width: '90%',
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  dropdown: {
+    backgroundColor: 'white',
+    borderColor: '#e7503b',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+  },
+  dropdownContainer: {
+    borderColor: '#e7503b',
+    borderWidth: 2,
+    borderRadius: 10,
   },
   //-------------------------  modal style---------------------------
   modalOverlay: {
