@@ -24,15 +24,43 @@ import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
 import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from 'expo-image';
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
     _id: 0,
     nameCategory: '',
     descriptionCategory: '',
+    imgCategory: '',
   });
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
+
+  // ----------------------  Select img category ----------------------------
+  const handleSelectImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Permissão para acessar a biblioteca de mídia é necessária.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 0.2,
+      base64: true,
+    });
+
+    if (!result.canceled && result.assets[0].base64) {
+      const newData = {
+        ...data,
+        imgCategory: result.assets[0].base64,
+      };
+      setDataFetch(newData);
+    }
+  };
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
@@ -119,6 +147,26 @@ function App() {
         size={35}
         color="black"
       />
+      {/* ---------------------- input img Category  ---------------------------- */}
+      <Pressable
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+          },
+          styles.button,
+        ]}
+        onPress={() => handleSelectImage(data._id)}
+      >
+        <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
+      </Pressable>
+      <Image
+        style={styles.image}
+        source={{
+          uri: `data:image/jpeg;base64,${data.imgCategory}`,
+        }}
+        contentFit="cover"
+      />
+      <View style={{ marginBottom: 60 }}></View>
       {/* ---------------------- input name Category  ---------------------------- */}
       <View style={styles.groupCategory}>
         <Text style={styles.labelCategory}>Nome</Text>
@@ -338,6 +386,17 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#6ca5f0',
   },
+  image: {
+    width: 290,
+    height: 280,
+    marginTop: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    borderRadius: 15,
+  },
   //-------------------------  modal style---------------------------
   modalOverlay: {
     flex: 1,
@@ -368,6 +427,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  button: {
+    width: 150,
+    paddingVertical: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
   },
 });
 

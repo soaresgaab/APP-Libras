@@ -11,8 +11,12 @@ export async function pushUpdateWordById(
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {
-      const data: AxiosResponse<any> = await axios.put(
+      /*const data: AxiosResponse<any> = await axios.put(
         `https://libras.helpdesk-maraba.cloud/word/${dataWord?._id}`,
+        dataWord,
+      );*/
+      const data: AxiosResponse<any> = await axios.put(
+        `http://localhost:4002/word/${dataWord?._id}`,
         dataWord,
       );
       resolve(data);

@@ -7,8 +7,11 @@ export async function searchByRoute(
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {
-      const data: AxiosResponse<any> = await axios.get(
+      /*const data: AxiosResponse<any> = await axios.get(
         `https://libras.helpdesk-maraba.cloud/${route}`,
+      );*/
+      const data: AxiosResponse<any> = await axios.get(
+        `http://localhost:4002/${route}`,
       );
       resolve(data);
     } catch (error) {

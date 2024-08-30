@@ -9,8 +9,11 @@ export async function pushDeleteSuggestionById(
   return new Promise(async (resolve, reject) => {
     console.log(dataWord);
     try {
-      const data: AxiosResponse<any> = await axios.delete(
+      /*const data: AxiosResponse<any> = await axios.delete(
         `https://libras.helpdesk-maraba.cloud/suggestion/${dataWord?._id}`,
+      );*/
+      const data: AxiosResponse<any> = await axios.delete(
+        `http://localhost:4002/suggestion/${dataWord?._id}`,
       );
       resolve(data);
     } catch (error) {

@@ -16,8 +16,13 @@ export async function GetToken(DataAuth?: TypeUser): Promise<AxiosResponse> {
         },
       };
 
-      const data: AxiosResponse<any> = await axios.post(
+      /*const data: AxiosResponse<any> = await axios.post(
         `https://libras.helpdesk-maraba.cloud/login`,
+        DataAuth,
+        config,
+      );*/
+      const data: AxiosResponse<any> = await axios.post(
+        `http://localhost:4002/login`,
         DataAuth,
         config,
       );
