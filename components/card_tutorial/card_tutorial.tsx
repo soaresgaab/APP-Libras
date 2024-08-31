@@ -12,21 +12,19 @@ const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
-export const CardButton = ({
+export const CardTutorial = ({
+  router,
   label,
-  img,
 }: {
+  router: string;
   label: string;
-  img: string;
 }): React.ReactNode => {
   return (
-    <Link href={`/(sinaisByCard)?label=${encodeURIComponent(label)}`} asChild>
+    <Link href={`/${router}`} asChild>
       <Pressable style={styles.div}>
         <Image
           style={styles.image}
-          source={{
-            uri: `data:image/jpeg;base64,${img}`,
-          }}
+          source={require('../../assets/ImagemTutorial.jpg')}
         ></Image>
         <Text style={styles.label}>{label}</Text>
       </Pressable>
@@ -44,7 +42,6 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // borderWidth: 2,
     // borderColor: '#e7503b',
-    backgroundColor: '#e7d75d',
     borderRadius: 20,
     width: '80%',
     textAlign: 'center',
@@ -59,6 +56,7 @@ const styles = StyleSheet.create({
   div: {
     width: '70%',
     height: isTablet ? 300 : 185,
+    marginTop: 40,
     marginBottom: 30,
     borderRadius: 12,
     alignSelf: 'center',

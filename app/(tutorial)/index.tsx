@@ -5,7 +5,7 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
-import { CardButton } from '@/components/libras_componentes/card-button';
+import { CardTutorial } from '@/components/card_tutorial/card_tutorial';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
 import { searchByRoute } from '@/utils/axios/searchByRote';
@@ -53,34 +53,14 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Dicionário da Língua Brasileira de Sinais
+        Guias de utilização
       </Text>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          // fontFamily: 'OMEGLE',
-        }}
-      >
-        Uma visão regional: Marabá
-      </Text>
-     {/* <AlfabetoButton />
-      <CoresButton router={'(expregional)'} label={'Expressões Regionais'} />
-      <CoresButton router={'(matematica)'} label={'Matemática'} />
-      <CoresButton router={'(numeros)'} label={'Números'} />
-      {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> */}
-     {/* <CoresButton router={'(saudacoes)'} label={'Saudações'} />
-      <CoresButton router={'(sinais)'} label={'Sinais'} />*}
-
-      {/* <CoresButton router={'/'} label={'Cumprimentos'} /> */}
-      {data?.map((category, index) => (
-        <Pressable key={index}>
-          <CardButton label={category.nameCategory} img={category.imgCategory}/>
-        </Pressable>
-      ))}
+      <CardTutorial router={'(tutorialsendsuggestion)'} label={'Como enviar sugestões de novos sinais?'}/>
+      <CardTutorial router={'(tutorialvalidatesuggestion)'} label={'Como validar sugestão de novos sinais?'}/>
+      <CardTutorial router={'(tutorialaddcard)'} label={'Como adicionar novo card na tela inicial?'}/>
+      <CardTutorial router={'(tutorialmanagecategory)'} label={'Como gerenciar as categorias de palavras?'}/>
+      <CardTutorial router={'(tutorialmanagework)'} label={'Como gerenciar as palavras?'}/>
+      <CardTutorial router={'(tutorialmanagesignals)'} label={'Como gerenciar os sinais das palavras?'}/>
     </ScrollView>
   );
 }

@@ -3,21 +3,35 @@ import { StyleSheet, RefreshControl } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
+import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
+import { CoresButton } from '@/components/libras_componentes/cores-button';
+import { CardTutorial } from '@/components/card_tutorial/card_tutorial';
+import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
-import { useRouter } from 'expo-router'; // Import useRouter
-import { Libras_regional_container } from '@/components/libras_expregionais_manual/Libras_expregionais_manual';
-import { Libras_container } from '@/components/libras_geral_manual/Libras_geral_manual';
-import { useLocalSearchParams } from 'expo-router';
+import { searchByRoute } from '@/utils/axios/searchByRote';
+import {
+  View,
+  Pressable,
+  Dimensions,
+} from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+const isTablet = width >= 768 && height >= 1024;
 
 function App() {
-  const { label } = useLocalSearchParams();
-  const categoy = label || 'Default Label'; // Extract the label parameter from query
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
   const [refreshing, setRefreshing] = useState(true);
 
+  async function searchData() {
+    const response = await searchByRoute('category_showInMenu');
+    console.log(response.data);
+    setDataFetch(response.data);
+  }
+
   useEffect(() => {
     // fetchData();
+    searchData();
   }, []);
 
   return (
@@ -27,7 +41,7 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <SearchInput />
+      <SearchInput></SearchInput>
       <Text
         style={{
           marginTop: 10,
@@ -39,9 +53,8 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        {categoy}
+        Como enviar sugestão de novo sinal?
       </Text>
-      <Libras_container label={categoy}/>
     </ScrollView>
   );
 }
@@ -52,6 +65,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F2DA',
     width: 'auto',
     paddingVertical: 0,
+  },
+  div: {
+    width: isTablet ? '80%' : '95%',
+    height: 200,
+    marginTop: 18,
+    marginBottom: 20,
+    borderRadius: 12,
+    alignSelf: 'center',
+    backgroundColor: '#e7503b',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#e7503b',
   },
 });
 
