@@ -5,9 +5,18 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
+import { CardButton } from '@/components/libras_componentes/card-button';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
 import { searchByRoute } from '@/utils/axios/searchByRote';
+import {
+  View,
+  Pressable,
+  Dimensions,
+} from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+const isTablet = width >= 768 && height >= 1024;
 
 function App() {
   const [option, setData] = useState({});
@@ -58,15 +67,20 @@ function App() {
       >
         Uma visão regional: Marabá
       </Text>
-      <AlfabetoButton />
+     {/* <AlfabetoButton />
       <CoresButton router={'(expregional)'} label={'Expressões Regionais'} />
       <CoresButton router={'(matematica)'} label={'Matemática'} />
       <CoresButton router={'(numeros)'} label={'Números'} />
       {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> */}
-      <CoresButton router={'(saudacoes)'} label={'Saudações'} />
-      <CoresButton router={'(sinais)'} label={'Sinais'} />
+     {/* <CoresButton router={'(saudacoes)'} label={'Saudações'} />
+      <CoresButton router={'(sinais)'} label={'Sinais'} />*}
 
       {/* <CoresButton router={'/'} label={'Cumprimentos'} /> */}
+      {data?.map((category, index) => (
+        <Pressable key={index}>
+          <CardButton router={'(sinais)'} label={category.nameCategory} img={category.imgCategory}/>
+        </Pressable>
+      ))}
     </ScrollView>
   );
 }
@@ -77,6 +91,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#F6F2DA',
     width: 'auto',
     paddingVertical: 0,
+  },
+  div: {
+    width: isTablet ? '80%' : '95%',
+    height: 200,
+    marginTop: 18,
+    marginBottom: 20,
+    borderRadius: 12,
+    alignSelf: 'center',
+    backgroundColor: '#e7503b',
+    justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#e7503b',
   },
 });
 
