@@ -7,14 +7,22 @@ import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button'
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
+import { searchByRoute } from '@/utils/axios/searchByRote';
 
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
   const [refreshing, setRefreshing] = useState(true);
 
+  async function searchData() {
+    const response = await searchByRoute('category_showInMenu');
+    console.log(response.data);
+    setDataFetch(response.data);
+  }
+
   useEffect(() => {
     // fetchData();
+    searchData();
   }, []);
 
   return (
