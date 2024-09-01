@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+/*import React, { useEffect, useState } from 'react';
 import { StyleSheet, RefreshControl } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -71,11 +71,11 @@ function App() {
       <CoresButton router={'(expregional)'} label={'Expressões Regionais'} />
       <CoresButton router={'(matematica)'} label={'Matemática'} />
       <CoresButton router={'(numeros)'} label={'Números'} />
-      {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> */}
+      {/* <CoresButton router={'(search)/123'} label={'Calendários'} /> *//*}
      {/* <CoresButton router={'(saudacoes)'} label={'Saudações'} />
       <CoresButton router={'(sinais)'} label={'Sinais'} />*}
 
-      {/* <CoresButton router={'/'} label={'Cumprimentos'} /> */}
+      {/* <CoresButton router={'/'} label={'Cumprimentos'} /> *//*}
       {data?.map((category, index) => (
         <Pressable key={index}>
           <CardButton label={category.nameCategory} img={category.imgCategory}/>
@@ -103,6 +103,95 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderWidth: 2,
     borderColor: '#e7503b',
+  },
+});
+
+export default gestureHandlerRootHOC(App);*/
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, RefreshControl, ScrollView, View, Pressable, Dimensions } from 'react-native';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { Text } from '@/components/Themed';
+import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
+import { CoresButton } from '@/components/libras_componentes/cores-button';
+import { CardButton } from '@/components/libras_componentes/card-button';
+import { router } from 'expo-router';
+import SearchInput from '@/components/formSearch/searchInput';
+import { searchByRoute } from '@/utils/axios/searchByRote';
+import Onboarding from '@/components/onboarding/Onboarding'; // Importe o componente de onboarding
+
+const { width, height } = Dimensions.get('window');
+const isTablet = width >= 768 && height >= 1024;
+
+function App() {
+  const [option, setData] = useState({});
+  const [data, setDataFetch] = useState();
+  const [refreshing, setRefreshing] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(true); // Estado para controlar o onboarding
+
+  async function searchData() {
+    const response = await searchByRoute('category_showInMenu');
+    console.log(response.data);
+    setDataFetch(response.data);
+  }
+
+  useEffect(() => {
+    searchData();
+  }, []);
+
+  // Função para finalizar o onboarding
+  const handleDone = () => {
+    setShowOnboarding(false);
+  };
+
+  if (showOnboarding) {
+    return <Onboarding onDone={handleDone} />;
+  }
+
+  return (
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={false} progressViewOffset={70} />
+      }
+    >
+      <SearchInput />
+      <Text style={styles.title}>
+        Dicionário da Língua Brasileira de Sinais
+      </Text>
+      <Text style={styles.subtitle}>
+        Uma visão regional: Marabá
+      </Text>
+      {data?.map((category, index) => (
+        <Pressable key={index}>
+          <CardButton label={category.nameCategory} img={category.imgCategory}/>
+        </Pressable>
+      ))}
+    </ScrollView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F6F2DA',
+    width: 'auto',
+    paddingVertical: 0,
+  },
+  title: {
+    marginTop: 10,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    width: '75%',
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+  },
+  subtitle: {
+    marginTop: 10,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    width: '75%',
   },
 });
 
