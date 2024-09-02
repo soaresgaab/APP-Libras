@@ -68,6 +68,12 @@ function AppWord() {
     /*const result = await pushUpdateWordById(data);
     console.log(result.data);
     setModalVisible(true);*/
+
+    let videosDelete = await searchById('word_id', id);
+    let videosUpdateDelete = videosDelete.data.wordDefinitions
+      .filter(v => v.fileType === 'video')
+      .map(v => v.src);
+
     if (!data.nameWord || !data.wordDefinitions.every(def => def.descriptionWordDefinition && def.category)) {
       Alert.alert(
         'Campos obrigatórios',
@@ -108,6 +114,18 @@ function AppWord() {
     setDataFetch(newData as TypeLibrasDataWithId);
     const result = await pushUpdateWordById(newData);
     console.log(result.data);
+    //Excluir os arquivos no firebase storage-------------------
+    try {
+        for (const videoUrl of videosUpdateDelete) {
+          console.log("video esperci", videoUrl)
+            const filePath = videoUrl.replace('https://firebasestorage.googleapis.com/v0/b/signallibrastcc.appspot.com/o/', '').replace(/\?.*$/, '');
+            const fileRef = storage.ref(decodeURIComponent(filePath));
+            await fileRef.delete();
+            console.log(`Arquivo excluído: ${videoUrl}`);
+        }
+    } catch (error) {
+        console.error('Erro ao excluir vídeos:', error);
+    }
     setModalVisible(true);
   }
   function closeModalAndBack() {
