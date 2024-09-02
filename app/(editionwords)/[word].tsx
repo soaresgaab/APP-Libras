@@ -374,7 +374,7 @@ function AppWord() {
               ]}
               onPress={() => handleSelectImage(definition._id)}
             >
-              <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
+              <Text style={{ fontSize: 17 }}>Trocar Mídia</Text>
             </Pressable>
             <Image
               style={styles.image}
