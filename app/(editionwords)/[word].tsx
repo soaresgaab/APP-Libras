@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   Modal,
+  Alert,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -31,6 +32,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushDeleteWordById } from '@/utils/axios/Words/pushDeleteWordById';
+import ImageModal from '@/module/Image-modal';
 import { firebase } from '@/config';
 
 function AppWord() {
@@ -42,6 +44,7 @@ function AppWord() {
         _id: undefined,
         descriptionWordDefinition: '',
         src: '',
+        fileType: '',
         category: undefined,
       },
     ],
@@ -62,7 +65,48 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateWordById(data);
+    /*const result = await pushUpdateWordById(data);
+    console.log(result.data);
+    setModalVisible(true);*/
+    if (!data.nameWord || !data.wordDefinitions.every(def => def.descriptionWordDefinition && def.category)) {
+      Alert.alert(
+        'Campos obrigatórios',
+        'Por favor, preencha todos os campos obrigatórios antes de salvar.',
+        [{ text: 'OK' }]
+      );
+      return; 
+    }
+    const updatedDefinitions = await Promise.all(
+      data?.wordDefinitions.map(async (definition) => {
+        if (definition.src && definition.src.startsWith('data:video')) {
+          // Se o src for um vídeo (URI local), faça o upload para o Firebase
+          console.log("entrou nesse if aqui")
+          try {
+            const downloadURL = await uploadVideoToFirebase(definition.src);
+            return {
+              ...definition,
+              src: downloadURL, // Armazena o link de saída do Firebase
+              fileType: 'video',
+            };
+          } catch (error) {
+            console.error("Erro ao enviar o vídeo:", error);
+            return definition; 
+          }
+        } else {
+          return {
+            ...definition,
+            fileType: 'image',
+          };
+        }
+      })
+    );
+    // Atualiza o estado com as definições modificadas
+    const newData = {
+      ...data,
+      wordDefinitions: updatedDefinitions,
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+    const result = await pushUpdateWordById(newData);
     console.log(result.data);
     setModalVisible(true);
   }
@@ -159,7 +203,7 @@ function AppWord() {
       return;
     }
 
-    const result: ImagePicker.ImagePickerResult =
+    /*const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -182,8 +226,71 @@ function AppWord() {
         }),
       };
       setDataFetch(newData as TypeLibrasDataWithId);
-    }
+    }*/
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All, // Permitir todas as mídias
+        allowsEditing: true,
+        quality: 0.5,
+      });
+      console.log('Mídia selecionada:', result);
+      if (!result.canceled && result.assets[0]) {
+        console.log("entrou no if")
+        const { uri, base64 } = result.assets[0];
+        let type = '';
+        let updatedSrc = '';
+    
+        if (uri.startsWith('data:image')) {
+          console.log("imagem")
+          // Para imagens, armazene como base64
+          updatedSrc = base64 ? `data:image/jpeg;base64,${base64}` : uri;
+          type = 'image';
+        } else if (uri.startsWith('data:video')) {
+          console.log("video")
+          // Para vídeos, armazene a URI local para upload posterior
+          updatedSrc = uri;
+          type = 'video';
+        }
+        console.log('Novo src:', updatedSrc);
+        // Atualiza o estado com a mídia selecionada
+        const newData = {
+          ...data,
+          wordDefinitions: data.wordDefinitions?.map((definition) => {
+            if (definition._id === itemID) {
+              console.log('Novo src dentor do if:', updatedSrc)
+              return {
+                ...definition,
+                src: updatedSrc,
+                fileType: type, // Atualiza o fileType com base no tipo da mídia
+              };
+            }
+            console.log("definition",definition)
+            return definition;
+          }),
+        };
+        console.log("newdat:",newData)
+    
+        setDataFetch(newData as TypeLibrasDataWithId);
+      }
   };
+
+  // ----------------------  Upload de vídeo para o firebase storage ----------------------------
+  async function uploadVideoToFirebase(uri: string) {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+  
+      const storageRef = firebase.storage().ref();
+      const videoRef = storageRef.child(`videos/${Date.now()}.mp4`); // Define um caminho único para o vídeo
+  
+      const snapshot = await videoRef.put(blob);
+      const downloadURL = await snapshot.ref.getDownloadURL();
+  
+      return downloadURL;
+    } catch (error) {
+      console.error("Erro ao fazer upload do vídeo:", error);
+      throw error;
+    }
+  }
 
   function descriptionSinal(item: string, definitionID: number | undefined) {
     const newData = {
@@ -365,7 +472,7 @@ function AppWord() {
             </View>
 
             {/* ---------------------- select image  ---------------------------- */}
-            <Pressable
+            {/*<Pressable
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed ? '#fcce9b' : '#DB680B',
@@ -384,6 +491,27 @@ function AppWord() {
               contentFit="cover"
               placeholder={{ blurhash }}
               transition={1000}
+            />*/}
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                },
+                styles.button,
+              ]}
+              onPress={() => handleSelectImage(definition._id)} // Chama a nova função handleSelectMedia
+            >
+              <Text style={{ fontSize: 17 }}>Selecionar Mídia</Text>
+            </Pressable>
+            <ImageModal
+              style={styles.image}
+              source={
+                definition.src.startsWith('data:video') ? 
+                  { uri: definition.src } : // Para vídeos
+                  { uri: definition.src.startsWith('data:image') || definition.src.startsWith('https://') 
+                    ? definition.src 
+                    : `data:image/jpeg;base64,${definition.src}` } // Para imagens
+              }
             />
             <View style={{ marginBottom: 60 }}></View>
           </View>
