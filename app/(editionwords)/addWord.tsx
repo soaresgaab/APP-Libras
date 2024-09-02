@@ -25,6 +25,8 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
 import ImageModal from '@/module/Image-modal';
+import { firebase } from '@/config';
+import { Video } from 'expo-av';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -35,6 +37,7 @@ function AppWord() {
         _id: undefined,
         descriptionWordDefinition: '',
         src: '',
+        fileType: '',
         category: undefined,
       },
     ],
@@ -54,7 +57,45 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushCreateWordById(data);
+    /*const result = await pushCreateWordById(data);
+    console.log(result.data);
+    setModalVisible(true);*/
+    const updatedDefinitions = await Promise.all(
+      data?.wordDefinitions.map(async (definition) => {
+        if (definition.src && definition.src.startsWith('data:video')) {
+          // Se o src for um vídeo (URI local), faça o upload para o Firebase
+          console.log("entrou nesse if aqui")
+          try {
+            const downloadURL = await uploadVideoToFirebase(definition.src);
+            return {
+              ...definition,
+              src: downloadURL, // Armazena o link de saída do Firebase
+              fileType: 'video',
+            };
+          } catch (error) {
+            console.error("Erro ao enviar o vídeo:", error);
+            return definition; // Retorna a definição original em caso de erro
+          }
+        } else {
+          // Caso contrário, mantenha a definição original
+          return {
+            ...definition,
+            fileType: 'image',
+          };
+        }
+      })
+    );
+  
+    // Atualiza o estado com as definições modificadas
+    const newData = {
+      ...data,
+      wordDefinitions: updatedDefinitions,
+    };
+  
+    setDataFetch(newData as TypeLibrasDataWithId);
+  
+    // Agora envie os dados para o backend
+    const result = await pushCreateWordById(newData);
     console.log(result.data);
     setModalVisible(true);
   }
@@ -97,16 +138,22 @@ function AppWord() {
       return;
     }
 
-    const result: ImagePicker.ImagePickerResult =
+    /*const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         // aspect: [4, 4],
         quality: 0.2,
         base64: true,
+      });*/
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All, // Permitir todas as mídias
+        allowsEditing: true,
+        quality: 0.5,
       });
+      console.log('Mídia selecionada:', result);
 
-    if (!result.canceled && result.assets[0].base64) {
+    /*if (!result.canceled && result.assets[0].base64) {
       const newData = {
         ...data,
         wordDefinitions: data!.wordDefinitions?.map((definition) => {
@@ -120,8 +167,66 @@ function AppWord() {
         }),
       };
       setDataFetch(newData as TypeLibrasDataWithId);
-    }
+    }*/
+      if (!result.canceled && result.assets[0]) {
+        console.log("entrou no if")
+        const { uri, base64 } = result.assets[0];
+        let type = '';
+        let updatedSrc = '';
+    
+        if (uri.startsWith('data:image')) {
+          console.log("imagem")
+          // Para imagens, armazene como base64
+          updatedSrc = base64 ? `data:image/jpeg;base64,${base64}` : uri;
+          type = 'image';
+        } else if (uri.startsWith('data:video')) {
+          console.log("video")
+          // Para vídeos, armazene a URI local para upload posterior
+          updatedSrc = uri;
+          type = 'video';
+        }
+        console.log('Novo src:', updatedSrc);
+        // Atualiza o estado com a mídia selecionada
+        const newData = {
+          ...data,
+          wordDefinitions: data.wordDefinitions?.map((definition) => {
+            if (definition._id === itemID) {
+              console.log('Novo src dentor do if:', updatedSrc)
+              return {
+                ...definition,
+                src: updatedSrc,
+                fileType: type, // Atualiza o fileType com base no tipo da mídia
+              };
+            }
+            console.log("definition",definition)
+            return definition;
+          }),
+        };
+        console.log("newdat:",newData)
+    
+        setDataFetch(newData as TypeLibrasDataWithId);
+      }
+
   };
+
+  // ----------------------  Upload de vídeo para o firebase storage ----------------------------
+  async function uploadVideoToFirebase(uri: string) {
+    try {
+      const response = await fetch(uri);
+      const blob = await response.blob();
+  
+      const storageRef = firebase.storage().ref();
+      const videoRef = storageRef.child(`videos/${Date.now()}.mp4`); // Define um caminho único para o vídeo
+  
+      const snapshot = await videoRef.put(blob);
+      const downloadURL = await snapshot.ref.getDownloadURL();
+  
+      return downloadURL;
+    } catch (error) {
+      console.error("Erro ao fazer upload do vídeo:", error);
+      throw error;
+    }
+  }
 
   // ----------------------  Controller data change by input ----------------------------
   function categorySelect(item: number, definitionID: number | undefined) {
@@ -152,7 +257,6 @@ function AppWord() {
         return definition;
       }),
     };
-    console.log(newData);
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
@@ -292,7 +396,7 @@ function AppWord() {
             </View>
 
             {/* ---------------------- select image  ---------------------------- */}
-            <Pressable
+            {/*<Pressable
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed ? '#fcce9b' : '#DB680B',
@@ -302,12 +406,34 @@ function AppWord() {
               onPress={() => handleSelectImage(definition._id)}
             >
               <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
+            </Pressable>*/}
+            <Pressable
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                },
+                styles.button,
+              ]}
+              onPress={() => handleSelectImage(definition._id)} // Chama a nova função handleSelectMedia
+            >
+              <Text style={{ fontSize: 17 }}>Selecionar Mídia</Text>
             </Pressable>
-            <ImageModal
+            {/*<ImageModal
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
               }}
+            />*/}
+            <ImageModal
+              style={styles.image}
+              source={
+                definition.src.startsWith('data:video') ? 
+                  { uri: definition.src } : // Para vídeos
+                  { uri: definition.src.startsWith('data:image') || definition.src.startsWith('https://') 
+                    ? definition.src 
+                    : `data:image/jpeg;base64,${definition.src}` } // Para imagens
+              }
+              //type={definition.src.startsWith('data:video') ? 'video' : 'image'} // Passa o tipo de mídia
             />
             <View style={{ marginBottom: 60 }}></View>
           </View>
