@@ -31,6 +31,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushDeleteWordById } from '@/utils/axios/Words/pushDeleteWordById';
+import { firebase } from '@/config';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -45,6 +46,7 @@ function AppWord() {
       },
     ],
   });
+  const storage = firebase.storage();
   const [category, setCategory] = useState<TypeCategory[]>();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -76,11 +78,31 @@ function AppWord() {
   }
 
   async function deleteData() {
+    let videosDelete = data.wordDefinitions
+      .filter(video => video.fileType === 'video')
+      .map(video => video.src);
     const result = await pushDeleteWordById(data);
     console.log(result.status);
+    //Excluir os arquivos no firebase storage-------------------
+    console.log("arquivos deletados",videosDelete)
+    try {
+        for (const videoUrl of videosDelete) {
+            const filePath = videoUrl.replace('https://firebasestorage.googleapis.com/v0/b/signallibrastcc.appspot.com/o/', '').replace(/\?.*$/, '');
+            const fileRef = storage.ref(decodeURIComponent(filePath));
+            await fileRef.delete();
+            console.log(`Arquivo excluído: ${videoUrl}`);
+        }
+    } catch (error) {
+        console.error('Erro ao excluir vídeos:', error);
+    }
     setModalVisible(true);
   }
   async function deleteDataSignal(id: number | undefined) {
+    const definitionToDelete = data.wordDefinitions?.find(definition => definition._id === id);
+    var video: string;
+    if(definitionToDelete?.fileType === 'video'){
+      video = definitionToDelete.src;
+    }
     const newData = {
       ...data,
       wordDefinitions: data!.wordDefinitions?.filter(
@@ -88,6 +110,16 @@ function AppWord() {
       ),
     };
     setDataFetch(newData as TypeLibrasDataWithId);
+    //Excluir os arquivo no firebase storage-------------------
+    if (video) {
+      try {
+        const filePath = video.replace('https://firebasestorage.googleapis.com/v0/b/signallibrastcc.appspot.com/o/', '').replace(/\?.*$/, '');
+        const storageRef = storage.ref(decodeURIComponent(filePath));
+        await storageRef.delete();
+      } catch (error) {
+        console.error("Erro ao excluir o arquivo do Firebase Storage:", error);
+      }
+    }
   }
   // ----------------------  function to fetch data ----------------------------
 
