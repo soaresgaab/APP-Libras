@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   Modal,
+  Alert,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -60,6 +61,15 @@ function AppWord() {
     /*const result = await pushCreateWordById(data);
     console.log(result.data);
     setModalVisible(true);*/
+    if (!data.nameWord || !data.wordDefinitions.every(def => def.descriptionWordDefinition && def.category)) {
+      Alert.alert(
+        'Campos obrigatórios',
+        'Por favor, preencha todos os campos obrigatórios antes de salvar.',
+        [{ text: 'OK' }]
+      );
+      return; // Impede que a função continue se algum campo estiver vazio
+    }
+
     const updatedDefinitions = await Promise.all(
       data?.wordDefinitions.map(async (definition) => {
         if (definition.src && definition.src.startsWith('data:video')) {
