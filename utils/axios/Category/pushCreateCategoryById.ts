@@ -7,8 +7,12 @@ export async function pushCreateCategoryById(
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {
-      const data: AxiosResponse<any> = await axios.post(
+      /*const data: AxiosResponse<any> = await axios.post(
         `https://libras.helpdesk-maraba.cloud/category/`,
+        dataCategory,
+      );*/
+      const data: AxiosResponse<any> = await axios.post(
+        `http://localhost:4002/category/`,
         dataCategory,
       );
       resolve(data);

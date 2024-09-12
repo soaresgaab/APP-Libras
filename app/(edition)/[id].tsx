@@ -24,19 +24,56 @@ import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
 import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
+import * as ImagePicker from 'expo-image-picker';
+import { Image } from 'expo-image';
+import DropDownPicker from 'react-native-dropdown-picker';
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
     _id: 0,
     nameCategory: '',
     descriptionCategory: '',
+    showInMenu: false,
+    imgCategory: '',
   });
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
 
+  // ----------------------  Controller dropdownpicker: create shortcut on main screen?  ----------------------------
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(data.showInMenu ? 'sim' : 'não');
+  const [items, setItems] = useState([
+    { label: 'Sim', value: 'sim' },
+    { label: 'Não', value: 'não' },
+  ]);
+  // ----------------------  Select img category ----------------------------
+  const handleSelectImage = async () => {
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      alert('Permissão para acessar a biblioteca de mídia é necessária.');
+      return;
+    }
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 4],
+      quality: 0.2,
+      base64: true,
+    });
+
+    if (!result.canceled && result.assets[0].base64) {
+      const newData = {
+        ...data,
+        imgCategory: result.assets[0].base64,
+      };
+      setDataFetch(newData);
+    }
+  };
+
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateCategoryById(data);
+    const result = await pushUpdateCategoryById({ ...data, showInMenu: value === 'sim' });
     console.log(result.status);
     setModalVisible(true);
   }
@@ -57,6 +94,7 @@ function App() {
   async function searchData() {
     const response = await searchById('Category', id);
     setDataFetch(response.data);
+    setValue(response.data.showInMenu ? 'sim' : 'não');
   }
 
   useEffect(() => {
@@ -119,6 +157,26 @@ function App() {
         size={35}
         color="black"
       />
+      {/* ---------------------- input img Category  ---------------------------- */}
+      <Pressable
+        style={({ pressed }) => [
+          {
+            backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+          },
+          styles.button,
+        ]}
+        onPress={() => handleSelectImage(data._id)}
+      >
+        <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
+      </Pressable>
+      <Image
+        style={styles.image}
+        source={{
+          uri: `data:image/jpeg;base64,${data.imgCategory}`,
+        }}
+        contentFit="cover"
+      />
+      <View style={{ marginBottom: 60 }}></View>
       {/* ---------------------- input name Category  ---------------------------- */}
       <View style={styles.groupCategory}>
         <Text style={styles.labelCategory}>Nome</Text>
@@ -154,6 +212,26 @@ function App() {
           handleTextDescription(text);
         }}
       ></TextInput>
+
+      {/* ---------------------- create shortcut on main screen?  ---------------------------- */}
+      <View style={styles.groupDescription}>
+        <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
+      </View>
+      <View style={styles.selectContainer}>
+        <DropDownPicker
+          open={open}
+          value={value}
+          items={items}
+          setOpen={setOpen}
+          setValue={setValue}
+          setItems={setItems}
+          placeholder="Selecione uma opção"
+          style={styles.dropdown}
+          dropDownContainerStyle={styles.dropdownContainer}
+        />
+      </View>
+      {data.showInMenu}
+
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
       <Pressable
@@ -338,6 +416,35 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#6ca5f0',
   },
+  image: {
+    width: 290,
+    height: 280,
+    marginTop: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    borderRadius: 15,
+  },
+  selectContainer: {
+    width: '90%',
+    alignSelf: 'center',
+    marginBottom: 20,
+  },
+  dropdown: {
+    backgroundColor: 'white',
+    borderColor: '#e7503b',
+    borderWidth: 2,
+    borderRadius: 10,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
+  },
+  dropdownContainer: {
+    borderColor: '#e7503b',
+    borderWidth: 2,
+    borderRadius: 10,
+  },
   //-------------------------  modal style---------------------------
   modalOverlay: {
     flex: 1,
@@ -368,6 +475,15 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  button: {
+    width: 150,
+    paddingVertical: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
   },
 });
 

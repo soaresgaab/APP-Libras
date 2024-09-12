@@ -9,8 +9,11 @@ export async function pushDeleteWordById(
   return new Promise(async (resolve, reject) => {
     console.log(dataWord);
     try {
-      const data: AxiosResponse<any> = await axios.delete(
+      /*const data: AxiosResponse<any> = await axios.delete(
         `https://libras.helpdesk-maraba.cloud/word/${dataWord?._id}`,
+      );*/
+      const data: AxiosResponse<any> = await axios.delete(
+        `http://localhost:4002/word/${dataWord?._id}`,
       );
       resolve(data);
     } catch (error) {

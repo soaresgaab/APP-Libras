@@ -11,8 +11,12 @@ export async function pushCreateWordById(
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {
-      const data: AxiosResponse<any> = await axios.post(
+      /*const data: AxiosResponse<any> = await axios.post(
         `https://libras.helpdesk-maraba.cloud/word/`,
+        dataWord,
+      );*/
+      const data: AxiosResponse<any> = await axios.post(
+        `http://localhost:4002/word/`,
         dataWord,
       );
       resolve(data);

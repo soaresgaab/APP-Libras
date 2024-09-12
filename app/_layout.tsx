@@ -287,6 +287,45 @@ function RootLayoutNav() {
               drawerLabelStyle: { marginLeft: -19 },
             }}
           />
+          <Drawer.Screen
+            name="(sinaisByCard)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(tutorialsendsuggestion)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(tutorialvalidatesuggestion)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(tutorialaddcard)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(tutorialmanagecategory)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(tutorialmanagework)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(tutorialmanagesignal)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(tutorial)"
+            options={{
+              title: 'Tutorial',
+              drawerLabel: 'Tutorial',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => <Entypo name="list" size={25} color="black" />,
+              drawerLabelStyle: { marginLeft: -19 },
+            }}
+          />
         </Drawer>
       </GestureHandlerRootView>
     </ThemeProvider>
