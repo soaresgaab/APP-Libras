@@ -10,7 +10,7 @@ export async function pushDeleteSuggestionById(
     console.log(dataWord);
     try {
       const data: AxiosResponse<any> = await axios.delete(
-        `http://192.168.100.133:4002/suggestion/${dataWord?._id}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/suggestion/${dataWord?._id}`,
       );
       resolve(data);
     } catch (error) {

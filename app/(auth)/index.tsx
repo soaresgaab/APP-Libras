@@ -28,7 +28,6 @@ const App = () => {
 
   async function submitData() {
     const response = await GetToken(DataUser);
-    console.log(response);
 
     if (response.status === 201) {
       await AsyncStorage.multiSet([

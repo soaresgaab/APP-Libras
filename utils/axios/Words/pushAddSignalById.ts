@@ -12,7 +12,7 @@ export async function pushAddSignalById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.put(
-        `http://192.168.100.133:4002/word_id/${dataWord?._id}/signal`,
+        `${process.env.EXPO_PUBLIC_API_URL}/word_id/${dataWord?._id}/signal`,
         dataWord,
       );
       resolve(data);
