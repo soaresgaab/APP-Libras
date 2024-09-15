@@ -37,7 +37,7 @@ const App = () => {
       router.navigate('/');
     }
     setError('Usuário ou senha incorretos.');
-    setTimeout(() => setError(''), 3000); // Limpar erro após 3 segundos
+    setTimeout(() => setError(''), 3000);
   }
 
   async function handleInput(text: string, field: string) {
@@ -132,7 +132,7 @@ const App = () => {
             justifyContent: 'center',
             alignSelf: 'center',
             marginTop: 15,
-            fontSize: 22,
+            fontSize: 17,
           }}
         >
           {error}
