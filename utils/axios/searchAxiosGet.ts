@@ -8,7 +8,7 @@ export async function searchAxiosGetWords(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `https://libras.helpdesk-maraba.cloud/word/${Query}`,
+        `http://192.168.100.133:4002/word/${Query}`,
       );
       resolve(data);
     } catch (error) {

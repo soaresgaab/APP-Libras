@@ -32,9 +32,6 @@ const { width, height } = Dimensions.get('window');
 const isTablet = width >= 768 && height >= 1024;
 
 export default function CustomDrawerContent(props: any) {
-  const { colors } = useTheme();
-  const erick = Color(colors.text).alpha(0.68).rgb().string();
-  const { top, bottom } = useSafeAreaInsets();
   const [dataF, setDataF] = useState<any>();
   const noAuth = ['(edition)', '(editionwords)', '(auth)', '(viewsugesstion)'];
   const [labelLogout, setLabel] = useState<string | null>('');
@@ -66,7 +63,6 @@ export default function CustomDrawerContent(props: any) {
             routes: filteredRoutes,
           },
         };
-        // console.log(newState);
         setLabel(null);
         setDataF(newState);
       } else {
@@ -143,7 +139,7 @@ export default function CustomDrawerContent(props: any) {
           icon={() => {
             // Decida qual ícone renderizar com base no valor da variável
             if (labelLogout) {
-              // Se myVariable não for nula, retorne o ícone "arrow-forward"
+              // Se myVariable for nula, retorne o ícone "arrow-undo"
               return (
                 <Ionicons
                   style={{
@@ -156,7 +152,7 @@ export default function CustomDrawerContent(props: any) {
                 />
               );
             } else {
-              // Se myVariable for nula, retorne o ícone "arrow-undo"
+              // Se myVariable não for nula, retorne o ícone "arrow-forward"
               return (
                 <Ionicons
                   style={{

@@ -128,6 +128,7 @@ function RootLayoutNav() {
             drawerActiveBackgroundColor: '#e7503b',
             drawerStyle: {
               backgroundColor: '#F6F2DA',
+              width: 291,
             },
             // drawerLabelStyle: {
             //   fontSize: 25,
@@ -142,6 +143,10 @@ function RootLayoutNav() {
           <Drawer.Screen
             name="index"
             options={{
+              drawerItemStyle: {
+                borderTopColor: '#5e6b66',
+                borderTopWidth: 1,
+              },
               drawerLabel: 'Página inicial',
               title: 'Página inicial',
               drawerType: 'front',
@@ -164,10 +169,75 @@ function RootLayoutNav() {
             }}
           />
           <Drawer.Screen
-            name="(alfabeto)"
+            name="(sobre)"
             options={{
-              title: 'Alfabeto',
-              drawerLabel: 'Alfabeto',
+              drawerItemStyle: {
+                borderBottomColor: '#5e6b66',
+                borderBottomWidth: 1,
+              },
+              title: 'Sobre',
+              drawerLabel: 'Sobre',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <MaterialCommunityIcons
+                  name="information"
+                  size={24}
+                  color="black"
+                />
+              ),
+              drawerLabelStyle: { marginLeft: -18 },
+            }}
+          />
+          <Drawer.Screen
+            name="(camara)"
+            options={{
+              title: 'Câmara Municipal de Marabá',
+              drawerLabel: 'Câmara Municipal de Marabá',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(bairros)"
+            options={{
+              title: 'Bairros',
+              drawerLabel: 'Bairros',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+          <Drawer.Screen
+            name="(vilas)"
+            options={{
+              drawerItemStyle: {
+                borderBottomColor: '#5e6b66',
+                borderBottomWidth: 1,
+              },
+              title: 'Vilas',
+              drawerLabel: 'Vilas',
+              drawerPosition: 'left',
+              drawerType: 'front',
+              drawerIcon: () => (
+                <Ionicons name="hand-left" size={20}></Ionicons>
+              ),
+              drawerLabelStyle: { marginLeft: -15 },
+            }}
+          />
+
+          <Drawer.Screen
+            name="(numeros)"
+            options={{
+              title: 'Números',
+              drawerLabel: 'Números',
               drawerPosition: 'left',
               drawerType: 'front',
               drawerIcon: () => (
@@ -177,64 +247,16 @@ function RootLayoutNav() {
                   color="black"
                 />
               ),
-              drawerLabelStyle: { marginLeft: -18 },
-            }}
-          />
-          <Drawer.Screen
-            name="(expregional)"
-            options={{
-              title: 'Expressões Regionais',
-              drawerLabel: 'Expressões Regionais',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="hand-left" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(saudacoes)"
-            options={{
-              title: 'Saudações',
-              drawerLabel: 'Saudações',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="hand-left" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(sinais)"
-            options={{
-              title: 'Sinais',
-              drawerLabel: 'Sinais',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="hand-left" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(numeros)"
-            options={{
-              title: 'Números',
-              drawerLabel: 'Números',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Octicons name="number" size={20} color="black" />
-              ),
               drawerLabelStyle: { marginLeft: -9 },
             }}
           />
           <Drawer.Screen
             name="(matematica)"
             options={{
+              drawerItemStyle: {
+                borderBottomColor: '#5e6b66',
+                borderBottomWidth: 1,
+              },
               title: 'Matamática',
               drawerLabel: 'Matemática',
               drawerPosition: 'left',
@@ -256,20 +278,17 @@ function RootLayoutNav() {
           />
           <Drawer.Screen
             name="(edition)"
-            options={{
-              title: 'Editar categoria',
-              drawerLabel: 'Editar categoria',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => <Feather name="edit" size={20} color="black" />,
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
+            options={{ drawerItemStyle: { display: 'none' } }}
           />
           <Drawer.Screen
             name="(editionwords)"
+            options={{ drawerItemStyle: { display: 'none' } }}
+          />
+          <Drawer.Screen
+            name="(personalize)"
             options={{
-              title: 'Editar words',
-              drawerLabel: 'Editar palavras',
+              title: 'Personalizar',
+              drawerLabel: 'Personalizar',
               drawerPosition: 'left',
               drawerType: 'front',
               drawerIcon: () => <Feather name="edit" size={20} color="black" />,

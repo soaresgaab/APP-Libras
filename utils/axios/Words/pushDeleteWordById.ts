@@ -10,7 +10,7 @@ export async function pushDeleteWordById(
     console.log(dataWord);
     try {
       const data: AxiosResponse<any> = await axios.delete(
-        `https://libras.helpdesk-maraba.cloud/word/${dataWord?._id}`,
+        `http://192.168.100.133:4002/word/${dataWord?._id}`,
       );
       resolve(data);
     } catch (error) {
