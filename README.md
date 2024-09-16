@@ -25,13 +25,8 @@ Exemplos de commits:
 - `"adicionar dockerfile"`
 - `"criar formulário de login"`
 - `"atualizar rota API"`
-- `"remover vento de cauda"` (provavelmente relacionado à remoção do Tailwind CSS).
 
-## 4. Estilização
-- **Tailwind**: Pelo commit `"remover vento de cauda"`, parece que você estava utilizando e depois removeu o Tailwind CSS.
-- **Styled Components ou StyleSheet**: Priorize o uso de bibliotecas de estilização mais adequadas ao seu fluxo atual (caso tenha removido o Tailwind).
-
-## 5. Boas Práticas
+## 4. Boas Práticas
 - **Manter o .gitignore atualizado**: Evite enviar arquivos necessários, como configurações locais ou cache.
 - **Modularização**: Separe componentes reutilizáveis na pasta `componentes` e siga a estrutura de pastas organizada por módulos e funcionalidades.
 - **Commits frequentes**: Faça commits pequenos e claros, com uma descrição específica do que foi feito em cada um.
