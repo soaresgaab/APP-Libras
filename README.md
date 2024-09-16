@@ -1,4 +1,4 @@
-# Padrões de Projeto
+# Padrões do Projeto
 
 ## 1. Estrutura de Pastas
 - **`src/`**: Todo o código-fonte da aplicação.
