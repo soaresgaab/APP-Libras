@@ -7,7 +7,7 @@ export async function pushDeleteWordById(
   dataWord?: Partial<TypeLibrasDataWithId>,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
-    console.log(dataWord);
+    (dataWord);
     try {
       const data: AxiosResponse<any> = await axios.delete(
         `${process.env.EXPO_PUBLIC_API_URL}/word/${dataWord?._id}`,

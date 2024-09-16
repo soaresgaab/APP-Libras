@@ -134,7 +134,7 @@ function App() {
             }}
             onPress={() => {
               // setEditable(!editable);
-              console.log(updatedData);
+              (updatedData);
             }}
           >
             <Text
@@ -290,7 +290,7 @@ function App() {
       )}
       {/* <Pressable
         onPress={() => {
-          console.log(noData, updatedData.length);
+          (noData, updatedData.length);
         }}
       >
         <Text>oiii</Text>

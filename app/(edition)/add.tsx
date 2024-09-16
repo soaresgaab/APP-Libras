@@ -36,7 +36,7 @@ function App() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushCreateCategoryById(data);
-    console.log(result.status);
+    result.status;
     setModalVisible(true);
   }
 

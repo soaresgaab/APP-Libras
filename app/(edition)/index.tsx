@@ -31,7 +31,7 @@ function App() {
 
   async function searchData() {
     const response = await searchByRoute('category');
-    console.log(response.data);
+    response.data;
     setDataFetch(response.data);
   }
 

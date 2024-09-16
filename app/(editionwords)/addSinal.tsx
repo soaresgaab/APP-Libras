@@ -61,7 +61,7 @@ function AppWord() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushAddSignalById(data);
-    console.log(result.data);
+    result.data;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -77,7 +77,7 @@ function AppWord() {
 
   async function deleteData() {
     // const result = await pushDeleteCategoryById(data);
-    // console.log(result.status);
+    // (result.status);
     setModalVisible(true);
   }
 
@@ -94,7 +94,7 @@ function AppWord() {
         return definition;
       }),
     };
-    console.log(newData);
+    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 

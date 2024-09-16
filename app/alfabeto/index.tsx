@@ -8,8 +8,6 @@ import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button'
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
 import { AlfabetoContainer } from '@/components/libras_alfabeto_manual/alfabeto_container';
-import { Libras_numeros_container } from '@/components/libras_numeros_manual/Libras_numeros_container';
-import { Libras_saudacoes_container } from '@/components/libras_saudacoes_manual/Libras_saudacoes_container';
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
@@ -38,9 +36,9 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Saudações
+        Alfabeto manual
       </Text>
-      <Libras_saudacoes_container/>
+      <AlfabetoContainer />
     </ScrollView>
   );
 }

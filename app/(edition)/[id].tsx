@@ -37,7 +37,7 @@ function App() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushUpdateCategoryById(data);
-    console.log(result.status);
+    result.status;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -49,7 +49,7 @@ function App() {
 
   async function deleteData() {
     const result = await pushDeleteCategoryById(data);
-    console.log(result.status);
+    result.status;
     setModalVisible(true);
   }
 

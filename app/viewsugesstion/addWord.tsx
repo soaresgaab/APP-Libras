@@ -8,26 +8,23 @@ import {
   Button,
   Modal,
 } from 'react-native';
+import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
-import { searchById } from '@/utils/axios/searchById';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
-import { FontAwesome6 } from '@expo/vector-icons';
-import { Link } from 'expo-router';
 import { router } from 'expo-router';
-import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';
+import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
+import ImageModal from '@/module/Image-modal';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -57,14 +54,14 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushCreateSuggestionById(data);
-    console.log(result.data);
+    const result = await pushCreateWordById(data);
+    (result.data);
     setModalVisible(true);
   }
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/',
+      pathname: '/(editionwords)',
     });
   }
 
@@ -74,7 +71,7 @@ function AppWord() {
 
   async function deleteData() {
     // const 2result = await pushDeleteCategoryById(data);
-    // console.log(result.status);
+    // (result.status);
     setModalVisible(true);
   }
 
@@ -104,7 +101,7 @@ function AppWord() {
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 4],
+        // aspect: [4, 4],
         quality: 0.2,
         base64: true,
       });
@@ -155,7 +152,7 @@ function AppWord() {
         return definition;
       }),
     };
-    console.log(newData);
+    (newData);
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
@@ -183,18 +180,19 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
+      <SearchInput></SearchInput>
       <Text
         style={{
-          marginTop: 164,
+          marginTop: 10,
           alignSelf: 'center',
           textAlign: 'center',
-          fontSize: 25,
+          fontSize: 20,
           width: '85%',
           fontStyle: 'italic',
           fontWeight: 'bold',
         }}
       >
-        enviar sugestão de Palavra
+        Criar uma Palavra
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
@@ -210,12 +208,12 @@ function AppWord() {
           marginTop: 10,
           alignSelf: 'center',
           textAlign: 'center',
-          fontSize: 20,
+          fontSize: 25,
           width: '85%',
           fontWeight: 'bold',
         }}
       >
-        Nome da Palavra
+        Nome
       </Text>
       <TextInput
         style={styles.inputNameWord}
@@ -243,17 +241,15 @@ function AppWord() {
               Sinal
             </Text>
             <View style={styles.groupDescription}>
-              <Text style={styles.labelDescription}>Significado</Text>
+              <Text style={styles.labelDescription}>Descrição do sinal</Text>
               <Feather
                 style={styles.iconEditDescription}
                 name="edit"
                 size={24}
-                color="black"
+                color="white"
               />
             </View>
             <TextInput
-              multiline={true}
-              placeholder="ex: esse termo se refere a uma expressão regional"
               style={styles.inputDescription}
               value={definition.descriptionWordDefinition}
               onChangeText={(text) => {
@@ -305,16 +301,13 @@ function AppWord() {
               ]}
               onPress={() => handleSelectImage(definition._id)}
             >
-              <Text style={{ fontSize: 17 }}>Selecionar Imagem</Text>
+              <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
             </Pressable>
-            <Image
+            <ImageModal
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
               }}
-              contentFit="cover"
-              placeholder={{ blurhash }}
-              transition={1000}
             />
             <View style={{ marginBottom: 60 }}></View>
           </View>
@@ -353,7 +346,7 @@ function AppWord() {
           sendData();
         }}
       >
-        <Text style={{ fontSize: 18 }}>Enviar</Text>
+        <Text style={{ fontSize: 18 }}>Salvar</Text>
       </Pressable>
       <Pressable
         style={({ pressed }) => [
@@ -363,7 +356,7 @@ function AppWord() {
           styles.buttonCancelar,
         ]}
         onPress={() => {
-          router.push('/');
+          router.dismiss(1);
         }}
       >
         <Text style={{ fontSize: 18 }}>Cancelar</Text>
@@ -423,7 +416,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
-    borderRadius: 10,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
     borderWidth: 2,
     borderColor: '#e7503b',
     color: 'Red',
@@ -445,7 +439,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     width: '80%',
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
   iconClip: {
     marginTop: 0,
@@ -459,14 +453,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
-    color: 'black',
+    color: 'white',
   },
   groupDescription: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    // backgroundColor: '#e7503b',
+    backgroundColor: '#e7503b',
     marginTop: 10,
-    marginBottom: 4,
     flexDirection: 'row',
     width: '85%',
     alignItems: 'center',
@@ -526,8 +519,8 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#e7503b',
     backgroundColor: 'white',
-    // borderTopRightRadius: 0,
-    // borderTopLeftRadius: 0,
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
   },
   image: {
     width: 290,

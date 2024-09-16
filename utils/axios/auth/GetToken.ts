@@ -4,7 +4,7 @@ import { TypeUser } from '@/@types/User';
 
 export async function GetToken(DataAuth?: TypeUser): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
-    console.log('etnrou');
+    ('etnrou');
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjVkMGJlNjNlMjc4MDc0OWE5NDFiODEiLCJ1c2VyTmFtZSI6ImVyaWNrLmdhaWEiLCJyb2xlIjoiNjY1ZDA4MmVkNmY1MjU0ZTRkMGU5OTNmIiwiaWF0IjoxNzE3Mzc3NjQyfQ.lASJkhW5PrbuY3DHjlTK0CNpKLexvsfxLiUVQsR4QCY';
     try {
