@@ -133,7 +133,7 @@ export default function CustomDrawerContent(props: any) {
         <DrawerItem
           icon={() => <Ionicons name="home" size={20}></Ionicons>}
           label={'Página inicial'}
-          onPress={() => router.push('/')}
+          onPress={() => router.push('/(tab)')}
           style={{
             backgroundColor: path == '/' ? '#a4e1cb' : '#F6F2DA',
             borderTopColor: '#5e6b66',
