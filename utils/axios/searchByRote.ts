@@ -11,7 +11,7 @@ export async function searchByRoute(
         `https://libras.helpdesk-maraba.cloud/${route}`,
       );*/
       const data: AxiosResponse<any> = await axios.get(
-        `http://localhost:4002/${route}`,
+        `http://10.0.2.2:4002/${route}`,
       );
       resolve(data);
     } catch (error) {

@@ -12,7 +12,7 @@ export async function pushUpdateCategoryById(
         dataCategory,
       );*/
       const data: AxiosResponse<any> = await axios.put(
-        `http://localhost:4002/category/${dataCategory?._id}`,
+        `http://10.0.2.2:4002/category/${dataCategory?._id}`,
         dataCategory,
       );
       resolve(data);

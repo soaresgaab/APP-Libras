@@ -22,7 +22,7 @@ export async function GetToken(DataAuth?: TypeUser): Promise<AxiosResponse> {
         config,
       );*/
       const data: AxiosResponse<any> = await axios.post(
-        `http://localhost:4002/login`,
+        `http://10.0.2.2:4002/login`,
         DataAuth,
         config,
       );

@@ -13,7 +13,7 @@ export async function pushDeleteSuggestionById(
         `https://libras.helpdesk-maraba.cloud/suggestion/${dataWord?._id}`,
       );*/
       const data: AxiosResponse<any> = await axios.delete(
-        `http://localhost:4002/suggestion/${dataWord?._id}`,
+        `http://10.0.2.2:4002/suggestion/${dataWord?._id}`,
       );
       resolve(data);
     } catch (error) {

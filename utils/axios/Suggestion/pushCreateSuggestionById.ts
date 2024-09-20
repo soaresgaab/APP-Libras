@@ -16,7 +16,7 @@ export async function pushCreateSuggestionById(
         dataWord,
       );*/
       const data: AxiosResponse<any> = await axios.post(
-        `http://localhost:4002/suggestion/`,
+        `http://10.0.2.2:4002/suggestion/`,
         dataWord,
       );
       resolve(data);

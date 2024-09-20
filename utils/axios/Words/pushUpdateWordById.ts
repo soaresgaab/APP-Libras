@@ -16,7 +16,7 @@ export async function pushUpdateWordById(
         dataWord,
       );*/
       const data: AxiosResponse<any> = await axios.put(
-        `http://localhost:4002/word/${dataWord?._id}`,
+        `http://10.0.2.2:4002/word/${dataWord?._id}`,
         dataWord,
       );
       resolve(data);

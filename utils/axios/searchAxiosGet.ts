@@ -11,7 +11,7 @@ export async function searchAxiosGetWords(
         `https://libras.helpdesk-maraba.cloud/word/${Query}`,
       );*/
       const data: AxiosResponse<any> = await axios.get(
-        `http://localhost:4002/word/${Query}`,
+        `http://10.0.2.2:4002/word/${Query}`,
       );
       resolve(data);
     } catch (error) {

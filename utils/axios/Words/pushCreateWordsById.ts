@@ -16,7 +16,7 @@ export async function pushCreateWordById(
         dataWord,
       );*/
       const data: AxiosResponse<any> = await axios.post(
-        `http://localhost:4002/word/`,
+        `http://10.0.2.2:4002/word/`,
         dataWord,
       );
       resolve(data);

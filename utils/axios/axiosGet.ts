@@ -10,7 +10,7 @@ export async function AxiosGet(
         `https://libras.helpdesk-maraba.cloud/api/v1/${rota}?nameTipo=${options?.query}&mes=${options?.mes}&ano=${options?.ano}`,
       );*/
       const data: AxiosResponse<any> = await axios.get(
-        `http://localhost:4002`,
+        `http://10.0.2.2:4002`,
       );
       setTimeout(() => {}, 5000);
       resolver(data);

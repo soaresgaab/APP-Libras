@@ -16,7 +16,7 @@ export async function pushAddSignalById(
         dataWord,
       );*/
       const data: AxiosResponse<any> = await axios.put(
-        `http://localhost:4002/word_id/${dataWord?._id}/signal`,
+        `http://10.0.2.2:4002/word_id/${dataWord?._id}/signal`,
         dataWord,
       );
       resolve(data);

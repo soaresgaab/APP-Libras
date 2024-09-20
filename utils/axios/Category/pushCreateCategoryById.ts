@@ -12,7 +12,7 @@ export async function pushCreateCategoryById(
         dataCategory,
       );*/
       const data: AxiosResponse<any> = await axios.post(
-        `http://localhost:4002/category/`,
+        `http://10.0.2.2:4002/category/`,
         dataCategory,
       );
       resolve(data);
