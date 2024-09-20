@@ -7,11 +7,19 @@ import { BlurView } from 'expo-blur';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import {
   SvgCamara,
   SvgExpressaoRegional,
 } from '@/components/libras_componentes/image-icon-drawer';
+import {
+  SvgEmail,
+  SvgEmailGreen,
+} from '@/components/libras_componentes/icon-email';
+import {
+  SVGCamaraGreen,
+  SvgExpressaoRegionalGreen,
+} from '@/components/libras_componentes/image-icon-tab-green';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -33,13 +41,17 @@ export default function TabLayout() {
           tabBarLabel: 'Início',
           tabBarLabelStyle: {
             fontSize: 13,
-            color: pathCurrently == '/' ? '#a4e1cb' : 'black',
+            marginBottom: 3,
+            color: pathCurrently == '/' ? '#3e9677' : 'black',
+          },
+          tabBarIconStyle: {
+            marginTop: 4,
           },
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
-              name="home"
+              name="home-outline"
               size={size}
-              color={focused == true ? '#a4e1cb' : 'black'}
+              color={focused == true ? '#3e9677' : 'black'}
             ></Ionicons>
           ),
         }}
@@ -60,13 +72,17 @@ export default function TabLayout() {
           tabBarLabel: 'Pesquisar',
           tabBarLabelStyle: {
             fontSize: 13,
-            color: pathCurrently == '/search' ? '#a4e1cb' : 'black',
+            marginBottom: 3,
+            color: pathCurrently == '/search' ? '#3e9677' : 'black',
+          },
+          tabBarIconStyle: {
+            marginTop: 4,
           },
           tabBarIcon: ({ color, size, focused }) => (
             <Ionicons
               name="search"
               size={size}
-              color={focused == true ? '#a4e1cb' : 'black'}
+              color={focused == true ? '#3e9677' : 'black'}
             ></Ionicons>
           ),
         }}
@@ -78,15 +94,17 @@ export default function TabLayout() {
           tabBarLabel: 'Sugestão',
           tabBarLabelStyle: {
             fontSize: 13,
-            color: pathCurrently == '/sendsuggestionn' ? '#a4e1cb' : 'black',
+            marginBottom: 3,
+            color: pathCurrently == '/sendsuggestionn' ? '#3e9677' : 'black',
           },
-          tabBarIcon: ({ color, size, focused }) => (
-            <Ionicons
-              name="mail"
-              size={size}
-              color={focused == true ? '#a4e1cb' : 'black'}
-            ></Ionicons>
-          ),
+          tabBarIconStyle: {
+            marginLeft: -12,
+            marginTop: 4,
+          },
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) return <SvgEmailGreen />;
+            return <SvgEmail />;
+          },
         }}
       />
       <Tabs.Screen
@@ -96,9 +114,16 @@ export default function TabLayout() {
           tabBarLabel: 'Câmara',
           tabBarLabelStyle: {
             fontSize: 13,
-            color: pathCurrently == '/camara' ? '#a4e1cb' : 'black',
+            marginBottom: 3,
+            color: pathCurrently == '/camara' ? '#3e9677' : 'black',
           },
-          tabBarIcon: ({ color, size, focused }) => <SvgCamara />,
+          tabBarIconStyle: {
+            marginTop: 4,
+          },
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) return <SVGCamaraGreen />;
+            return <SvgCamara />;
+          },
         }}
       />
       <Tabs.Screen
@@ -108,10 +133,17 @@ export default function TabLayout() {
           tabBarLabel: 'Regionais',
           tabBarLabelStyle: {
             fontSize: 13,
+            marginBottom: 3,
             color:
-              pathCurrently == '/expressoesregionais' ? '#a4e1cb' : 'black',
+              pathCurrently == '/expressoesregionais' ? '#3e9677' : 'black',
           },
-          tabBarIcon: ({ color, size, focused }) => <SvgExpressaoRegional />,
+          tabBarIconStyle: {
+            marginTop: 4,
+          },
+          tabBarIcon: ({ color, size, focused }) => {
+            if (focused) return <SvgExpressaoRegionalGreen />;
+            return <SvgExpressaoRegional />;
+          },
         }}
       />
       <Tabs.Screen name="about" options={{ headerShown: false, href: null }} />
