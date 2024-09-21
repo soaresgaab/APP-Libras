@@ -11,12 +11,8 @@ export async function pushAddSignalById(
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {
-      /*const data: AxiosResponse<any> = await axios.put(
-        `https://libras.helpdesk-maraba.cloud/word_id/${dataWord?._id}/signal`,
-        dataWord,
-      );*/
       const data: AxiosResponse<any> = await axios.put(
-        `http://localhost:4002/word_id/${dataWord?._id}/signal`,
+        `${process.env.EXPO_PUBLIC_API_URL}/word_id/${dataWord?._id}/signal`,
         dataWord,
       );
       resolve(data);

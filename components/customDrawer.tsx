@@ -3,7 +3,7 @@ import {
   DrawerItem,
   DrawerItemList,
 } from '@react-navigation/drawer';
-import { router } from 'expo-router';
+import { router, usePathname } from 'expo-router';
 import Drawer from 'expo-router/drawer';
 import {
   View,
@@ -18,7 +18,13 @@ import {
   SafeAreaInsetsContext,
   useSafeAreaInsets,
 } from 'react-native-safe-area-context';
-import { Entypo, Ionicons } from '@expo/vector-icons';
+import {
+  Entypo,
+  Feather,
+  Ionicons,
+  MaterialCommunityIcons,
+  Octicons,
+} from '@expo/vector-icons';
 import Color from 'color';
 import { Link, useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -26,22 +32,25 @@ import { useEffect, useState } from 'react';
 import useToken from '@/hooks/getToken';
 import imageLogo from '@/assets/images/logoNoBackground.png';
 import ImageModal from '@/module/Image-modal';
+import {
+  SvgCamara,
+  SvgExpressaoRegional,
+  SvgVila,
+} from './libras_componentes/image-icon-drawer';
 
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
 export default function CustomDrawerContent(props: any) {
-  const { colors } = useTheme();
-  const erick = Color(colors.text).alpha(0.68).rgb().string();
-  const { top, bottom } = useSafeAreaInsets();
   const [dataF, setDataF] = useState<any>();
   const noAuth = ['(edition)', '(editionwords)', '(auth)', '(viewsugesstion)'];
   const [labelLogout, setLabel] = useState<string | null>('');
 
   const token = useToken(props);
-
+  const path = usePathname();
   useEffect(() => {
+    console.log(path);
     const filterRoutes = () => {
       if (token === null) {
         const filteredRoutes = props.state.routes.filter(
@@ -66,7 +75,6 @@ export default function CustomDrawerContent(props: any) {
             routes: filteredRoutes,
           },
         };
-        // console.log(newState);
         setLabel(null);
         setDataF(newState);
       } else {
@@ -76,16 +84,8 @@ export default function CustomDrawerContent(props: any) {
     };
 
     filterRoutes();
-  }, [token]);
+  }, [token, path]);
 
-  const data2 = dataF || props;
-  const data3 = {
-    ...data2,
-    state: {
-      ...data2.state,
-      index: props.state.index,
-    },
-  };
   const label = labelLogout || 'Login';
 
   const handlePressLogin = () => {
@@ -99,7 +99,7 @@ export default function CustomDrawerContent(props: any) {
 
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...data3} style={{ marginTop: -15 }}>
+      <DrawerContentScrollView {...props} style={{ marginTop: -15 }}>
         <View
           style={{
             paddingTop: 5,
@@ -130,9 +130,197 @@ export default function CustomDrawerContent(props: any) {
             ParáLibras
           </Text>
         </View>
-        <DrawerItemList {...data3} />
-        {/* <DrawerItem label={'teste'} onPress={() => router.push('/')} />
-        <DrawerItem label={'abelha'} onPress={() => AsyncStorage.clear()} /> */}
+        <DrawerItem
+          icon={() => <Ionicons name="home" size={20}></Ionicons>}
+          label={'Página inicial'}
+          onPress={() => router.push('/(tab)')}
+          style={{
+            backgroundColor: path == '/' ? '#a4e1cb' : '#F6F2DA',
+            borderTopColor: '#5e6b66',
+            borderTopWidth: 1,
+          }}
+          labelStyle={{
+            marginLeft: -12,
+          }}
+        ></DrawerItem>
+        <DrawerItem
+          icon={() => <Ionicons name="mail-unread" size={20}></Ionicons>}
+          label={'Enviar Sugestão'}
+          onPress={() => {
+            console.log(path);
+            router.push('/sendsuggestionn');
+          }}
+          style={{
+            backgroundColor: path == '/sendsuggestionn' ? '#a4e1cb' : '#F6F2DA',
+          }}
+          labelStyle={{
+            marginLeft: -12,
+          }}
+        ></DrawerItem>
+        <DrawerItem
+          icon={() => (
+            <MaterialCommunityIcons
+              name="information"
+              size={24}
+              color="black"
+            />
+          )}
+          label={'Sobre'}
+          onPress={() => {
+            router.push('/about');
+          }}
+          style={{
+            backgroundColor: path == '/about' ? '#a4e1cb' : '#F6F2DA',
+            borderBottomColor: '#5e6b66',
+            borderBottomWidth: 1,
+          }}
+          labelStyle={{
+            marginLeft: -15,
+          }}
+        ></DrawerItem>
+        <DrawerItem
+          icon={() => <SvgCamara />}
+          label={'Camara Municipal de Marabá'}
+          onPress={() => {
+            router.push('/camara');
+          }}
+          style={{
+            marginLeft: -0,
+            backgroundColor: path == '/camara' ? '#a4e1cb' : '#F6F2DA',
+          }}
+          labelStyle={{
+            marginLeft: -25,
+          }}
+        ></DrawerItem>
+        <DrawerItem
+          icon={() => (
+            <MaterialCommunityIcons name="map-marker" size={28} color="black" />
+          )}
+          label={'Bairros'}
+          onPress={() => {
+            router.push('/bairros');
+          }}
+          style={{
+            marginLeft: 8,
+            backgroundColor: path == '/bairros' ? '#a4e1cb' : '#F6F2DA',
+          }}
+          labelStyle={{
+            marginLeft: -16,
+          }}
+        ></DrawerItem>
+        <DrawerItem
+          icon={() => <SvgVila />}
+          label={'Vilas'}
+          onPress={() => {
+            router.push('/vilas');
+          }}
+          style={{
+            marginLeft: 2,
+            backgroundColor: path == '/vilas' ? '#a4e1cb' : '#F6F2DA',
+            borderBottomColor: '#5e6b66',
+            borderBottomWidth: 1,
+          }}
+          labelStyle={{
+            marginLeft: -23,
+          }}
+        ></DrawerItem>
+        <DrawerItem
+          icon={() => (
+            <MaterialCommunityIcons
+              name="format-letter-case"
+              size={24}
+              color="black"
+            />
+          )}
+          label={'Alfabeto'}
+          onPress={() => {
+            router.push('/alfabeto');
+          }}
+          style={{
+            backgroundColor: path == '/alfabeto' ? '#a4e1cb' : '#F6F2DA',
+          }}
+          labelStyle={{
+            marginLeft: -15,
+          }}
+        ></DrawerItem>
+
+        <DrawerItem
+          icon={() => <SvgExpressaoRegional />}
+          label={'Expressões Regionais'}
+          onPress={() => {
+            router.push('/expressoesregionais');
+          }}
+          style={{
+            marginLeft: -0,
+            backgroundColor:
+              path == '/expressoesregionais' ? '#a4e1cb' : '#F6F2DA',
+          }}
+          labelStyle={{
+            marginLeft: -25,
+          }}
+        ></DrawerItem>
+
+        <DrawerItem
+          icon={() => <Ionicons name="hand-left" size={20}></Ionicons>}
+          label={'Saudações'}
+          onPress={() => {
+            router.push('/saudacoes');
+          }}
+          style={{
+            backgroundColor: path == '/saudacoes' ? '#a4e1cb' : '#F6F2DA',
+            borderBottomColor: '#5e6b66',
+            borderBottomWidth: 1,
+          }}
+          labelStyle={{
+            marginLeft: -15,
+          }}
+        ></DrawerItem>
+
+        <DrawerItem
+          icon={() => <Octicons name="number" size={20} color="black" />}
+          label={'Números'}
+          onPress={() => {
+            router.push('/numeros');
+          }}
+          style={{
+            marginLeft: 15,
+            backgroundColor: path == '/numeros' ? '#a4e1cb' : '#F6F2DA',
+          }}
+          labelStyle={{
+            marginLeft: -15,
+          }}
+        ></DrawerItem>
+
+        <DrawerItem
+          icon={() => <Octicons name="number" size={20} color="black" />}
+          label={'Matemática'}
+          onPress={() => {
+            router.push('/matematica');
+          }}
+          style={{
+            marginLeft: 15,
+            backgroundColor: path == '/matematica' ? '#a4e1cb' : '#F6F2DA',
+            borderBottomColor: '#5e6b66',
+            borderBottomWidth: 1,
+          }}
+          labelStyle={{
+            marginLeft: -15,
+          }}
+        ></DrawerItem>
+
+        <DrawerItem
+          icon={() => <Feather name="edit" size={20} color="black" />}
+          label={'Personalizar'}
+          onPress={() => {
+            router.push('/personalize');
+          }}
+          style={{
+            backgroundColor: path == '/personalize' ? '#a4e1cb' : '#F6F2DA',
+          }}
+          labelStyle={{
+            marginLeft: -15,
+          }}
+        ></DrawerItem>
       </DrawerContentScrollView>
 
       <View style={{}}>
@@ -143,7 +331,7 @@ export default function CustomDrawerContent(props: any) {
           icon={() => {
             // Decida qual ícone renderizar com base no valor da variável
             if (labelLogout) {
-              // Se myVariable não for nula, retorne o ícone "arrow-forward"
+              // Se myVariable for nula, retorne o ícone "arrow-undo"
               return (
                 <Ionicons
                   style={{
@@ -156,7 +344,7 @@ export default function CustomDrawerContent(props: any) {
                 />
               );
             } else {
-              // Se myVariable for nula, retorne o ícone "arrow-undo"
+              // Se myVariable não for nula, retorne o ícone "arrow-forward"
               return (
                 <Ionicons
                   style={{

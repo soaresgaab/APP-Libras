@@ -1,4 +1,4 @@
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Image, Text, StyleSheet, Dimensions, Pressable } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
@@ -18,7 +18,11 @@ export const RenderLeftHeader = ({
 
   return (
     <Pressable style={styles.container} onPress={() => openDrawer()}>
-      <Entypo name="list" size={isTablet ? 50 : 40} color={color} />
+      <MaterialCommunityIcons
+        name="menu"
+        size={isTablet ? 50 : 40}
+        color={color}
+      />
     </Pressable>
   );
 };
@@ -27,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     paddingTop: 0,
     marginLeft: isTablet ? 15 : 10,
-    marginTop: isTablet ? -20 : 10,
+    marginTop: isTablet ? -20 : 6,
   },
   tinyLogo: {
     width: isTablet ? 180 : 130,

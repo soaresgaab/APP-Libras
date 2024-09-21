@@ -11,12 +11,8 @@ export async function pushCreateSuggestionById(
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {
-      /*const data: AxiosResponse<any> = await axios.post(
-        `https://libras.helpdesk-maraba.cloud/suggestion/`,
-        dataWord,
-      );*/
       const data: AxiosResponse<any> = await axios.post(
-        `http://localhost:4002/suggestion/`,
+        `${process.env.EXPO_PUBLIC_API_URL}/suggestion/`,
         dataWord,
       );
       resolve(data);

@@ -6,11 +6,8 @@ export async function AxiosGet(
 ): Promise<AxiosResponse> {
   return new Promise(async (resolver, reject) => {
     try {
-      /*const data: AxiosResponse<any> = await axios.get(
-        `https://libras.helpdesk-maraba.cloud/api/v1/${rota}?nameTipo=${options?.query}&mes=${options?.mes}&ano=${options?.ano}`,
-      );*/
       const data: AxiosResponse<any> = await axios.get(
-        `http://localhost:4002`,
+        `${process.env.EXPO_PUBLIC_API_URL}/${rota}?nameTipo=${options?.query}&mes=${options?.mes}&ano=${options?.ano}`,
       );
       setTimeout(() => {}, 5000);
       resolver(data);

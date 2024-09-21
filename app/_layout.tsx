@@ -10,7 +10,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useEffect } from 'react';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { Drawer } from 'expo-router/drawer';
-import { Dimensions } from 'react-native';
+import { Dimensions, StatusBar } from 'react-native';
 import CustomDrawerContent from '@/components/customDrawer';
 import { RenderHeader } from '@/components/libras_componentes/image-header';
 import { Entypo } from '@expo/vector-icons';
@@ -21,22 +21,20 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { useColorScheme } from '@/components/useColorScheme';
 import { RenderLeftHeader } from '@/components/libras_componentes/icon-left-header';
 import Color from 'color';
+import SVGNameApp from '@/components/libras_componentes/name-app';
+import ImageModal from '@/module/Image-modal';
+import imageLogo from '@/assets/images/logoNoBackground.png';
 
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
-export {
-  // Catch any errors thrown by the Layout component.
-  ErrorBoundary,
-} from 'expo-router';
+export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
-  // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: 'index',
+  initialRouteName: 'camara',
 };
 
-// Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
@@ -71,36 +69,55 @@ function RootLayoutNav() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <Drawer
           screenOptions={{
+            headerRight(props) {
+              return (
+                <ImageModal
+                  disabled={true}
+                  style={{
+                    width: isTablet ? 160 : 60,
+                    height: isTablet ? 160 : 60,
+                    alignSelf: 'baseline',
+                    borderRadius: 10,
+                    flexWrap: 'wrap',
+                    display: 'flex',
+                  }}
+                  source={imageLogo}
+                ></ImageModal>
+              );
+            },
             headerTitle(props) {
-              return <RenderHeader />;
+              return <SVGNameApp />;
             },
             headerLeft(props) {
               return <RenderLeftHeader color={props.tintColor} />;
             },
             swipeEdgeWidth: Dimensions.get('screen').width * 0.5,
             headerStyle: {
-              borderBottomStartRadius: 15,
-              borderBottomEndRadius: 15,
+              borderBottomStartRadius: 0,
+              borderBottomEndRadius: 0,
+              backgroundColor: '#ffffff00',
             },
             headerTransparent: true,
             unmountOnBlur: true,
             headerTitleAlign: 'center',
             // headerTintColor: 'black',
             headerShadowVisible: false,
-            headerStatusBarHeight: isTablet ? 100 : 55,
+            headerStatusBarHeight: isTablet ? 100 : 26,
             // headerLeftLabelVisible: false,
-            headerTintColor: '#e7503b',
+            headerTintColor: 'black',
             // headerPressColor: 'red',
             headerLeftContainerStyle: {
               // backgroundColor: 'red',
               paddingLeft: '0%',
-              marginLeft: 7,
+              marginLeft: 0,
               // alignItems: 'center',
               // backgroundColor: 'blue',
             },
             headerRightContainerStyle: {
               paddingRight: '0%',
-              alignItems: 'center',
+              alignContent: 'flex-end',
+              display: 'flex',
+              flexWrap: 'wrap',
               marginRight: 7,
               // backgroundColor: 'blue',
             },
@@ -115,8 +132,8 @@ function RootLayoutNav() {
             },
             headerBackgroundContainerStyle: {
               backgroundColor: 'rgba(255, 255, 255, 1)',
-              borderBottomStartRadius: 28,
-              borderBottomEndRadius: 28,
+              borderBottomStartRadius: 0,
+              borderBottomEndRadius: 0,
               // marginHorizontal: '10%',
             },
             sceneContainerStyle: {
@@ -128,6 +145,7 @@ function RootLayoutNav() {
             drawerActiveBackgroundColor: '#e7503b',
             drawerStyle: {
               backgroundColor: '#F6F2DA',
+              width: 320,
             },
             // drawerLabelStyle: {
             //   fontSize: 25,
@@ -138,195 +156,7 @@ function RootLayoutNav() {
             // headerShown: false,
           }}
           drawerContent={CustomDrawerContent}
-        >
-          <Drawer.Screen
-            name="index"
-            options={{
-              drawerLabel: 'Página inicial',
-              title: 'Página inicial',
-              drawerType: 'front',
-              drawerIcon: () => <Ionicons name="home" size={20}></Ionicons>,
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-
-          <Drawer.Screen
-            name="(sendsuggestionn)"
-            options={{
-              title: 'Enviar Sugestão',
-              drawerLabel: 'Enviar Sugestão',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="mail-unread" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(alfabeto)"
-            options={{
-              title: 'Alfabeto',
-              drawerLabel: 'Alfabeto',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <MaterialCommunityIcons
-                  name="format-letter-case"
-                  size={24}
-                  color="black"
-                />
-              ),
-              drawerLabelStyle: { marginLeft: -18 },
-            }}
-          />
-          <Drawer.Screen
-            name="(expregional)"
-            options={{
-              title: 'Expressões Regionais',
-              drawerLabel: 'Expressões Regionais',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="hand-left" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(saudacoes)"
-            options={{
-              title: 'Saudações',
-              drawerLabel: 'Saudações',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="hand-left" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(sinais)"
-            options={{
-              title: 'Sinais',
-              drawerLabel: 'Sinais',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Ionicons name="hand-left" size={20}></Ionicons>
-              ),
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(numeros)"
-            options={{
-              title: 'Números',
-              drawerLabel: 'Números',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Octicons name="number" size={20} color="black" />
-              ),
-              drawerLabelStyle: { marginLeft: -9 },
-            }}
-          />
-          <Drawer.Screen
-            name="(matematica)"
-            options={{
-              title: 'Matamática',
-              drawerLabel: 'Matemática',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => (
-                <Octicons name="number" size={20} color="black" />
-              ),
-              drawerLabelStyle: { marginLeft: -9 },
-            }}
-          />
-          <Drawer.Screen
-            name="(auth)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-
-          <Drawer.Screen
-            name="(search)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(edition)"
-            options={{
-              title: 'Editar categoria',
-              drawerLabel: 'Editar categoria',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => <Feather name="edit" size={20} color="black" />,
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(editionwords)"
-            options={{
-              title: 'Editar words',
-              drawerLabel: 'Editar palavras',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => <Feather name="edit" size={20} color="black" />,
-              drawerLabelStyle: { marginLeft: -15 },
-            }}
-          />
-          <Drawer.Screen
-            name="(viewsugesstion)"
-            options={{
-              title: 'Vizualizar sugestões',
-              drawerLabel: 'Vizualizar sugestões',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => <Entypo name="list" size={25} color="black" />,
-              drawerLabelStyle: { marginLeft: -19 },
-            }}
-          />
-          <Drawer.Screen
-            name="(sinaisByCard)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(tutorialsendsuggestion)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(tutorialvalidatesuggestion)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(tutorialaddcard)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(tutorialmanagecategory)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(tutorialmanagework)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(tutorialmanagesignal)"
-            options={{ drawerItemStyle: { display: 'none' } }}
-          />
-          <Drawer.Screen
-            name="(tutorial)"
-            options={{
-              title: 'Tutorial',
-              drawerLabel: 'Tutorial',
-              drawerPosition: 'left',
-              drawerType: 'front',
-              drawerIcon: () => <Entypo name="list" size={25} color="black" />,
-              drawerLabelStyle: { marginLeft: -19 },
-            }}
-          />
-        </Drawer>
+        ></Drawer>
       </GestureHandlerRootView>
     </ThemeProvider>
   );

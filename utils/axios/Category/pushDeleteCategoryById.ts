@@ -6,13 +6,10 @@ export async function pushDeleteCategoryById(
   dataCategory?: Partial<TypeCategory>,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
-    console.log(dataCategory);
+    dataCategory;
     try {
-      /*const data: AxiosResponse<any> = await axios.delete(
-        `https://libras.helpdesk-maraba.cloud/category/${dataCategory?._id}`,
-      );*/
       const data: AxiosResponse<any> = await axios.delete(
-        `http://localhost:4002/category/${dataCategory?._id}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/category/${dataCategory?._id}`,
       );
       resolve(data);
     } catch (error) {
