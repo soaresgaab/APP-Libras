@@ -6,7 +6,7 @@ export async function pushDeleteCategoryById(
   dataCategory?: Partial<TypeCategory>,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
-    (dataCategory);
+    dataCategory;
     try {
       const data: AxiosResponse<any> = await axios.delete(
         `${process.env.EXPO_PUBLIC_API_URL}/category/${dataCategory?._id}`,

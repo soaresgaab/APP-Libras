@@ -6,6 +6,7 @@ export type TypeLibrasData = {
       _id: number;
       descriptionWordDefinition?: string;
       src?: string;
+      fileType?: string;
       category?: {
         _id: number;
         nameCategory: string;
@@ -23,6 +24,7 @@ export type TypeLibrasDataWithId = {
       _id: number | undefined;
       descriptionWordDefinition?: string;
       src?: string;
+      fileType?: string;
       category?: number;
     },
   ];

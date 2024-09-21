@@ -28,6 +28,7 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';
+import Joyride, {STATUS} from "react-joyride";
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -53,7 +54,40 @@ function AppWord() {
 
   const pickerStyle = {
     placeholderColor: 'white',
-  };
+  };4
+
+  // ----------------------  tour of onboarding ----------------------------
+  const [{run, steps}, setState] = useState({
+    run: true,
+    steps: [
+      {
+        content: <h2>Conhece algum sinal que ainda não está no glossário? Contribua para o crescimento e a melhoria do aplicativo enviando a sua sugestão!</h2>,
+        locale: {skip: <strong>SKIP</strong>},
+        placement: "center",
+        target: "body"
+      },
+      {
+        content: <h2>Digite o nome da palavra que deseja adicionar</h2>,
+        placement: "center",
+        target: "#step-nameword",
+      },
+      {
+        content: <h2>Adicione uma breve descrição para explicar o significado da palavra.</h2>,
+        placement: "center",
+        target: "#step-descriptionword",
+      },
+      {
+        content: <h2>Escolha uma categoria para classificar esta palavra.</h2>,
+        placement: "center",
+        target: "#step-category",
+      },
+      {
+        content: <h2>Selecione uma imagem representando o sinal da palavra.</h2>,
+        placement: "center",
+        target: "#step-image",
+      },
+    ]
+  })
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
@@ -183,6 +217,65 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
+      <Joyride 
+        continuous
+        callback={() => {}}
+        run={run}
+        steps={steps}
+        hideCloseButton
+        scrollToFirstStep
+        showSkipButton
+        showProgress
+        locale={{
+          back: 'Voltar', 
+          close: 'Fechar', 
+          last: 'Concluir', 
+          next: 'Próximo', 
+          skip: 'Pular', 
+        }}
+        styles={{
+          options: {
+            zIndex: 10000,
+            backgroundColor: 'white', 
+            arrowColor: '#E7D75D', 
+            textColor: '#65160B', 
+            width: 300, 
+            padding: 10, 
+            borderRadius: 10, 
+            beaconSize: 20, 
+            fontFamily: 'YourCustomFont, Georgia',
+            fontSize: 20,
+          },
+          buttonNext: {
+            backgroundColor: '#59C170', 
+            color: '#fff', 
+            borderRadius: 5,
+            padding: '8px 16px', 
+            fontFamily: 'YourCustomFont, sans-serif', 
+            border: 'none', 
+          },
+          buttonBack: {
+            backgroundColor: '#007bff', 
+            color: '#fff',
+            borderRadius: 5,
+            padding: '8px 16px',
+            fontFamily: 'YourCustomFont, sans-serif',
+            border: 'none',
+          },
+          buttonSkip: {
+            backgroundColor: '#E7503B', 
+            color: '#fff',
+            borderRadius: 5,
+            padding: '8px 16px',
+            fontFamily: 'YourCustomFont, sans-serif',
+            border: 'none',
+          },
+          buttonClose: {
+            color: '#ff0000', 
+            fontFamily: 'YourCustomFont, sans-serif',
+          }
+        }}       
+      />
       <Text
         style={{
           marginTop: 164,
@@ -218,6 +311,7 @@ function AppWord() {
         Nome da Palavra
       </Text>
       <TextInput
+        id={'step-nameword'}
         style={styles.inputNameWord}
         value={data.nameWord}
         multiline={true}
@@ -252,6 +346,7 @@ function AppWord() {
               />
             </View>
             <TextInput
+              id={'step-descriptionword'}
               multiline={true}
               placeholder="ex: esse termo se refere a uma expressão regional"
               style={styles.inputDescription}
@@ -271,6 +366,7 @@ function AppWord() {
             </View>
             <View style={styles.dropdown}>
               <Picker // Adicionando uma chave única para cada item
+                id={'step-category'}
                 prompt="Escolha uma categoria"
                 style={{ fontSize: 18 }}
                 mode="dialog"
@@ -308,6 +404,7 @@ function AppWord() {
               <Text style={{ fontSize: 17 }}>Selecionar Imagem</Text>
             </Pressable>
             <Image
+              id={'step-image'}
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
