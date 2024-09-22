@@ -1,13 +1,7 @@
 import React from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
-import { Link, Stack, Tabs, usePathname } from 'expo-router';
-import { Pressable } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { BlurView } from 'expo-blur';
-import Colors from '@/constants/Colors';
+import { Tabs, usePathname } from 'expo-router';
 import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import {
   SvgCamara,
   SvgExpressaoRegional,
@@ -22,7 +16,6 @@ import {
 } from '@/components/libras_componentes/image-icon-tab-green';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
   const pathCurrently = usePathname();
 
   return (
@@ -58,15 +51,23 @@ export default function TabLayout() {
       />
       <Tabs.Screen name="auth" options={{ headerShown: false, href: null }} />
       <Tabs.Screen
-        name="edition"
+        name="edition/index"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="editionwords"
+        name="edition/words"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="search"
+        name="edition/category"
+        options={{ headerShown: false, href: null }}
+      />
+      <Tabs.Screen
+        name="edition/personalize"
+        options={{ headerShown: false, href: null }}
+      />
+      <Tabs.Screen
+        name="interactionSuite/search"
         options={{
           headerShown: false,
           tabBarLabel: 'Pesquisar',
@@ -78,7 +79,7 @@ export default function TabLayout() {
           tabBarIconStyle: {
             marginTop: 4,
           },
-          tabBarIcon: ({ color, size, focused }) => (
+          tabBarIcon: ({ size, focused }) => (
             <Ionicons
               name="search"
               size={size}
@@ -88,7 +89,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="sendsuggestionn"
+        name="interactionSuite/sendsuggestionn"
         options={{
           headerShown: false,
           tabBarLabel: 'Sugestão',
@@ -101,14 +102,14 @@ export default function TabLayout() {
             marginLeft: -12,
             marginTop: 4,
           },
-          tabBarIcon: ({ color, size, focused }) => {
+          tabBarIcon: ({ focused }) => {
             if (focused) return <SvgEmailGreen />;
             return <SvgEmail />;
           },
         }}
       />
       <Tabs.Screen
-        name="camara"
+        name="screensCategory/camara"
         options={{
           headerShown: false,
           tabBarLabel: 'Câmara',
@@ -127,7 +128,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="expressoesregionais"
+        name="screensCategory/expressoesregionais"
         options={{
           headerShown: false,
           tabBarLabel: 'Regionais',
@@ -146,37 +147,43 @@ export default function TabLayout() {
           },
         }}
       />
-      <Tabs.Screen name="about" options={{ headerShown: false, href: null }} />
       <Tabs.Screen
-        name="alfabeto"
+        name="interactionSuite/about"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="bairros"
+        name="interactionSuite/tutorial"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="matematica"
+        name="screensCategory/alfabeto"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="numeros"
+        name="screensCategory/bairros"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="personalize"
+        name="screensCategory/matematica"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="saudacoes"
+        name="screensCategory/numeros"
+        options={{ headerShown: false, href: null }}
+      />
+      <Tabs.Screen
+        name="screensCategory/saudacoes"
         options={{ headerShown: false, href: null }}
       />
 
       <Tabs.Screen
-        name="viewsuggestion"
+        name="interactionSuite/viewsuggestion"
         options={{ headerShown: false, href: null }}
       />
-      <Tabs.Screen name="vilas" options={{ headerShown: false, href: null }} />
+      <Tabs.Screen
+        name="screensCategory/vilas"
+        options={{ headerShown: false, href: null }}
+      />
     </Tabs>
   );
 }

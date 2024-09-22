@@ -5,8 +5,6 @@ import { Pressable } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { BlurView } from 'expo-blur';
 import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -17,8 +15,6 @@ function TabBarIcon(props: {
 }
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
   return (
     <Stack
       screenOptions={
