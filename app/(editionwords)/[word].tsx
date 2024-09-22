@@ -9,6 +9,7 @@ import {
   Modal,
   TouchableOpacity,
   Dimensions,
+  Alert,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -45,6 +46,7 @@ function AppWord() {
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
   let updatedSrc:string = '';
+  let midiaselect:boolean = false;
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
     _id: undefined,
     nameWord: '',
@@ -87,9 +89,62 @@ function AppWord() {
         console.error("Erro ao excluir o arquivo do Firebase Storage:", error);
       }
     }
-    const result = await pushUpdateWordById(data);
-    console.log(result.data)
+    let videosDelete = await searchById('word_id', id);
+    let videosUpdateDelete = videosDelete.data.wordDefinitions
+      .filter(v => v.fileType === 'video')
+      .map(v => v.src);
+    if (!data.nameWord || !data.wordDefinitions.every(def => def.descriptionWordDefinition && def.category)) {
+      Alert.alert(
+        'Campos obrigatórios',
+        'Por favor, preencha todos os campos obrigatórios antes de salvar.',
+        [{ text: 'OK' }]
+      );
+      return; 
+    }
+    const updatedDefinitions = await Promise.all(
+      data?.wordDefinitions.map(async (definition) => {
+        if (definition.src && definition.fileType === 'video') {
+          console.log("entrou nesse if aqui")
+          try {
+            const downloadURL = await uploadVideoToFirebase(definition.src);
+            return {
+              ...definition,
+              src: downloadURL,
+              fileType: 'video',
+            };
+          } catch (error) {
+            console.error("Erro ao enviar o vídeo:", error);
+            return definition; 
+          }
+        } else {
+          return {
+            ...definition,
+            fileType: 'image',
+          };
+        }
+      })
+    );
+    const newData = {
+      ...data,
+      wordDefinitions: updatedDefinitions,
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+    const result = await pushUpdateWordById(newData);
+    console.log(result.data);
+    try {
+      for (const videoUrl of videosUpdateDelete) {
+        const filePath = "videos/" + videoUrl.replace('https://firebasestorage.googleapis.com/v0/b/videossignallibras.appspot.com/o/videos%2F', '').replace(/\?.*$/, '');
+        const fileRef = ref(storage, filePath);
+        await deleteObject(fileRef);
+        console.log(`Arquivo excluído: ${videoUrl}`);
+      }
+    } catch (error) {
+        console.error('Erro ao excluir vídeos:', error);
+    }
     setModalVisible(true);
+    /*const result = await pushUpdateWordById(data);
+    console.log(result.data)
+    setModalVisible(true);*/
   }
   function closeModalAndBack() {
     setModalVisible(false);
@@ -204,8 +259,10 @@ function AppWord() {
 
       if (type === 'image') {
         updatedSrc = result.assets[0].base64;
+        midiaselect = true;
       } else if (type === 'video') {
         updatedSrc = uri;
+        midiaselect = true;
       }
       const newData = {
         ...data,
@@ -441,7 +498,7 @@ function AppWord() {
             >
               <Text style={{ fontSize: 17 }}>Trocar mídia</Text>
             </Pressable>
-            {<Image
+            {midiaselect === false && (<Image
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
@@ -449,15 +506,15 @@ function AppWord() {
               contentFit="cover"
               placeholder={{ blurhash }}
               transition={1000}
-            />}
-            {/*{mediaType === 'image' && mediaUri && (
+            />)}
+            {midiaselect === true && mediaType === 'image' && mediaUri && (
                 <ImageModal
                     style={styles.image}
                     source={{ uri: mediaUri }}
                 />
             )}
             
-            {mediaType === 'video' && mediaUri && (
+            {midiaselect === true && mediaType === 'video' && mediaUri && (
                 <Video
                     source={{ uri: mediaUri }}
                     style={styles.video}
@@ -465,7 +522,7 @@ function AppWord() {
                     shouldPlay
                     isLooping
                 />
-            )}*/}
+            )}
             <View style={{ marginBottom: 60 }}></View>
           </View>
         ))}
