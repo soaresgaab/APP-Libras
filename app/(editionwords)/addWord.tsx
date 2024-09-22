@@ -467,7 +467,7 @@ function AppWord() {
               ]}
               onPress={() => handleSelectImage(definition._id)}
             >
-              <Text style={{ fontSize: 17 }}>Selecione mídia</Text>
+              <Text style={{ fontSize: 17 }}>Selecionar mídia</Text>
             </Pressable>
             {/*<ImageModal
               style={styles.image}
