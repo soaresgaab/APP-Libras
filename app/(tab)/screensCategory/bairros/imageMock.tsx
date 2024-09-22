@@ -9,7 +9,7 @@ function App() {
   return (
     <View>
       <Image
-        source={require('../../../assets/mock_image/sinais/amigo.png')}
+        source={require('../../../../assets/mock_image/sinais/amigo.png')}
       ></Image>
     </View>
   );

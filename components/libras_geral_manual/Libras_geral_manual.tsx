@@ -19,7 +19,7 @@ const { width, height } = Dimensions.get('window');
 const isTablet = width >= 768 && height >= 1024;
 
 export const Libras_container = ({
-  label
+  label,
 }: {
   label: string;
 }): React.ReactNode => {
@@ -27,9 +27,9 @@ export const Libras_container = ({
   const [isLoading, setIsLoading] = useState(true);
 
   async function SearchData() {
-    const data = await searchByRoute(
-      `word/category/${label}`,
-    ).finally(() => setIsLoading(false));
+    const data = await searchByRoute(`word/category/${label}`).finally(() =>
+      setIsLoading(false),
+    );
     setFetchData(data.data);
   }
 

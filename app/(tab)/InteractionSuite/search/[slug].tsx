@@ -17,7 +17,7 @@ import { TypeLibrasData, TypeLibrasDataSinais } from '@/@types/LibrasData';
 import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
 import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
-import { initialStateDataLibrasReducer } from '../../../utils/reducer/DataLibrasReducer';
+import { initialStateDataLibrasReducer } from '../../../../utils/reducer/DataLibrasReducer';
 import * as ImagePicker from 'expo-image-picker';
 import { Foundation } from '@expo/vector-icons';
 import ImageModal, { ImageDetail } from '@/module/Image-modal';
