@@ -135,7 +135,7 @@ export default function CustomDrawerContent(props: any) {
           label={'Página inicial'}
           onPress={() => router.push('/(tab)')}
           style={{
-            backgroundColor: path == '/' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/' ? '#a4e1cb' : '#edf8f4',
             borderTopColor: '#5e6b66',
             borderTopWidth: 1,
           }}
@@ -151,7 +151,7 @@ export default function CustomDrawerContent(props: any) {
             router.push('/sendsuggestionn');
           }}
           style={{
-            backgroundColor: path == '/sendsuggestionn' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/sendsuggestionn' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -12,
@@ -170,7 +170,7 @@ export default function CustomDrawerContent(props: any) {
             router.push('/about');
           }}
           style={{
-            backgroundColor: path == '/about' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/about' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
           }}
@@ -186,7 +186,7 @@ export default function CustomDrawerContent(props: any) {
           }}
           style={{
             marginLeft: -0,
-            backgroundColor: path == '/camara' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/camara' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -25,
@@ -202,7 +202,7 @@ export default function CustomDrawerContent(props: any) {
           }}
           style={{
             marginLeft: 8,
-            backgroundColor: path == '/bairros' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/bairros' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -16,
@@ -216,7 +216,7 @@ export default function CustomDrawerContent(props: any) {
           }}
           style={{
             marginLeft: 2,
-            backgroundColor: path == '/vilas' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/vilas' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
           }}
@@ -237,7 +237,7 @@ export default function CustomDrawerContent(props: any) {
             router.push('/alfabeto');
           }}
           style={{
-            backgroundColor: path == '/alfabeto' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/alfabeto' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -15,
@@ -253,7 +253,7 @@ export default function CustomDrawerContent(props: any) {
           style={{
             marginLeft: -0,
             backgroundColor:
-              path == '/expressoesregionais' ? '#a4e1cb' : '#F6F2DA',
+              path == '/expressoesregionais' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -25,
@@ -267,7 +267,7 @@ export default function CustomDrawerContent(props: any) {
             router.push('/saudacoes');
           }}
           style={{
-            backgroundColor: path == '/saudacoes' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/saudacoes' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
           }}
@@ -284,7 +284,7 @@ export default function CustomDrawerContent(props: any) {
           }}
           style={{
             marginLeft: 15,
-            backgroundColor: path == '/numeros' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/numeros' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -15,
@@ -299,7 +299,7 @@ export default function CustomDrawerContent(props: any) {
           }}
           style={{
             marginLeft: 15,
-            backgroundColor: path == '/matematica' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/matematica' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
           }}
@@ -315,7 +315,7 @@ export default function CustomDrawerContent(props: any) {
             router.push('/personalize');
           }}
           style={{
-            backgroundColor: path == '/personalize' ? '#a4e1cb' : '#F6F2DA',
+            backgroundColor: path == '/personalize' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -15,

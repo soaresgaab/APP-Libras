@@ -9,11 +9,7 @@ import { CardTutorial } from '@/components/card_tutorial/card_tutorial';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import {
-  View,
-  Pressable,
-  Dimensions,
-} from 'react-native';
+import { View, Pressable, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 const isTablet = width >= 768 && height >= 1024;
@@ -55,12 +51,30 @@ function App() {
       >
         Guias de utilização
       </Text>
-      <CardTutorial router={'(tutorialsendsuggestion)'} label={'Como enviar sugestões de novos sinais?'}/>
-      <CardTutorial router={'(tutorialvalidatesuggestion)'} label={'Como validar sugestão de novos sinais?'}/>
-      <CardTutorial router={'(tutorialaddcard)'} label={'Como adicionar novo card na tela inicial?'}/>
-      <CardTutorial router={'(tutorialmanagecategory)'} label={'Como gerenciar as categorias de palavras?'}/>
-      <CardTutorial router={'(tutorialmanagework)'} label={'Como gerenciar as palavras?'}/>
-      <CardTutorial router={'(tutorialmanagesignals)'} label={'Como gerenciar os sinais das palavras?'}/>
+      <CardTutorial
+        router={'(tutorialsendsuggestion)'}
+        label={'Como enviar sugestões de novos sinais?'}
+      />
+      <CardTutorial
+        router={'(tutorialvalidatesuggestion)'}
+        label={'Como validar sugestão de novos sinais?'}
+      />
+      <CardTutorial
+        router={'(tutorialaddcard)'}
+        label={'Como adicionar novo card na tela inicial?'}
+      />
+      <CardTutorial
+        router={'(tutorialmanagecategory)'}
+        label={'Como gerenciar as categorias de palavras?'}
+      />
+      <CardTutorial
+        router={'(tutorialmanagework)'}
+        label={'Como gerenciar as palavras?'}
+      />
+      <CardTutorial
+        router={'(tutorialmanagesignals)'}
+        label={'Como gerenciar os sinais das palavras?'}
+      />
     </ScrollView>
   );
 }
@@ -68,7 +82,7 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     width: 'auto',
     paddingVertical: 0,
   },

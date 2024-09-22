@@ -51,7 +51,7 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     width: 'auto',
     paddingVertical: 0,
   },

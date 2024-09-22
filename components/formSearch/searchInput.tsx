@@ -70,7 +70,7 @@ function SearchInput({ fetchData, setRefreshing }: any) {
 const styles = StyleSheet.create({
   container2: {
     flex: 1,
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     marginTop: isTablet ? 164 : 122,
     width: 'auto',
     flexDirection: 'row',

@@ -17,7 +17,7 @@ const isTablet = width >= 768 && height >= 1024;
 const styles = StyleSheet.create({
   container: {
     // paddingTop: 25,
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',

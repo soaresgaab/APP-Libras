@@ -47,7 +47,7 @@ const App = () => {
   }
 
   return (
-    <ScrollView style={{ backgroundColor: '#F6F2DA' }}>
+    <ScrollView style={{ backgroundColor: '#edf8f4' }}>
       <SearchInput></SearchInput>
       <Text
         style={{

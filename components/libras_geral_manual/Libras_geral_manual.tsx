@@ -54,7 +54,7 @@ export const Libras_container = ({
       ) : (
         <>
           {fetchData?.map((item, index) => (
-            <View key={index} style={{ backgroundColor: '#F6F2DA' }}>
+            <View key={index} style={{ backgroundColor: '#edf8f4' }}>
               {item.wordDefinitions?.map((item2, index2) => (
                 <View key={index2} style={styles.container}>
                   <Pressable style={styles.div}>
@@ -80,7 +80,7 @@ export const Libras_container = ({
 const styles = StyleSheet.create({
   container: {
     // paddingTop: 25,
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',

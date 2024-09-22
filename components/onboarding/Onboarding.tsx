@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     margin: 'auto',
   },
   image: {
