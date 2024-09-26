@@ -148,10 +148,13 @@ export default function CustomDrawerContent(props: any) {
           label={'Enviar Sugestão'}
           onPress={() => {
             console.log(path);
-            router.push('/sendsuggestionn');
+            router.push('/interactionSuite/sendsuggestionn');
           }}
           style={{
-            backgroundColor: path == '/sendsuggestionn' ? '#a4e1cb' : '#edf8f4',
+            backgroundColor:
+              path == '/interactionSuite/sendsuggestionn'
+                ? '#a4e1cb'
+                : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -12,
@@ -167,10 +170,11 @@ export default function CustomDrawerContent(props: any) {
           )}
           label={'Sobre'}
           onPress={() => {
-            router.push('/about');
+            router.push('/interactionSuite/about');
           }}
           style={{
-            backgroundColor: path == '/about' ? '#a4e1cb' : '#edf8f4',
+            backgroundColor:
+              path == '/interactionSuite/about' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
           }}
@@ -198,7 +202,7 @@ export default function CustomDrawerContent(props: any) {
           )}
           label={'Bairros'}
           onPress={() => {
-            router.push('/bairros');
+            router.push('/screensCategory/bairros');
           }}
           style={{
             marginLeft: 8,
@@ -212,7 +216,7 @@ export default function CustomDrawerContent(props: any) {
           icon={() => <SvgVila />}
           label={'Vilas'}
           onPress={() => {
-            router.push('/vilas');
+            router.push('/screensCategory/vilas');
           }}
           style={{
             marginLeft: 2,
@@ -234,7 +238,7 @@ export default function CustomDrawerContent(props: any) {
           )}
           label={'Alfabeto'}
           onPress={() => {
-            router.push('/alfabeto');
+            router.push('/screensCategory/alfabeto');
           }}
           style={{
             backgroundColor: path == '/alfabeto' ? '#a4e1cb' : '#edf8f4',
@@ -248,12 +252,14 @@ export default function CustomDrawerContent(props: any) {
           icon={() => <SvgExpressaoRegional />}
           label={'Expressões Regionais'}
           onPress={() => {
-            router.push('/expressoesregionais');
+            router.push('/screensCategory/expressoesregionais');
           }}
           style={{
             marginLeft: -0,
             backgroundColor:
-              path == '/expressoesregionais' ? '#a4e1cb' : '#edf8f4',
+              path == '/screensCategory/expressoesregionais'
+                ? '#a4e1cb'
+                : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -25,
@@ -264,7 +270,7 @@ export default function CustomDrawerContent(props: any) {
           icon={() => <Ionicons name="hand-left" size={20}></Ionicons>}
           label={'Saudações'}
           onPress={() => {
-            router.push('/saudacoes');
+            router.push('/screensCategory/saudacoes');
           }}
           style={{
             backgroundColor: path == '/saudacoes' ? '#a4e1cb' : '#edf8f4',
@@ -280,7 +286,7 @@ export default function CustomDrawerContent(props: any) {
           icon={() => <Octicons name="number" size={20} color="black" />}
           label={'Números'}
           onPress={() => {
-            router.push('/numeros');
+            router.push('/screensCategory/numeros');
           }}
           style={{
             marginLeft: 15,
@@ -293,7 +299,7 @@ export default function CustomDrawerContent(props: any) {
 
         <DrawerItem
           icon={() => <Octicons name="number" size={20} color="black" />}
-          label={'Matemática'}
+          label={'screensCategory/Matemática'}
           onPress={() => {
             router.push('/matematica');
           }}
@@ -312,10 +318,10 @@ export default function CustomDrawerContent(props: any) {
           icon={() => <Feather name="edit" size={20} color="black" />}
           label={'Personalizar'}
           onPress={() => {
-            router.push('/personalize');
+            router.push('/edition');
           }}
           style={{
-            backgroundColor: path == '/personalize' ? '#a4e1cb' : '#edf8f4',
+            backgroundColor: path == '/edition' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -15,
@@ -329,7 +335,7 @@ export default function CustomDrawerContent(props: any) {
           label={label}
           onPress={() => handlePressLogin()}
           icon={() => {
-            // Decida qual ícone renderizar com base no valor da variável
+            // Decide qual ícone renderizar com base no valor da variável
             if (labelLogout) {
               // Se myVariable for nula, retorne o ícone "arrow-undo"
               return (

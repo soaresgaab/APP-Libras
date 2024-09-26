@@ -16,9 +16,15 @@ import { CreateButton } from '@/components/createData/create-Button';
 import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeCategory } from '@/@types/Category';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  AntDesign,
+  FontAwesome6,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import CategoryViewerEdition from '@/components/edition_components/category_viewer_edition';
+import Separator from '@/components/libras_componentes/separator';
 
 const { width, height } = Dimensions.get('window');
 
@@ -27,11 +33,11 @@ const isTablet = width >= 768 && height >= 1024;
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState<TypeCategory[]>();
-  const [refreshing, setRefreshing] = useState(true);
+  const [activeButton, setActiveButton] = useState('category');
 
   async function searchData() {
     const response = await searchByRoute('category');
-    response.data;
+    console.log(response.data);
     setDataFetch(response.data);
   }
 
@@ -47,91 +53,75 @@ function App() {
   }
 
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={false} progressViewOffset={70} />
-      }
-    >
-      <SearchInput></SearchInput>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 25,
-          width: '75%',
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-        }}
-      >
-        Categorias
-      </Text>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonTrash,
-        ]}
-        onPress={() => {
-          searchData();
-        }}
-      >
-        <MaterialCommunityIcons
-          styles={styles.iconTrash}
-          name="reload"
-          size={25}
-          color="white"
-        />
-      </Pressable>
-      <CreateButton router="add" label="+ Incluir Categoria"></CreateButton>
-      {data?.map((category, index) => (
-        <Pressable key={index}>
-          <View style={styles.div}>
-            <Text style={styles.labelCategory}>{category.nameCategory}</Text>
-            <View style={styles.borda}></View>
-            <ScrollView style={styles.divDescription}>
-              <Text style={styles.labelDescription}>
-                {category.descriptionCategory}
-              </Text>
-            </ScrollView>
-            <View style={styles.divButton}>
-              <Pressable
-                style={({ pressed }) => [
-                  {
-                    backgroundColor: pressed ? '#fcce9b' : '#e7d75d',
-                  },
-                  styles.buttonEdit,
-                ]}
-                onPress={() => {
-                  routePush(category._id);
-                }}
-              >
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    textAlign: 'center',
-                    fontSize: 20,
-                    width: '65%',
-                    fontWeight: 'bold',
-                    color: 'black',
-                  }}
-                >
-                  Editar
-                </Text>
-                <Feather
-                  style={styles.iconEditDescription}
-                  name="edit"
-                  size={27}
-                  color="black"
-                />
-              </Pressable>
-            </View>
-          </View>
+    <View style={styles.container}>
+      <Text style={styles.headerTitle}>Personalizar</Text>
+      <Separator marginTopProp={10} marginBottomProp={5} />
+      <View style={styles.divNavigator}>
+        <Pressable style={styles.iconButton}>
+          <AntDesign
+            style={{ alignSelf: 'flex-end' }}
+            name="bars"
+            size={35}
+            color={'black'}
+          />
         </Pressable>
-      ))}
-    </ScrollView>
+        {/* ---------------------------- buttons navigator ------------------------------------ */}
+        <View style={styles.divButtomNavigator}>
+          <Pressable
+            onPress={() => setActiveButton('category')}
+            style={[
+              styles.buttonsNavigator,
+              activeButton === 'category' && styles.buttonsNavigatorActive,
+            ]}
+          >
+            <Text
+              style={[
+                styles.textButtomDivNavigator,
+                activeButton !== 'category' &&
+                  styles.textButtomDivNavigatorActive,
+              ]}
+            >
+              Categorias
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => setActiveButton('word')}
+            style={[
+              styles.buttonsNavigator,
+              activeButton === 'word' && styles.buttonsNavigatorActive,
+            ]}
+          >
+            <Text
+              style={[
+                styles.textButtomDivNavigator,
+                activeButton !== 'word' && styles.textButtomDivNavigatorActive,
+              ]}
+            >
+              Palavras
+            </Text>
+          </Pressable>
+          <Pressable
+            onPress={() => setActiveButton('suggestion')}
+            style={[
+              styles.buttonsNavigator,
+              activeButton === 'suggestion' && styles.buttonsNavigatorActive,
+            ]}
+          >
+            <Text
+              style={[
+                styles.textButtomDivNavigator,
+                activeButton !== 'suggestion' &&
+                  styles.textButtomDivNavigatorActive,
+              ]}
+            >
+              Sugestões
+            </Text>
+          </Pressable>
+        </View>
+        {/* ---------------------------- buttons navigator ------------------------------------ */}
+      </View>
+      <CategoryViewerEdition data={data}></CategoryViewerEdition>
+    </View>
   );
 }
 
@@ -142,88 +132,54 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
-  labelCategory: {
-    marginTop: 3,
+  headerTitle: {
+    marginTop: 90,
     alignSelf: 'center',
     textAlign: 'center',
-    fontSize: 20,
-    width: '75%',
-    fontStyle: 'italic',
+    fontSize: 26,
+    width: '90%',
     fontWeight: 'bold',
-    color: 'white',
+    color: '#03459e',
   },
-  divButton: {
-    // marginTop: 3,
+  divButtomNavigator: {
+    height: 50,
+    width: '85%',
     alignSelf: 'center',
-    textAlign: 'center',
-    justifyContent: 'center',
     alignItems: 'center',
-    width: '75%',
-    height: 60,
-    fontWeight: 'bold',
-    color: 'white',
-    // backgroundColor: 'blue',
-  },
-  labelDescription: {
-    alignSelf: 'center',
-    textAlign: 'justify',
-    fontSize: 19,
-    width: '95%',
-    color: 'black',
-  },
-  div: {
-    width: isTablet ? '80%' : '95%',
-    height: 200,
-    marginTop: 18,
-    marginBottom: 20,
-    borderRadius: 12,
-    alignSelf: 'center',
-    backgroundColor: '#e7503b',
-    justifyContent: 'center',
-    borderWidth: 2,
-    borderColor: '#e7503b',
-  },
-  divDescription: {
-    width: '98%',
-    height: 2,
-    marginTop: 3,
-    marginBottom: 5,
-    borderRadius: 12,
-    alignSelf: 'center',
-    backgroundColor: 'white',
-  },
-  borda: {
-    width: '100%',
-    alignSelf: 'center',
-    marginTop: 3,
-    borderTopWidth: 2,
-    borderTopColor: '#e7503b',
-  },
-  iconTrash: {},
-  buttonTrash: {
-    alignSelf: 'flex-end',
-    width: 45,
-    paddingVertical: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginRight: '5%',
-  },
-  buttonEdit: {
-    alignSelf: 'center',
-    width: isTablet ? '40%' : '48%',
-    paddingVertical: 12,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
     flexDirection: 'row',
-    alignContent: 'center',
+    justifyContent: 'space-evenly',
   },
-  iconEditDescription: {
-    alignSelf: 'center',
+  divNavigator: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignContent: 'space-around',
+  },
+  buttonsNavigator: {
+    backgroundColor: '#ffffff',
+    borderColor: '#3d9577',
+    borderWidth: 1,
+    width: '30%',
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  iconButton: {
+    alignItems: 'center',
+    width: 45,
+  },
+  buttonsNavigatorActive: {
+    backgroundColor: '#beffe7', // Cor do botão ativo
+  },
+  textButtomDivNavigator: {
+    fontSize: 17,
     textAlign: 'center',
-    fontWeight: 'bold',
-    color: 'black',
+    fontWeight: '600',
+    color: '#03459e',
+  },
+  textButtomDivNavigatorActive: {
+    color: '#6f99d0',
   },
 });
 

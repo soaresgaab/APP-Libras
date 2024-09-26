@@ -9,11 +9,9 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
-import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
-import { router } from 'expo-router';
-import SearchInput from '@/components/formSearch/searchInput';
 import { SVGSinaisImage } from '@/components/libras_componentes/image-component-home';
+import Separator from '@/components/libras_componentes/separator';
 
 const { width, height } = Dimensions.get('window');
 
@@ -40,7 +38,7 @@ function App() {
       <Text style={styles.headerTitle}>GLOSSÁRIO DE LIBRAS</Text>
       <Text style={styles.subHeaderTitle}>Região sudeste do Pará</Text>
 
-      <View style={styles.separator}></View>
+      <Separator />
 
       <View
         style={isTablet ? styles.buttonContainerTablet : styles.buttonContainer}
