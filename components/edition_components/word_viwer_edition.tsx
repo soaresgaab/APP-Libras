@@ -1,19 +1,18 @@
 import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { TypeCategory } from '@/@types/Category';
-import { Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import React from 'react';
+import { Entypo } from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
-import { CreateButton } from '../createData/create-Button';
 import { Image } from 'expo-image';
+import { TypeLibrasData } from '@/@types/LibrasData';
 
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
-const CategoryViewerEdition = ({
+const WordViewerEdition = ({
   data,
 }: {
-  data: TypeCategory[] | undefined;
+  data: TypeLibrasData[] | undefined;
 }) => {
   return (
     <ScrollView
@@ -22,18 +21,12 @@ const CategoryViewerEdition = ({
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      {data?.map((category, index) => (
+      {data?.map((word, index) => (
         <View style={styles.listContainer} key={index}>
-          <View style={styles.divImage}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `data:image/jpeg;base64,${category.imgCategory}`,
-              }}
-              contentFit="cover"
-            />
-          </View>
           <View style={styles.divLabelAndOption}>
+            <View style={styles.divLabelCategory}>
+              <Text style={styles.textCategory}>{word.nameWord}</Text>
+            </View>
             <View style={styles.divButtonOptions}>
               <Pressable
                 style={({ pressed }) => [
@@ -51,9 +44,6 @@ const CategoryViewerEdition = ({
                 />
               </Pressable>
             </View>
-            <View style={styles.divLabelCategory}>
-              <Text style={styles.textCategory}>{category.nameCategory}</Text>
-            </View>
           </View>
         </View>
       ))}
@@ -70,9 +60,8 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     backgroundColor: 'white',
-    marginBottom: 13,
+    marginBottom: 7,
     width: width * 0.95,
-    height: 125,
     alignSelf: 'center',
     borderRadius: 10,
     borderColor: '#3d9577',
@@ -80,6 +69,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
+    justifyContent: 'center',
     // Sombra no iOS
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -87,20 +77,6 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     // Sombra no Android
     elevation: 5,
-  },
-  image: {
-    width: 180,
-    height: '100%',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    backgroundColor: 'red',
-  },
-  divImage: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 100,
-    width: '50%',
   },
   textCategory: {
     alignSelf: 'center',
@@ -112,18 +88,18 @@ const styles = StyleSheet.create({
     color: '#03459e',
   },
   divLabelAndOption: {
-    height: 110,
-    width: '48.5%',
+    width: '98.5%',
+    flexDirection: 'row',
   },
   divButtonOptions: {
-    width: '100%',
-    height: 25,
+    width: '30%',
+    height: 40,
     alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   divLabelCategory: {
-    height: 60,
+    width: '68%',
     justifyContent: 'center',
-    marginRight: 30,
   },
   buttonOption: {
     borderColor: '#3d9577',
@@ -136,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CategoryViewerEdition;
+export default WordViewerEdition;

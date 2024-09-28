@@ -48,7 +48,8 @@ function App() {
   ]);
   // ----------------------  Select img category ----------------------------
   const handleSelectImage = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (permissionResult.granted === false) {
       alert('Permissão para acessar a biblioteca de mídia é necessária.');
       return;

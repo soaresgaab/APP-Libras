@@ -25,25 +25,26 @@ import { Entypo } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import CategoryViewerEdition from '@/components/edition_components/category_viewer_edition';
 import Separator from '@/components/libras_componentes/separator';
+import WordViewerEdition from '@/components/edition_components/word_viwer_edition';
 
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
 function App() {
-  const [option, setData] = useState({});
-  const [data, setDataFetch] = useState<TypeCategory[]>();
+  const [data, setDataFetch] = useState<any[]>();
   const [activeButton, setActiveButton] = useState('category');
+  const [loading, setLoading] = useState<boolean>(false);
 
   async function searchData() {
-    const response = await searchByRoute('category');
-    console.log(response.data);
+    console.log(activeButton);
+    const response = await searchByRoute(activeButton);
     setDataFetch(response.data);
   }
 
   useEffect(() => {
     searchData();
-  }, []);
+  }, [activeButton]);
 
   function routePush(id: number) {
     router.push({
@@ -69,9 +70,12 @@ function App() {
         <View style={styles.divButtomNavigator}>
           <Pressable
             onPress={() => setActiveButton('category')}
-            style={[
+            style={({ pressed }) => [
               styles.buttonsNavigator,
               activeButton === 'category' && styles.buttonsNavigatorActive,
+              {
+                elevation: pressed ? 1 : 6,
+              },
             ]}
           >
             <Text
@@ -86,9 +90,12 @@ function App() {
           </Pressable>
           <Pressable
             onPress={() => setActiveButton('word')}
-            style={[
+            style={({ pressed }) => [
               styles.buttonsNavigator,
               activeButton === 'word' && styles.buttonsNavigatorActive,
+              {
+                elevation: pressed ? 1 : 6,
+              },
             ]}
           >
             <Text
@@ -102,9 +109,12 @@ function App() {
           </Pressable>
           <Pressable
             onPress={() => setActiveButton('suggestion')}
-            style={[
+            style={({ pressed }) => [
               styles.buttonsNavigator,
               activeButton === 'suggestion' && styles.buttonsNavigatorActive,
+              {
+                elevation: pressed ? 1 : 6,
+              },
             ]}
           >
             <Text
@@ -120,7 +130,12 @@ function App() {
         </View>
         {/* ---------------------------- buttons navigator ------------------------------------ */}
       </View>
-      <CategoryViewerEdition data={data}></CategoryViewerEdition>
+      {activeButton == 'category' && (
+        <CategoryViewerEdition data={data}></CategoryViewerEdition>
+      )}
+      {activeButton == 'word' && (
+        <WordViewerEdition data={data}></WordViewerEdition>
+      )}
     </View>
   );
 }
@@ -164,6 +179,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
+    // Sombra no iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    // Sombra no Android
+    elevation: 5,
   },
   iconButton: {
     alignItems: 'center',
