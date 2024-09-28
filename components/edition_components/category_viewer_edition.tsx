@@ -5,6 +5,7 @@ import { Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { CreateButton } from '../createData/create-Button';
 import { Image } from 'expo-image';
+import ImageModal from '@/module/Image-modal';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,12 +26,11 @@ const CategoryViewerEdition = ({
       {data?.map((category, index) => (
         <View style={styles.listContainer} key={index}>
           <View style={styles.divImage}>
-            <Image
+            <ImageModal
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${category.imgCategory}`,
               }}
-              contentFit="cover"
             />
           </View>
           <View style={styles.divLabelAndOption}>

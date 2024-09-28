@@ -1,15 +1,18 @@
 import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import React from 'react';
-import { Entypo } from '@expo/vector-icons';
+import React, { useEffect, useState } from 'react';
+import { TypeCategory } from '@/@types/Category';
+import { Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
+import { CreateButton } from '../createData/create-Button';
 import { Image } from 'expo-image';
 import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import ImageModal from '@/module/Image-modal';
 
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
-const WordViewerEdition = ({
+const SuggestionViewerEdition = ({
   data,
 }: {
   data: TypeLibrasDataWithId[] | undefined;
@@ -21,12 +24,17 @@ const WordViewerEdition = ({
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      {data?.map((word, index) => (
+      {data?.map((suggestion, index) => (
         <View style={styles.listContainer} key={index}>
+          <View style={styles.divImage}>
+            <ImageModal
+              style={styles.image}
+              source={{
+                uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
+              }}
+            />
+          </View>
           <View style={styles.divLabelAndOption}>
-            <View style={styles.divLabelCategory}>
-              <Text style={styles.textCategory}>{word.nameWord}</Text>
-            </View>
             <View style={styles.divButtonOptions}>
               <Pressable
                 style={({ pressed }) => [
@@ -44,6 +52,9 @@ const WordViewerEdition = ({
                 />
               </Pressable>
             </View>
+            <View style={styles.divLabelCategory}>
+              <Text style={styles.textCategory}>{suggestion.nameWord}</Text>
+            </View>
           </View>
         </View>
       ))}
@@ -60,8 +71,9 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     backgroundColor: 'white',
-    marginBottom: 7,
+    marginBottom: 13,
     width: width * 0.95,
+    height: 125,
     alignSelf: 'center',
     borderRadius: 10,
     borderColor: '#3d9577',
@@ -69,7 +81,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     alignItems: 'center',
-    justifyContent: 'center',
     // Sombra no iOS
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -77,6 +88,20 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     // Sombra no Android
     elevation: 5,
+  },
+  image: {
+    width: 180,
+    height: '100%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    backgroundColor: 'red',
+  },
+  divImage: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 100,
+    width: '50%',
   },
   textCategory: {
     alignSelf: 'center',
@@ -88,18 +113,18 @@ const styles = StyleSheet.create({
     color: '#03459e',
   },
   divLabelAndOption: {
-    width: '98.5%',
-    flexDirection: 'row',
+    height: 110,
+    width: '48.5%',
   },
   divButtonOptions: {
-    width: '30%',
-    height: 40,
+    width: '100%',
+    height: 25,
     alignItems: 'flex-end',
-    justifyContent: 'center',
   },
   divLabelCategory: {
-    width: '68%',
+    height: 60,
     justifyContent: 'center',
+    marginRight: 30,
   },
   buttonOption: {
     borderColor: '#3d9577',
@@ -112,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WordViewerEdition;
+export default SuggestionViewerEdition;

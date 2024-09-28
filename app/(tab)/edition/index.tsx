@@ -25,6 +25,7 @@ import {
 import CategoryViewerEdition from '@/components/edition_components/category_viewer_edition';
 import Separator from '@/components/libras_componentes/separator';
 import WordViewerEdition from '@/components/edition_components/word_viwer_edition';
+import SuggestionViewerEdition from '@/components/edition_components/suggestion_viewer_edition';
 
 const { width, height } = Dimensions.get('window');
 
@@ -70,7 +71,7 @@ function App() {
         <View style={styles.divButtomNavigator}>
           <Pressable
             onPress={() => {
-              setDataFetch(undefined);
+              if (activeButton !== 'category') setDataFetch(undefined);
               setActiveButton('category');
             }}
             style={({ pressed }) => [
@@ -93,7 +94,7 @@ function App() {
           </Pressable>
           <Pressable
             onPress={() => {
-              setDataFetch(undefined);
+              if (activeButton !== 'word') setDataFetch(undefined);
               setActiveButton('word');
             }}
             style={({ pressed }) => [
@@ -115,7 +116,7 @@ function App() {
           </Pressable>
           <Pressable
             onPress={() => {
-              setDataFetch(undefined);
+              if (activeButton !== 'suggestion') setDataFetch(undefined);
               setActiveButton('suggestion');
             }}
             style={({ pressed }) => [
@@ -143,6 +144,9 @@ function App() {
         <>
           {activeButton === 'category' && <CategoryViewerEdition data={data} />}
           {activeButton === 'word' && <WordViewerEdition data={data} />}
+          {activeButton === 'suggestion' && (
+            <SuggestionViewerEdition data={data} />
+          )}
         </>
       ) : (
         <ActivityIndicator
