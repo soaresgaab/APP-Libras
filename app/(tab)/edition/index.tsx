@@ -59,14 +59,25 @@ function App() {
       <Text style={styles.headerTitle}>Personalizar</Text>
       <Separator marginTopProp={10} marginBottomProp={5} />
       <View style={styles.divNavigator}>
-        <Pressable style={styles.iconButton}>
-          <AntDesign
-            style={{ alignSelf: 'flex-end' }}
-            name="bars"
-            size={35}
-            color={'black'}
-          />
-        </Pressable>
+        <View style={styles.divIconButton}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.iconButton,
+              // { backgroundColor: pressed ? '#3d9577' : '#ffffff' },
+              {
+                elevation: pressed ? 1 : 6,
+              },
+            ]}
+          >
+            <AntDesign
+              style={{ alignSelf: 'center' }}
+              name="bars"
+              size={35}
+              color={'black'}
+            />
+          </Pressable>
+        </View>
+
         {/* ---------------------------- buttons navigator ------------------------------------ */}
         <View style={styles.divButtomNavigator}>
           <Pressable
@@ -208,7 +219,17 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     alignItems: 'center',
-    width: 45,
+    width: 38,
+    height: 38,
+    marginLeft: 4,
+    borderWidth: 1,
+    borderColor: '#3d9577',
+    backgroundColor: 'white',
+    borderRadius: 5,
+  },
+  divIconButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   buttonsNavigatorActive: {
     backgroundColor: '#beffe7', // Cor do botão ativo
