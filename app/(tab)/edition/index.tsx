@@ -5,6 +5,7 @@ import {
   View,
   Pressable,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -21,8 +22,6 @@ import {
   FontAwesome6,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
-import { Entypo } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
 import CategoryViewerEdition from '@/components/edition_components/category_viewer_edition';
 import Separator from '@/components/libras_componentes/separator';
 import WordViewerEdition from '@/components/edition_components/word_viwer_edition';
@@ -37,8 +36,9 @@ function App() {
   const [loading, setLoading] = useState<boolean>(false);
 
   async function searchData() {
-    console.log(activeButton);
+    setLoading(true);
     const response = await searchByRoute(activeButton);
+    setLoading(false);
     setDataFetch(response.data);
   }
 
@@ -69,7 +69,10 @@ function App() {
         {/* ---------------------------- buttons navigator ------------------------------------ */}
         <View style={styles.divButtomNavigator}>
           <Pressable
-            onPress={() => setActiveButton('category')}
+            onPress={() => {
+              setDataFetch(undefined);
+              setActiveButton('category');
+            }}
             style={({ pressed }) => [
               styles.buttonsNavigator,
               activeButton === 'category' && styles.buttonsNavigatorActive,
@@ -89,7 +92,10 @@ function App() {
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => setActiveButton('word')}
+            onPress={() => {
+              setDataFetch(undefined);
+              setActiveButton('word');
+            }}
             style={({ pressed }) => [
               styles.buttonsNavigator,
               activeButton === 'word' && styles.buttonsNavigatorActive,
@@ -108,7 +114,10 @@ function App() {
             </Text>
           </Pressable>
           <Pressable
-            onPress={() => setActiveButton('suggestion')}
+            onPress={() => {
+              setDataFetch(undefined);
+              setActiveButton('suggestion');
+            }}
             style={({ pressed }) => [
               styles.buttonsNavigator,
               activeButton === 'suggestion' && styles.buttonsNavigatorActive,
@@ -130,11 +139,17 @@ function App() {
         </View>
         {/* ---------------------------- buttons navigator ------------------------------------ */}
       </View>
-      {activeButton == 'category' && (
-        <CategoryViewerEdition data={data}></CategoryViewerEdition>
-      )}
-      {activeButton == 'word' && (
-        <WordViewerEdition data={data}></WordViewerEdition>
+      {loading === false ? (
+        <>
+          {activeButton === 'category' && <CategoryViewerEdition data={data} />}
+          {activeButton === 'word' && <WordViewerEdition data={data} />}
+        </>
+      ) : (
+        <ActivityIndicator
+          size="large"
+          color="#03459e"
+          style={{ marginTop: 12 }}
+        />
       )}
     </View>
   );
