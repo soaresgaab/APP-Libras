@@ -37,10 +37,14 @@ import ImageModal from '@/module/Image-modal';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Video } from 'expo-av';
 import { storage } from '../../firebaseConfig';
+import { RadioButton } from 'react-native-paper';
 
 function AppWord() {
   const [mediaUri, setMediaUri] = useState<string | null>(null);
+  const [youtubeLinkUri, setYoutubeLinkUri] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null);
+  const [midiaStorageType, setMidiaStorageType] = useState<'upload' | 'linkVideo' | null>(null);
+
   const [isVideoModalVisible, setVideoModalVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
@@ -84,29 +88,50 @@ function AppWord() {
       );
       return;
     }
-    const updatedDefinitions = await Promise.all(
-      data?.wordDefinitions.map(async (definition) => {
-        if (definition.src && definition.fileType === "video") {
-          console.log("entrou nesse if aqui")
-          try {
-            const downloadURL = await uploadVideoToFirebase(definition.src);
+    let updatedDefinitions = data.wordDefinitions;
+    if(midiaStorageType === 'upload'){
+      updatedDefinitions = await Promise.all(
+        data?.wordDefinitions.map(async (definition) => {
+          if (definition.src && definition.fileType === "video") {
+            console.log("entrou nesse if aqui")
+            try {
+              const downloadURL = await uploadVideoToFirebase(definition.src);
+              return {
+                ...definition,
+                src: downloadURL, 
+                fileType: 'video',
+              };
+            } catch (error) {
+              console.error("Erro ao enviar o vídeo:", error);
+              return definition; 
+            }
+          } else {
             return {
               ...definition,
-              src: downloadURL, 
-              fileType: 'video',
+              fileType: 'image',
             };
-          } catch (error) {
-            console.error("Erro ao enviar o vídeo:", error);
-            return definition; 
           }
-        } else {
-          return {
-            ...definition,
-            fileType: 'image',
-          };
-        }
-      })
-    );
+        })
+      );
+    } else {
+      if(midiaStorageType === 'linkVideo'){
+        console.log("entrou nesse else")
+        updatedDefinitions = await Promise.all(
+          data?.wordDefinitions.map(async (definition) => {
+            try {
+              return {
+                ...definition,
+                src: youtubeLinkUri, 
+                fileType: 'video',
+              };
+            } catch (error) {
+              console.error("Erro no processamento do link:", error);
+              return definition; 
+            }
+          })
+        );
+      }
+    }
     const newData = {
       ...data,
       wordDefinitions: updatedDefinitions,
@@ -388,18 +413,41 @@ function AppWord() {
               </Picker>
             </View>
 
-            {/* ---------------------- select image  ---------------------------- */}
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                },
-                styles.button,
-              ]}
-              onPress={() => handleSelectImage(definition._id)}
-            >
-              <Text style={{ fontSize: 17 }}>Selecionar mídia</Text>
-            </Pressable>
+            {/* ---------------------- Radio Buttons para selecionar Imagem ou Vídeo ---------------------------- */}
+            <Text style={styles.label}>Selecione o tipo de mídia:</Text>
+            <View style={styles.radioContainer}>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="upload"
+                  status={midiaStorageType === 'upload' ? 'checked' : 'unchecked'}
+                  onPress={() => setMidiaStorageType('upload')}
+                />
+                <Text>Upload da mídia</Text>
+              </View>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="linkVideo"
+                  status={midiaStorageType === 'linkVideo' ? 'checked' : 'unchecked'}
+                  onPress={() => setMidiaStorageType('linkVideo')}
+                />
+                <Text>Link do Youtube</Text>
+              </View>
+            </View>
+
+            {/* ---------------------- select image - opção Upload de mídia ---------------------------- */}
+            {midiaStorageType ===  'upload' && (
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                  },
+                  styles.button,
+                ]}
+                onPress={() => handleSelectImage(definition._id)}
+              >
+                <Text style={{ fontSize: 17 }}>Selecionar mídia</Text>
+              </Pressable>
+            )}
             {/*<Image
               style={styles.image}
               source={{
@@ -409,14 +457,14 @@ function AppWord() {
               placeholder={{ blurhash }}
               transition={1000}
             />*/}
-            {mediaType === 'image' && mediaUri && (
+            {midiaStorageType ===  'upload' && mediaType === 'image' && mediaUri && (
                 <ImageModal
                     style={styles.image}
                     source={{ uri: mediaUri }}
                 />
             )}
             
-            {mediaType === 'video' && mediaUri && (
+            {midiaStorageType ===  'upload' && mediaType === 'video' && mediaUri && (
                 <Video
                     source={{ uri: mediaUri }}
                     style={styles.video}
@@ -424,6 +472,19 @@ function AppWord() {
                     shouldPlay
                     isLooping
                 />
+            )}
+
+            {/* ---------------------- Se a opção Link do youtube for selecionada  ---------------------------- */}
+            {midiaStorageType === 'linkVideo' && (
+              <View>
+                <Text style={styles.label}>Cole o link do vídeo do YouTube:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="https://www.youtube.com/..."
+                  value={youtubeLinkUri}
+                  onChangeText={(text) => setYoutubeLinkUri(text)}
+                />
+              </View>
             )}
             <View style={{ marginBottom: 60 }}></View>
           </View>
@@ -711,7 +772,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
+  radioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  radioItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  input: {
+    backgroundColor: 'white',
+    width: '85%',
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    color: 'red',
+    fontSize: 16,
+    marginBottom: 20,
+  },
   button: {
     width: 150,
     paddingVertical: 10,
