@@ -31,6 +31,7 @@ export const Libras_container = ({
       `word/category/${label}`,
     ).finally(() => setIsLoading(false));
     setFetchData(data.data);
+    console.log(data.data)
   }
 
   useEffect(() => {
@@ -58,14 +59,14 @@ export const Libras_container = ({
               {item.wordDefinitions?.map((item2, index2) => (
                 <View key={index2} style={styles.container}>
                   <Pressable style={styles.div}>
-                    {
+                    {item2.fileType ===  'image' && (
                       <ImageModal
                         style={styles.image}
                         source={{
                           uri: `data:image/jpeg;base64,${item2.src}`,
                         }}
                       ></ImageModal>
-                    }
+                    )}
                     <Text style={styles.label}>{item.nameWord}</Text>
                   </Pressable>
                 </View>
