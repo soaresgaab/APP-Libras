@@ -7,6 +7,7 @@ import {
   TextInput,
   Button,
   Modal,
+  ActivityIndicator,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -36,6 +37,7 @@ function App() {
     imgCategory: '',
   });
   const [modalVisible, setModalVisible] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const blurhash = 'LRK{nc~DoMt7EKofj[a#-WWUayj?';
   const { id } = useLocalSearchParams();
 
@@ -66,15 +68,15 @@ function App() {
   };
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
+    setLoading(true);
     const result = await pushCreateCategoryById(data);
+    setLoading(false);
     setModalVisible(true);
   }
 
   function closeModalAndBack() {
     setModalVisible(false);
-    router.push({
-      pathname: '/(edition)',
-    });
+    router.dismiss(1);
   }
 
   // ----------------------  Controller data change by input ----------------------------
@@ -160,7 +162,15 @@ function App() {
           sendData();
         }}
       >
-        <Text style={{ fontSize: 18 }}>Salvar</Text>
+        {loading ? (
+          <ActivityIndicator
+            size="small"
+            color="#03459e"
+            style={{ paddingVertical: 3 }}
+          />
+        ) : (
+          <Text style={{ fontSize: 18 }}>Salvar</Text>
+        )}
       </Pressable>
       <Pressable
         style={({ pressed }) => [
@@ -193,7 +203,15 @@ function App() {
           <View style={styles.modalContainer}>
             <Text style={styles.modalText}>Categoria criada com sucesso!</Text>
             <Pressable
-              style={styles.modalButton}
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+                },
+                {
+                  elevation: pressed ? 1 : 6,
+                },
+                styles.modalButton,
+              ]}
               onPress={() => closeModalAndBack()}
             >
               <Text style={styles.modalButtonText}>OK</Text>
@@ -364,14 +382,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,

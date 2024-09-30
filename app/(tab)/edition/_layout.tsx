@@ -25,6 +25,10 @@ export default function TabLayout() {
       <Stack.Screen name="category/[id]" options={{ headerShown: false }} />
       <Stack.Screen name="category/add" options={{ headerShown: false }} />
       <Stack.Screen name="category/index" options={{ headerShown: false }} />
+      <Stack.Screen name="words/addWord" options={{ headerShown: false }} />
+      <Stack.Screen name="words/addSinal" options={{ headerShown: false }} />
+      <Stack.Screen name="words/index" options={{ headerShown: false }} />
+      <Stack.Screen name="words/[word]" options={{ headerShown: false }} />
     </Stack>
   );
 }
