@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { ActivityIndicator } from 'react-native';
+import YoutubeIframe from 'react-native-youtube-iframe'
 
 const { width, height } = Dimensions.get('window');
 
@@ -67,6 +68,13 @@ export const Libras_container = ({
                         }}
                       ></ImageModal>
                     )}
+                    {item2.fileType ===  'video' && (
+                      <YoutubeIframe 
+                      videoId={item2.src.split('https://www.youtube.com/watch?v=')[1]?.split('&')[0]}
+                      height={isTablet ? 295 : 180}
+                      width={isTablet ? 660 : 340}
+                      />
+                    )}
                     <Text style={styles.label}>{item.nameWord}</Text>
                   </Pressable>
                 </View>
@@ -117,6 +125,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e7503b',
     marginTop: 5,
+    display: 'flex',
+    alignItems: 'center',
   },
   logo: {
     width: 66,

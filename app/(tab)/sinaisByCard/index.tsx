@@ -8,7 +8,6 @@ import { useRouter } from 'expo-router'; // Import useRouter
 import { Libras_regional_container } from '@/components/libras_expregionais_manual/Libras_expregionais_manual';
 import { Libras_container } from '@/components/libras_geral_manual/Libras_geral_manual';
 import { useLocalSearchParams } from 'expo-router';
-import YoutubeIframe from 'react-native-youtube-iframe'
 
 function App() {
   const { label } = useLocalSearchParams();
@@ -42,11 +41,6 @@ function App() {
       >
         {categoy}
       </Text>
-      <YoutubeIframe 
-      videoId='ajsfNpZja5w'
-      height={180}
-      width={80}
-      />
       <Libras_container label={categoy}/>
     </ScrollView>
   );
