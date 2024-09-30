@@ -26,7 +26,7 @@ import { BlurView } from 'expo-blur';
 import { pushCreateCategoryById } from '@/utils/axios/Category/pushCreateCategoryById';
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
-import DropDownPicker from 'react-native-dropdown-picker';
+import Separator from '@/components/libras_componentes/separator';
 
 function App() {
   const [data, setDataFetch] = useState<Partial<TypeCategory>>({
@@ -36,6 +36,7 @@ function App() {
     imgCategory: '',
   });
   const [modalVisible, setModalVisible] = useState(false);
+  const blurhash = 'LRK{nc~DoMt7EKofj[a#-WWUayj?';
   const { id } = useLocalSearchParams();
 
   // ----------------------  Select img category ----------------------------
@@ -50,8 +51,8 @@ function App() {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [4, 4],
-      quality: 0.2,
+      aspect: [16, 9],
+      quality: 0.3,
       base64: true,
     });
 
@@ -66,7 +67,6 @@ function App() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushCreateCategoryById(data);
-    result.status;
     setModalVisible(true);
   }
 
@@ -77,13 +77,6 @@ function App() {
     });
   }
 
-  // ----------------------  function to fetch data ----------------------------
-  async function searchData() {
-    const response = await searchById('Category', id);
-    setDataFetch(response.data);
-  }
-
-  useEffect(() => {}, []);
   // ----------------------  Controller data change by input ----------------------------
   function handleTextCategory(text: string) {
     const newData = { ...data, nameCategory: text };
@@ -101,37 +94,47 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <SearchInput></SearchInput>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          fontWeight: 'bold',
+      <Text style={styles.headerTitle}>Criar Categoria</Text>
+      <Separator marginTopProp={10} marginBottomProp={10}></Separator>
+      {/* ---------------------- input name Category  ---------------------------- */}
+
+      <Text style={styles.labelCategory}>Nome</Text>
+
+      <TextInput
+        style={styles.inputCategory}
+        value={data?.nameCategory}
+        placeholder="Informe a categoria"
+        onChangeText={(text) => {
+          handleTextCategory(text);
         }}
-      >
-        Criar Categoria
-      </Text>
-      {/* ----------------------  form imput  ---------------------------- */}
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
+      ></TextInput>
+      {/* ---------------------- input description Category  ---------------------------- */}
+
+      <Text style={styles.labelDescription}>Descrição</Text>
+
+      <TextInput
+        style={styles.inputDescription}
+        value={data?.descriptionCategory}
+        placeholder="Informe uma descrição para a categoria"
+        multiline={true}
+        onChangeText={(text) => {
+          handleTextDescription(text);
+        }}
+      ></TextInput>
       {/* ---------------------- input img Category  ---------------------------- */}
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+            backgroundColor: pressed ? '#beffe7' : 'white',
+          },
+          {
+            elevation: pressed ? 1 : 6,
           },
           styles.button,
         ]}
-        onPress={() => handleSelectImage(data?._id)}
+        onPress={() => handleSelectImage()}
       >
-        <Text style={{ fontSize: 17 }}>Escolher Imagem</Text>
+        <Text style={{ fontSize: 17 }}>Selecionar Imagem</Text>
       </Pressable>
       <Image
         style={styles.image}
@@ -139,49 +142,17 @@ function App() {
           uri: `data:image/jpeg;base64,${data?.imgCategory}`,
         }}
         contentFit="cover"
+        placeholder={{ blurhash }}
       />
-      <View style={{ marginBottom: 60 }}></View>
-      {/* ---------------------- input name Category  ---------------------------- */}
-      <View style={styles.groupCategory}>
-        <Text style={styles.labelCategory}>Nome</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="white"
-        />
-      </View>
-      <TextInput
-        style={styles.inputCategory}
-        value={data?.nameCategory}
-        onChangeText={(text) => {
-          handleTextCategory(text);
-        }}
-      ></TextInput>
-      {/* ---------------------- input description Category  ---------------------------- */}
-      <View style={styles.groupDescription}>
-        <Text style={styles.labelDescription}>Descrição</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="#e7503b"
-        />
-      </View>
-      <TextInput
-        style={styles.inputDescription}
-        value={data?.descriptionCategory}
-        multiline={true}
-        onChangeText={(text) => {
-          handleTextDescription(text);
-        }}
-      ></TextInput>
       {/* ---------------------- buttons to create Category  ---------------------------- */}
-
+      <Separator marginTopProp={25} marginBottomProp={10}></Separator>
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
+            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
+          },
+          {
+            elevation: pressed ? 1 : 6,
           },
           styles.buttonSalvar,
         ]}
@@ -194,7 +165,10 @@ function App() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
+            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+          },
+          {
+            elevation: pressed ? 1 : 6,
           },
           styles.buttonCancelar,
         ]}
@@ -236,56 +210,68 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#edf8f4',
     width: 'auto',
-    paddingVertical: 0,
+  },
+  headerTitle: {
+    marginTop: 95,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 26,
+    width: '90%',
+    fontWeight: 'bold',
+    color: '#03459e',
   },
   inputCategory: {
     backgroundColor: 'white',
-    width: '75%',
+    width: 360,
     alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'left',
     paddingVertical: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    paddingLeft: 11,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
-    fontWeight: 'bold',
-    fontSize: 20,
+    // fontWeight: 'bold',
+    fontSize: 17,
+    elevation: 6,
   },
   inputDescription: {
     justifyContent: 'space-around',
     textAlignVertical: 'top',
-    paddingHorizontal: 6,
+    paddingHorizontal: 8,
     backgroundColor: 'white',
-    width: '90%',
-    height: 140,
+    width: 360,
+    height: 100,
     alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'left',
     paddingVertical: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
     fontWeight: 'bold',
     fontSize: 15,
+    elevation: 6,
   },
   labelCategory: {
     marginTop: 0,
     alignSelf: 'center',
     textAlign: 'left',
+    paddingLeft: 18,
     fontSize: 20,
-    width: '65%',
+    width: 360,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#03459e',
   },
   labelDescription: {
+    marginTop: 20,
     alignSelf: 'center',
     textAlign: 'left',
     fontSize: 20,
+    paddingLeft: 18,
     fontWeight: 'bold',
-    width: '80%',
-    color: 'white',
+    width: 360,
+    color: '#03459e',
   },
   iconClip: {
     marginTop: 0,
@@ -302,9 +288,6 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   groupDescription: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    backgroundColor: '#e7503b',
     marginTop: 10,
     flexDirection: 'row',
     width: '90%',
@@ -313,15 +296,13 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   groupCategory: {
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
-    backgroundColor: '#e7503b',
-    marginTop: 10,
+    marginTop: 5,
     flexDirection: 'row',
-    width: '75%',
+    width: '80%',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
+    backgroundColor: 'yellow',
   },
   iconTrash: {},
   buttonTrash: {
@@ -335,32 +316,30 @@ const styles = StyleSheet.create({
   },
   buttonCancelar: {
     marginTop: 15,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
     marginBottom: 25,
   },
   buttonSalvar: {
-    marginTop: 30,
-    alignSelf: 'flex-end',
+    marginTop: 10,
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
   },
   image: {
     width: 290,
-    height: 280,
+    height: 180,
     marginTop: 18,
     alignSelf: 'center',
     textAlign: 'center',
@@ -368,24 +347,8 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: 'bold',
     borderRadius: 15,
-  },
-  selectContainer: {
-    width: '90%',
-    alignSelf: 'center',
-    marginBottom: 20,
-  },
-  dropdown: {
-    backgroundColor: 'white',
-    borderColor: '#e7503b',
-    borderWidth: 2,
-    borderRadius: 10,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
-  },
-  dropdownContainer: {
-    borderColor: '#e7503b',
-    borderWidth: 2,
-    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: '#3d9577',
   },
   //-------------------------  modal style---------------------------
   modalOverlay: {
@@ -419,13 +382,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    width: 150,
+    width: 180,
     paddingVertical: 10,
-    marginTop: 10,
+    marginTop: 20,
+    // paddingHorizontal: 60,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#3d9577',
   },
 });
 

@@ -1,31 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
-  RefreshControl,
   View,
   Pressable,
   Dimensions,
   ActivityIndicator,
+  Modal,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import SearchInput from '@/components/formSearch/searchInput';
-import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
-import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
-import { router } from 'expo-router';
-import { CreateButton } from '@/components/createData/create-Button';
-import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
+import { Link, router } from 'expo-router';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import { TypeCategory } from '@/@types/Category';
 import {
   AntDesign,
-  FontAwesome6,
+  Ionicons,
   MaterialCommunityIcons,
 } from '@expo/vector-icons';
 import CategoryViewerEdition from '@/components/edition_components/category_viewer_edition';
 import Separator from '@/components/libras_componentes/separator';
 import WordViewerEdition from '@/components/edition_components/word_viwer_edition';
 import SuggestionViewerEdition from '@/components/edition_components/suggestion_viewer_edition';
+import { BlurView } from 'expo-blur';
 
 const { width, height } = Dimensions.get('window');
 
@@ -35,6 +31,7 @@ function App() {
   const [data, setDataFetch] = useState<any[]>();
   const [activeButton, setActiveButton] = useState('category');
   const [loading, setLoading] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState(false);
 
   async function searchData() {
     setLoading(true);
@@ -43,14 +40,18 @@ function App() {
     setDataFetch(response.data);
   }
 
+  function closeModalAndBack() {
+    setModalVisible(false);
+  }
+
   useEffect(() => {
     searchData();
   }, [activeButton]);
 
-  function routePush(id: number) {
+  function routePush(route: string) {
+    setModalVisible(false);
     router.push({
-      pathname: '/(edition)/[id]',
-      params: { id: `${id}` },
+      pathname: `edition/category/${route}`,
     });
   }
 
@@ -61,19 +62,20 @@ function App() {
       <View style={styles.divNavigator}>
         <View style={styles.divIconButton}>
           <Pressable
+            onPress={() => setModalVisible(true)}
             style={({ pressed }) => [
               styles.iconButton,
-              // { backgroundColor: pressed ? '#3d9577' : '#ffffff' },
               {
+                backgroundColor: pressed ? '#6EB69D' : 'white',
                 elevation: pressed ? 1 : 6,
               },
             ]}
           >
-            <AntDesign
+            <MaterialCommunityIcons
               style={{ alignSelf: 'center' }}
-              name="bars"
-              size={35}
-              color={'black'}
+              name="playlist-plus"
+              size={33}
+              color="black"
             />
           </Pressable>
         </View>
@@ -166,6 +168,98 @@ function App() {
           style={{ marginTop: 12 }}
         />
       )}
+      {/* ---------------------------------------modal ---------------------------------------- */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => closeModalAndBack()}>
+          <BlurView
+            tint={'systemChromeMaterialDark'}
+            intensity={60}
+            style={styles.modalOverlay}
+          >
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                    ]}
+                    onPress={() => routePush('add')}
+                  >
+                    <MaterialCommunityIcons
+                      style={{ alignSelf: 'center' }}
+                      name="plus-box-multiple-outline"
+                      size={23}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Adicionar Categorias</Text>
+                  </Pressable>
+                </View>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                    ]}
+                    onPress={() => closeModalAndBack()}
+                  >
+                    <MaterialCommunityIcons
+                      style={{ alignSelf: 'center' }}
+                      name="plus-box-multiple-outline"
+                      size={23}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Adicionar Palavras</Text>
+                  </Pressable>
+                </View>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                    ]}
+                    onPress={() => closeModalAndBack()}
+                  >
+                    <Ionicons
+                      style={{ alignSelf: 'center' }}
+                      name="mail-outline"
+                      size={23}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Sugerir Palavras</Text>
+                  </Pressable>
+                </View>
+                <Separator
+                  marginTopProp={7}
+                  marginBottomProp={5}
+                  widthProps={width * 0.8}
+                />
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButtonClose,
+                      pressed && styles.modalButtonCloseOnPress,
+                    ]}
+                    onPress={() => closeModalAndBack()}
+                  >
+                    <Ionicons
+                      name="close-circle-outline"
+                      size={23}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Cancelar</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </BlurView>
+        </TouchableWithoutFeedback>
+      </Modal>
     </View>
   );
 }
@@ -173,7 +267,7 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#edf8f4',
+    backgroundColor: '#ecf7f4',
     width: 'auto',
     paddingVertical: 0,
   },
@@ -226,6 +320,8 @@ const styles = StyleSheet.create({
     borderColor: '#3d9577',
     backgroundColor: 'white',
     borderRadius: 5,
+    paddingLeft: 2,
+    paddingTop: 2,
   },
   divIconButton: {
     alignItems: 'center',
@@ -242,6 +338,74 @@ const styles = StyleSheet.create({
   },
   textButtomDivNavigatorActive: {
     color: '#6f99d0',
+  },
+
+  //--------------- modal style-------------------------
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.0s)',
+  },
+  modalContainer: {
+    width: 350,
+    paddingVertical: 15,
+    flexDirection: 'column',
+    backgroundColor: '#ecf7f4',
+    marginBottom: 4,
+    paddingLeft: 35,
+    borderRadius: 10,
+    alignItems: 'flex-start',
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    justifyContent: 'center',
+  },
+  modalText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    justifyContent: 'center',
+    fontSize: 18,
+    paddingLeft: 6,
+  },
+  modalButton: {
+    flexDirection: 'row',
+    // backgroundColor: '#e7503b',
+    paddingVertical: 5,
+    paddingHorizontal: 1,
+    borderRadius: 5,
+    width: '90%',
+  },
+  modalButtonOnPress: {
+    flexDirection: 'row',
+    backgroundColor: '#8e8e8e8a',
+    paddingVertical: 5,
+    paddingHorizontal: 1,
+    borderRadius: 5,
+    width: '90%',
+  },
+  modalButtonClose: {
+    flexDirection: 'row',
+    // backgroundColor: '#e7503b',
+    paddingLeft: 1,
+    marginBottom: -12,
+    borderRadius: 5,
+    width: '95%',
+
+    paddingVertical: 5,
+  },
+  modalButtonCloseOnPress: {
+    flexDirection: 'row',
+    backgroundColor: '#8e8e8e8a',
+    paddingLeft: 1,
+    marginBottom: -12,
+    borderRadius: 5,
+    width: '90%',
+  },
+  modalIconsAndButtons: {
+    flexDirection: 'row',
+    paddingVertical: 1,
+    // backgroundColor: 'red',
+    marginBottom: 5,
   },
 });
 

@@ -51,19 +51,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen name="auth" options={{ headerShown: false, href: null }} />
       <Tabs.Screen
-        name="edition/index"
-        options={{ headerShown: false, href: null }}
-      />
-      <Tabs.Screen
-        name="edition/words"
-        options={{ headerShown: false, href: null }}
-      />
-      <Tabs.Screen
-        name="edition/category"
-        options={{ headerShown: false, href: null }}
-      />
-      <Tabs.Screen
-        name="edition/personalize"
+        name="edition"
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen

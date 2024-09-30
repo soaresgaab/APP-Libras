@@ -76,7 +76,7 @@ function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#edf8f4',
+    backgroundColor: '#ecf7f4',
     width: 'auto',
     paddingVertical: 0,
   },

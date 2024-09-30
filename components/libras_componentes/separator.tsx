@@ -1,12 +1,18 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import React from 'react';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 const Separator = ({
   marginTopProp,
   marginBottomProp,
+  widthProps,
 }: {
   marginTopProp?: number;
   marginBottomProp?: number;
+  widthProps?: number;
 }) => {
   return (
     <View
@@ -15,6 +21,7 @@ const Separator = ({
         {
           marginTop: marginTopProp ? marginTopProp : 19,
           marginBottom: marginBottomProp ? marginBottomProp : 22,
+          width: widthProps ? widthProps : width * 0.9,
         },
       ]}
     ></View>

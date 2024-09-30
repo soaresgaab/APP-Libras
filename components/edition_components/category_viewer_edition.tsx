@@ -1,11 +1,29 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Pressable,
+  TouchableWithoutFeedback,
+  Modal,
+} from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TypeCategory } from '@/@types/Category';
-import { Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  Entypo,
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  Ionicons,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { CreateButton } from '../createData/create-Button';
 import { Image } from 'expo-image';
 import ImageModal from '@/module/Image-modal';
+import Separator from '../libras_componentes/separator';
+import { BlurView } from 'expo-blur';
+import { router } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,48 +34,144 @@ const CategoryViewerEdition = ({
 }: {
   data: TypeCategory[] | undefined;
 }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [idSelected, setSelectedId] = useState();
+
+  function closeModalAndBack() {
+    setModalVisible(false);
+  }
+
+  function routePush(id: number) {
+    router.push({
+      pathname: '/(editionwords)/[words]',
+      params: { id: `${id}` },
+    });
+  }
+
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={false} progressViewOffset={70} />
-      }
-    >
-      {data?.map((category, index) => (
-        <View style={styles.listContainer} key={index}>
-          <View style={styles.divImage}>
-            <ImageModal
-              style={styles.image}
-              source={{
-                uri: `data:image/jpeg;base64,${category.imgCategory}`,
-              }}
-            />
+    <>
+      <ScrollView
+        style={styles.container}
+        refreshControl={
+          <RefreshControl refreshing={false} progressViewOffset={70} />
+        }
+      >
+        {data?.map((category, index) => (
+          <View style={styles.listContainer} key={index}>
+            <View style={styles.divImage}>
+              <ImageModal
+                style={styles.image}
+                source={{
+                  uri: `data:image/jpeg;base64,${category.imgCategory}`,
+                }}
+              />
+            </View>
+            <View style={styles.divLabelAndOption}>
+              <View style={styles.divButtonOptions}>
+                <Pressable
+                  onPress={() => setModalVisible(true)}
+                  style={({ pressed }) => [
+                    styles.buttonOption,
+                    {
+                      backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
+                    },
+                  ]}
+                >
+                  <Entypo
+                    style={{ alignSelf: 'center' }}
+                    name="dots-three-vertical"
+                    size={21}
+                    color="black"
+                  />
+                </Pressable>
+              </View>
+              <View style={styles.divLabelCategory}>
+                <Text style={styles.textCategory}>{category.nameCategory}</Text>
+              </View>
+            </View>
           </View>
-          <View style={styles.divLabelAndOption}>
-            <View style={styles.divButtonOptions}>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.buttonOption,
-                  {
-                    backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
-                  },
-                ]}
-              >
-                <Entypo
-                  style={{ alignSelf: 'center' }}
-                  name="dots-three-vertical"
-                  size={21}
-                  color="black"
+        ))}
+      </ScrollView>
+      {/* ---------------------------------------modal ---------------------------------------- */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <TouchableWithoutFeedback onPress={() => closeModalAndBack()}>
+          <BlurView
+            tint={'systemChromeMaterialDark'}
+            intensity={60}
+            style={styles.modalOverlay}
+          >
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                      {
+                        paddingLeft: 3,
+                      },
+                    ]}
+                    onPress={() => closeModalAndBack()}
+                  >
+                    <FontAwesome
+                      style={{ alignSelf: 'center' }}
+                      name="edit"
+                      size={21}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Editar</Text>
+                  </Pressable>
+                </View>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                    ]}
+                    onPress={() => closeModalAndBack()}
+                  >
+                    <MaterialCommunityIcons
+                      style={{ alignSelf: 'center' }}
+                      name="trash-can-outline"
+                      size={23}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Lixeira</Text>
+                  </Pressable>
+                </View>
+
+                <Separator
+                  marginTopProp={7}
+                  marginBottomProp={5}
+                  widthProps={width * 0.8}
                 />
-              </Pressable>
-            </View>
-            <View style={styles.divLabelCategory}>
-              <Text style={styles.textCategory}>{category.nameCategory}</Text>
-            </View>
-          </View>
-        </View>
-      ))}
-    </ScrollView>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButtonClose,
+                      pressed && styles.modalButtonCloseOnPress,
+                    ]}
+                    onPress={() => closeModalAndBack()}
+                  >
+                    <Ionicons
+                      name="close-circle-outline"
+                      size={23}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Cancelar</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </BlurView>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </>
   );
 };
 
@@ -133,6 +247,73 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     justifyContent: 'center',
+  },
+  //--------------- modal style-------------------------
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.0s)',
+  },
+  modalContainer: {
+    width: 350,
+    paddingVertical: 15,
+    flexDirection: 'column',
+    backgroundColor: '#ecf7f4',
+    marginBottom: 4,
+    paddingLeft: 35,
+    borderRadius: 10,
+    alignItems: 'flex-start',
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    justifyContent: 'center',
+  },
+  modalText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    justifyContent: 'center',
+    fontSize: 18,
+    paddingLeft: 6,
+  },
+  modalButton: {
+    flexDirection: 'row',
+    // backgroundColor: '#e7503b',
+    paddingVertical: 5,
+    paddingHorizontal: 1,
+    borderRadius: 5,
+    width: '90%',
+  },
+  modalButtonOnPress: {
+    flexDirection: 'row',
+    backgroundColor: '#8e8e8e8a',
+    paddingVertical: 5,
+    paddingHorizontal: 1,
+    borderRadius: 5,
+    width: '90%',
+  },
+  modalButtonClose: {
+    flexDirection: 'row',
+    // backgroundColor: '#e7503b',
+    paddingLeft: 1,
+    marginBottom: -12,
+    borderRadius: 5,
+    width: '95%',
+
+    paddingVertical: 5,
+  },
+  modalButtonCloseOnPress: {
+    flexDirection: 'row',
+    backgroundColor: '#8e8e8e8a',
+    paddingLeft: 1,
+    marginBottom: -12,
+    borderRadius: 5,
+    width: '90%',
+  },
+  modalIconsAndButtons: {
+    flexDirection: 'row',
+    paddingVertical: 1,
+    // backgroundColor: 'red',
+    marginBottom: 5,
   },
 });
 
