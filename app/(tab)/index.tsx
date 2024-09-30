@@ -5,15 +5,19 @@ import {
   StatusBar,
   Dimensions,
   View,
+  Pressable,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
+import { CardButton } from '@/components/libras_componentes/card-button';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
+import { searchByRoute } from '@/utils/axios/searchByRote';
 import { SVGSinaisImage } from '@/components/libras_componentes/image-component-home';
+import { SVGSinaisImageByCategory } from '@/components/libras_componentes/image-component-homeByCategory';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,8 +28,15 @@ function App() {
   const [data, setDataFetch] = useState();
   const [refreshing, setRefreshing] = useState(true);
 
+  async function searchData() {
+    const response = await searchByRoute('category_showInMenu');
+    console.log(response.data);
+    setDataFetch(response.data);
+  }
+
   useEffect(() => {
     // fetchData();
+    searchData();
   }, []);
 
   return (
@@ -70,6 +81,11 @@ function App() {
           router={'(sinais)'}
           label={'Sinais'}
         />
+        {data?.map((category, index) => (
+          <Pressable key={index}>
+            <CardButton label={category.nameCategory} img={category.imgCategory}/>
+          </Pressable>
+        ))}
       </View>
     </ScrollView>
   );

@@ -29,7 +29,7 @@ import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
 import ImageModal from '@/module/Image-modal';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Video } from 'expo-av';
-import { storage } from '../../firebaseConfig'; 
+import { storage } from '@/firebaseConfig'; 
 import { RadioButton } from 'react-native-paper';
 
 function AppWord() {
@@ -141,7 +141,7 @@ function AppWord() {
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(editionwords)',
+      pathname: '/editionwords',
     });
   }
 

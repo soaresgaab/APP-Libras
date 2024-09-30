@@ -19,6 +19,7 @@ import { TypeLibrasData } from '@/@types/LibrasData';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 
@@ -72,6 +73,7 @@ function App() {
       <Text
         style={{
           marginTop: 10,
+          marginBottom: 30,
           alignSelf: 'center',
           textAlign: 'center',
           fontSize: 25,
@@ -79,23 +81,19 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Palavras
+      Gerenciamento
       </Text>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonReload,
-        ]}
-        onPress={() => {
-          searchData();
-        }}
-      >
-        <MaterialCommunityIcons name="reload" size={25} color="white" />
-      </Pressable>
-      <CreateButton router="addWord" label="+ Incluir Palavra"></CreateButton>
-      {data?.map((word, index) => (
+      <Link href={`/editionwords`} asChild>
+        <Pressable style={styles.direction}>
+          <Text style={styles.label}>Palavras</Text>
+        </Pressable>
+      </Link>
+      <Link href={`/edition`} asChild>
+        <Pressable style={styles.direction}>
+          <Text style={styles.label}>Categoria</Text>
+        </Pressable>
+      </Link>
+      {/*{data?.map((word, index) => (
         <Pressable key={index} onPress={() => {}}>
           <View style={styles.div}>
             <Text style={styles.labelWord}>{word.nameWord}</Text>
@@ -159,7 +157,7 @@ function App() {
             </View>
           </View>
         </Pressable>
-      ))}
+      ))}*/}
     </ScrollView>
   );
 }
@@ -221,14 +219,15 @@ const styles = StyleSheet.create({
   iconTrash: {},
   buttonReload: {
     alignSelf: 'flex-end',
-    width: 45,
+    width:300,
     paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
-    marginRight: '5%',
+    margin: 'auto',
     flexDirection: 'row',
     alignContent: 'center',
+    borderTopColor: '#fcce9b',
   },
   buttonEdit: {
     alignSelf: 'flex-end',
@@ -243,6 +242,26 @@ const styles = StyleSheet.create({
   divButton: {
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  direction: {
+    marginTop: 50,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    width: '95%',
+  },
+  label: {
+    marginTop: -30,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    alignSelf: 'center',
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    backgroundColor: '#e7d75d',
+    borderRadius: 20,
+    width: '70%',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '500',
   },
 });
 
