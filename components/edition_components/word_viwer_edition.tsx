@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     backgroundColor: 'white',
-    marginBottom: 17,
+    marginBottom: isWeb ? 17 : 10,
     marginHorizontal: 10,
     width: isWeb ? 330 : width * 0.95,
     alignSelf: 'center',
