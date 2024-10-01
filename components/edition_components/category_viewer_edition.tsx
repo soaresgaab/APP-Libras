@@ -6,6 +6,7 @@ import {
   Pressable,
   TouchableWithoutFeedback,
   Modal,
+  useWindowDimensions,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TypeCategory } from '@/@types/Category';
@@ -28,6 +29,9 @@ import { router } from 'expo-router';
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
+const isWeb = width >= 1000 && height >= 617;
+console.log(width, height);
+console.log(isWeb);
 
 const CategoryViewerEdition = ({
   data,
@@ -51,46 +55,53 @@ const CategoryViewerEdition = ({
   return (
     <>
       <ScrollView
-        style={styles.container}
+        style={[isWeb ? styles.containerWeb : styles.container]}
         refreshControl={
           <RefreshControl refreshing={false} progressViewOffset={70} />
         }
       >
-        {data?.map((category, index) => (
-          <View style={styles.listContainer} key={index}>
-            <View style={styles.divImage}>
-              <ImageModal
-                style={styles.image}
-                source={{
-                  uri: `data:image/jpeg;base64,${category.imgCategory}`,
-                }}
-              />
-            </View>
-            <View style={styles.divLabelAndOption}>
-              <View style={styles.divButtonOptions}>
-                <Pressable
-                  onPress={() => setModalVisible(true)}
-                  style={({ pressed }) => [
-                    styles.buttonOption,
-                    {
-                      backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
-                    },
-                  ]}
-                >
-                  <Entypo
-                    style={{ alignSelf: 'center' }}
-                    name="dots-three-vertical"
-                    size={21}
-                    color="black"
-                  />
-                </Pressable>
+        <View style={[isWeb ? styles.divCategoriesWeb : {}]}>
+          {data?.map((category, index) => (
+            <View
+              key={index}
+              style={[isWeb ? styles.listContainerWeb : styles.listContainer]}
+            >
+              <View style={styles.divImage}>
+                <ImageModal
+                  style={styles.image}
+                  source={{
+                    uri: `data:image/jpeg;base64,${category.imgCategory}`,
+                  }}
+                />
               </View>
-              <View style={styles.divLabelCategory}>
-                <Text style={styles.textCategory}>{category.nameCategory}</Text>
+              <View style={styles.divLabelAndOption}>
+                <View style={styles.divButtonOptions}>
+                  <Pressable
+                    onPress={() => setModalVisible(true)}
+                    style={({ pressed }) => [
+                      styles.buttonOption,
+                      {
+                        backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
+                      },
+                    ]}
+                  >
+                    <Entypo
+                      style={{ alignSelf: 'center' }}
+                      name="dots-three-vertical"
+                      size={21}
+                      color="black"
+                    />
+                  </Pressable>
+                </View>
+                <View style={styles.divLabelCategory}>
+                  <Text style={styles.textCategory}>
+                    {category.nameCategory}
+                  </Text>
+                </View>
               </View>
             </View>
-          </View>
-        ))}
+          ))}
+        </View>
       </ScrollView>
       {/* ---------------------------------------modal ---------------------------------------- */}
       <Modal
@@ -146,9 +157,10 @@ const CategoryViewerEdition = ({
                 </View>
 
                 <Separator
+                  marginLeftProp={-40}
                   marginTopProp={7}
                   marginBottomProp={5}
-                  widthProps={width * 0.8}
+                  widthProps={isWeb ? 280 : width * 0.7}
                 />
                 <View style={styles.modalIconsAndButtons}>
                   <Pressable
@@ -182,11 +194,45 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     marginTop: 13,
   },
+  containerWeb: {
+    flex: 1,
+    paddingVertical: 0,
+    marginTop: 13,
+  },
+  divCategoriesWeb: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '80%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   listContainer: {
     backgroundColor: 'white',
     marginBottom: 13,
-    width: width * 0.95,
-    height: 125,
+    width: isWeb ? 500 : 385,
+    height: isWeb ? 150 : 125,
+    alignSelf: 'center',
+    borderRadius: 10,
+    borderColor: '#3d9577',
+    borderWidth: 2,
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+    // Sombra no iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    // Sombra no Android
+    elevation: 5,
+  },
+  listContainerWeb: {
+    backgroundColor: 'white',
+    marginBottom: 13,
+    marginHorizontal: 15,
+    width: 395,
+    height: isWeb ? 120 : 125,
     alignSelf: 'center',
     borderRadius: 10,
     borderColor: '#3d9577',
@@ -203,8 +249,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: 180,
-    height: '100%',
+    width: isWeb ? 170 : 180,
+    height: isWeb ? 110 : 105,
     alignSelf: 'center',
     justifyContent: 'center',
     borderRadius: 10,
@@ -281,7 +327,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 1,
     borderRadius: 5,
-    width: '90%',
+    width: isWeb ? 280 : '90%',
   },
   modalButtonOnPress: {
     flexDirection: 'row',
@@ -289,7 +335,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 1,
     borderRadius: 5,
-    width: '90%',
+    width: isWeb ? 280 : '90%',
   },
   modalButtonClose: {
     flexDirection: 'row',
@@ -297,8 +343,7 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
     marginBottom: -12,
     borderRadius: 5,
-    width: '95%',
-
+    width: isWeb ? 280 : '90%',
     paddingVertical: 5,
   },
   modalButtonCloseOnPress: {
@@ -307,7 +352,7 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
     marginBottom: -12,
     borderRadius: 5,
-    width: '90%',
+    width: isWeb ? 280 : '90%',
   },
   modalIconsAndButtons: {
     flexDirection: 'row',

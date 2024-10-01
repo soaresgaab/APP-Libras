@@ -6,10 +6,14 @@ const { width, height } = Dimensions.get('window');
 const isTablet = width >= 768 && height >= 1024;
 
 const Separator = ({
+  marginLeftProp,
+  marginRightProp,
   marginTopProp,
   marginBottomProp,
   widthProps,
 }: {
+  marginRightProp?: number;
+  marginLeftProp?: number;
   marginTopProp?: number;
   marginBottomProp?: number;
   widthProps?: number;
@@ -19,6 +23,8 @@ const Separator = ({
       style={[
         styles.separator,
         {
+          marginLeft: marginLeftProp || 0,
+          marginRight: marginRightProp || 0,
           marginTop: marginTopProp ? marginTopProp : 19,
           marginBottom: marginBottomProp ? marginBottomProp : 22,
           width: widthProps ? widthProps : width * 0.9,

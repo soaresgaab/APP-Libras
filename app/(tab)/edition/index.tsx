@@ -26,6 +26,7 @@ import { BlurView } from 'expo-blur';
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
+const isWeb = width >= 1000 && height >= 617;
 
 function App() {
   const [data, setDataFetch] = useState<any[]>();
@@ -51,7 +52,7 @@ function App() {
   function routePush(route: string) {
     setModalVisible(false);
     router.push({
-      pathname: `edition/category/${route}`,
+      pathname: `${route}`,
     });
   }
 
@@ -165,7 +166,7 @@ function App() {
         <ActivityIndicator
           size="large"
           color="#03459e"
-          style={{ marginTop: 12 }}
+          style={{ marginTop: isWeb ? 28 : 12 }}
         />
       )}
       {/* ---------------------------------------modal ---------------------------------------- */}
@@ -189,7 +190,7 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => routePush('add')}
+                    onPress={() => routePush('edition/category/add')}
                   >
                     <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}
@@ -235,9 +236,10 @@ function App() {
                   </Pressable>
                 </View>
                 <Separator
+                  marginLeftProp={-40}
                   marginTopProp={7}
                   marginBottomProp={5}
-                  widthProps={width * 0.8}
+                  widthProps={isWeb ? 280 : width * 0.7}
                 />
                 <View style={styles.modalIconsAndButtons}>
                   <Pressable
@@ -272,7 +274,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   headerTitle: {
-    marginTop: 90,
+    marginTop: isWeb ? 70 : 90,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 26,
@@ -293,6 +295,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignContent: 'space-around',
+    marginBottom: isWeb ? -15 : 0,
   },
   buttonsNavigator: {
     backgroundColor: '#ffffff',
@@ -373,7 +376,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 1,
     borderRadius: 5,
-    width: '90%',
+    width: isWeb ? 280 : '90%',
   },
   modalButtonOnPress: {
     flexDirection: 'row',
@@ -381,7 +384,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 1,
     borderRadius: 5,
-    width: '90%',
+    width: isWeb ? 280 : '90%',
   },
   modalButtonClose: {
     flexDirection: 'row',
@@ -389,8 +392,7 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
     marginBottom: -12,
     borderRadius: 5,
-    width: '95%',
-
+    width: isWeb ? 280 : '90%',
     paddingVertical: 5,
   },
   modalButtonCloseOnPress: {
@@ -399,7 +401,7 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
     marginBottom: -12,
     borderRadius: 5,
-    width: '90%',
+    width: isWeb ? 280 : '90%',
   },
   modalIconsAndButtons: {
     flexDirection: 'row',

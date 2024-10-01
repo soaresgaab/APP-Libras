@@ -76,7 +76,7 @@ function App() {
 
   function closeModalAndBack() {
     setModalVisible(false);
-    router.dismiss(1);
+    router.push('edition');
   }
 
   // ----------------------  Controller data change by input ----------------------------
@@ -143,7 +143,7 @@ function App() {
         source={{
           uri: `data:image/jpeg;base64,${data?.imgCategory}`,
         }}
-        contentFit="cover"
+        contentFit="fill"
         placeholder={{ blurhash }}
       />
       {/* ---------------------- buttons to create Category  ---------------------------- */}
@@ -267,7 +267,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#3d9577',
     color: 'Red',
-    fontWeight: 'bold',
     fontSize: 15,
     elevation: 6,
   },

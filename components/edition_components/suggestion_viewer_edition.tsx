@@ -11,6 +11,7 @@ import ImageModal from '@/module/Image-modal';
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
+const isWeb = width >= 1000 && height >= 617;
 
 const SuggestionViewerEdition = ({
   data,
@@ -24,40 +25,42 @@ const SuggestionViewerEdition = ({
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      {data?.map((suggestion, index) => (
-        <View style={styles.listContainer} key={index}>
-          <View style={styles.divImage}>
-            <ImageModal
-              style={styles.image}
-              source={{
-                uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
-              }}
-            />
-          </View>
-          <View style={styles.divLabelAndOption}>
-            <View style={styles.divButtonOptions}>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.buttonOption,
-                  {
-                    backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
-                  },
-                ]}
-              >
-                <Entypo
-                  style={{ alignSelf: 'center' }}
-                  name="dots-three-vertical"
-                  size={21}
-                  color="black"
-                />
-              </Pressable>
+      <View style={[isWeb ? styles.divSuggestionWeb : {}]}>
+        {data?.map((suggestion, index) => (
+          <View style={styles.listContainer} key={index}>
+            <View style={styles.divImage}>
+              <ImageModal
+                style={styles.image}
+                source={{
+                  uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
+                }}
+              />
             </View>
-            <View style={styles.divLabelCategory}>
-              <Text style={styles.textCategory}>{suggestion.nameWord}</Text>
+            <View style={styles.divLabelAndOption}>
+              <View style={styles.divButtonOptions}>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.buttonOption,
+                    {
+                      backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
+                    },
+                  ]}
+                >
+                  <Entypo
+                    style={{ alignSelf: 'center' }}
+                    name="dots-three-vertical"
+                    size={21}
+                    color="black"
+                  />
+                </Pressable>
+              </View>
+              <View style={styles.divLabelCategory}>
+                <Text style={styles.textCategory}>{suggestion.nameWord}</Text>
+              </View>
             </View>
           </View>
-        </View>
-      ))}
+        ))}
+      </View>
     </ScrollView>
   );
 };
@@ -69,10 +72,19 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     marginTop: 13,
   },
+  divSuggestionWeb: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '80%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
   listContainer: {
     backgroundColor: 'white',
     marginBottom: 13,
-    width: width * 0.95,
+    marginHorizontal: 10,
+    width: isWeb ? 395 : width * 0.95,
     height: 125,
     alignSelf: 'center',
     borderRadius: 10,
@@ -90,8 +102,8 @@ const styles = StyleSheet.create({
     elevation: 5,
   },
   image: {
-    width: 180,
-    height: '100%',
+    width: isWeb ? 170 : 180,
+    height: isWeb ? 110 : 105,
     alignSelf: 'center',
     justifyContent: 'center',
     borderRadius: 10,

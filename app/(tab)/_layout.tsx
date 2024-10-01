@@ -14,6 +14,11 @@ import {
   SVGCamaraGreen,
   SvgExpressaoRegionalGreen,
 } from '@/components/libras_componentes/image-icon-tab-green';
+import { Dimensions } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
+
+const isWeb = width >= 1000 && height >= 617;
 
 export default function TabLayout() {
   const pathCurrently = usePathname();
@@ -23,7 +28,7 @@ export default function TabLayout() {
       screenOptions={{
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          height: 60,
+          height: isWeb ? 60 : 60,
         },
       }}
     >

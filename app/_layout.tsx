@@ -29,6 +29,8 @@ const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
+const isWeb = width >= 1000 && height >= 617;
+
 export { ErrorBoundary } from 'expo-router';
 
 export const unstable_settings = {
@@ -102,7 +104,7 @@ function RootLayoutNav() {
             headerTitleAlign: 'center',
             // headerTintColor: 'black',
             headerShadowVisible: false,
-            headerStatusBarHeight: isTablet ? 100 : 26,
+            headerStatusBarHeight: isWeb ? 0 : isTablet ? 100 : 26,
             // headerLeftLabelVisible: false,
             headerTintColor: 'black',
             // headerPressColor: 'red',

@@ -8,6 +8,7 @@ import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
+const isWeb = width >= 1000 && height >= 617;
 
 const WordViewerEdition = ({
   data,
@@ -21,32 +22,34 @@ const WordViewerEdition = ({
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      {data?.map((word, index) => (
-        <View style={styles.listContainer} key={index}>
-          <View style={styles.divLabelAndOption}>
-            <View style={styles.divLabelCategory}>
-              <Text style={styles.textCategory}>{word.nameWord}</Text>
-            </View>
-            <View style={styles.divButtonOptions}>
-              <Pressable
-                style={({ pressed }) => [
-                  styles.buttonOption,
-                  {
-                    backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
-                  },
-                ]}
-              >
-                <Entypo
-                  style={{ alignSelf: 'center' }}
-                  name="dots-three-vertical"
-                  size={21}
-                  color="black"
-                />
-              </Pressable>
+      <View style={[isWeb ? styles.divWordWeb : {}]}>
+        {data?.map((word, index) => (
+          <View style={styles.listContainer} key={index}>
+            <View style={styles.divLabelAndOption}>
+              <View style={styles.divLabelCategory}>
+                <Text style={styles.textCategory}>{word.nameWord}</Text>
+              </View>
+              <View style={styles.divButtonOptions}>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.buttonOption,
+                    {
+                      backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
+                    },
+                  ]}
+                >
+                  <Entypo
+                    style={{ alignSelf: 'center' }}
+                    name="dots-three-vertical"
+                    size={21}
+                    color="black"
+                  />
+                </Pressable>
+              </View>
             </View>
           </View>
-        </View>
-      ))}
+        ))}
+      </View>
     </ScrollView>
   );
 };
@@ -58,10 +61,20 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     marginTop: 13,
   },
+  divWordWeb: {
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    width: '77%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    // backgroundColor: 'red',
+  },
   listContainer: {
     backgroundColor: 'white',
-    marginBottom: 7,
-    width: width * 0.95,
+    marginBottom: 17,
+    marginHorizontal: 10,
+    width: isWeb ? 330 : width * 0.95,
     alignSelf: 'center',
     borderRadius: 10,
     borderColor: '#3d9577',
