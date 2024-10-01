@@ -10,6 +10,7 @@ import { router } from 'expo-router';
 import { AlfabetoContainer } from '@/components/libras_alfabeto_manual/alfabeto_container';
 import { Libras_numeros_container } from '@/components/libras_numeros_manual/Libras_numeros_container';
 import { Libras_saudacoes_container } from '@/components/libras_saudacoes_manual/Libras_saudacoes_container';
+import { Libras_vilas_container } from '@/components/libras_vilas_manual/Libras_vilas_container';
 function App() {
   const [option, setData] = useState({});
   const [data, setDataFetch] = useState();
@@ -38,7 +39,7 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Saudações
+        Vilas de Marabá
       </Text>
       <Libras_saudacoes_container />
     </ScrollView>

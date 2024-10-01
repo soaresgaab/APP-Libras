@@ -81,11 +81,11 @@ function App() {
           router={'(sinais)'}
           label={'Sinais'}
         />
-        {data?.map((category, index) => (
+        {/*data?.map((category, index) => (
           <Pressable key={index}>
             <CardButton label={category.nameCategory} img={category.imgCategory}/>
           </Pressable>
-        ))}
+        ))*/}
       </View>
     </ScrollView>
   );
