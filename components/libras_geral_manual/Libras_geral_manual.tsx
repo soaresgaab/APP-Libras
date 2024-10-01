@@ -39,6 +39,19 @@ export const Libras_container = ({
     SearchData();
   }, []);
 
+  const extractYoutubeVideoId = (url) => {
+    let videoId = null;
+    // Verifica se a URL é do formato longo (youtube.com)
+    if (url.includes('youtube.com/watch?v=')) {
+      videoId = url.split('v=')[1]?.split('&')[0];
+    } 
+    // Verifica se a URL é do formato curto (youtu.be)
+    else if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0];
+    }
+    return videoId;
+  };
+
   return (
     <>
       {isLoading ? (
@@ -70,7 +83,7 @@ export const Libras_container = ({
                     )}
                     {item2.fileType ===  'video' && (
                       <YoutubeIframe 
-                      videoId={item2.src.split('https://www.youtube.com/watch?v=')[1]?.split('&')[0]}
+                      videoId={extractYoutubeVideoId(item2.src)}
                       height={isTablet ? 295 : 180}
                       width={isTablet ? 660 : 340}
                       />

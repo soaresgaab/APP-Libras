@@ -38,15 +38,23 @@ import ImageModal from '@/module/Image-modal';
 import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { Video } from 'expo-av';
 import { storage } from '@/firebaseConfig'; 
+import { RadioButton } from 'react-native-paper';
+import YoutubeIframe from 'react-native-youtube-iframe'
 
 function AppWord() {
+  const { width, height } = Dimensions.get('window');
+  const isTablet = width >= 768 && height >= 1024;
+
   const [mediaUri, setMediaUri] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null);
+  const [midiaStorageType, setMidiaStorageType] = useState<{ [key: string]: 'upload' | 'linkVideo' | null }>({});
+  const [youtubeLinks, setYoutubeLinks] = useState<{ [key: string]: string }>({});
   const [isVideoModalVisible, setVideoModalVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef(null);
   let updatedSrc:string = '';
   let midiaselect:boolean = false;
+  const [mudarMidia, setMudarMidia] = useState(false);
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
     _id: undefined,
     nameWord: '',
@@ -75,45 +83,18 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    //Excluir os arquivo no firebase storage-------------------
-    console.log("video no sendData: ", video)
-    if (video) {
-      try {
-        const filePath = "videos/" + video.replace('https://firebasestorage.googleapis.com/v0/b/videossignallibras.appspot.com/o/videos%2F', '').replace(/\?.*$/, '');
-        const fileRef = ref(storage, filePath);
-        await deleteObject(fileRef);
-        console.log(`File at ${filePath} deleted successfully.`);
-        /*const storageRef = storage.ref(decodeURIComponent(filePath));
-        await storageRef.delete();*/
-      } catch (error) {
-        console.error("Erro ao excluir o arquivo do Firebase Storage:", error);
-      }
-    }
-    let videosDelete = await searchById('word_id', id);
-    let videosUpdateDelete = videosDelete.data.wordDefinitions
-      .filter(v => v.fileType === 'video')
-      .map(v => v.src);
-    if (!data.nameWord || !data.wordDefinitions.every(def => def.descriptionWordDefinition && def.category)) {
-      Alert.alert(
-        'Campos obrigatórios',
-        'Por favor, preencha todos os campos obrigatórios antes de salvar.',
-        [{ text: 'OK' }]
-      );
-      return; 
-    }
     const updatedDefinitions = await Promise.all(
       data?.wordDefinitions.map(async (definition) => {
-        if (definition.src && definition.fileType === 'video') {
-          console.log("entrou nesse if aqui")
+        console.log(midiaStorageType[definition._id])
+        if (mudarMidia[definition._id] && mudarMidia[definition._id] === true && midiaStorageType[definition._id] === 'linkVideo') {
           try {
-            const downloadURL = await uploadVideoToFirebase(definition.src);
             return {
               ...definition,
-              src: downloadURL,
+              src: youtubeLinks[definition._id],
               fileType: 'video',
             };
           } catch (error) {
-            console.error("Erro ao enviar o vídeo:", error);
+            console.error(error);
             return definition; 
           }
         } else {
@@ -131,25 +112,16 @@ function AppWord() {
     setDataFetch(newData as TypeLibrasDataWithId);
     const result = await pushUpdateWordById(newData);
     console.log(result.data);
-    try {
-      for (const videoUrl of videosUpdateDelete) {
-        const filePath = "videos/" + videoUrl.replace('https://firebasestorage.googleapis.com/v0/b/videossignallibras.appspot.com/o/videos%2F', '').replace(/\?.*$/, '');
-        const fileRef = ref(storage, filePath);
-        await deleteObject(fileRef);
-        console.log(`Arquivo excluído: ${videoUrl}`);
-      }
-    } catch (error) {
-        console.error('Erro ao excluir vídeos:', error);
-    }
     setModalVisible(true);
-    /*const result = await pushUpdateWordById(data);
-    console.log(result.data)
-    setModalVisible(true);*/
+
+    //const result = await pushUpdateWordById(data);
+    //console.log(result.data);
+    //setModalVisible(true);
   }
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(editionwords)',
+      pathname: '/editionwords',
     });
   }
 
@@ -245,7 +217,7 @@ function AppWord() {
     }
     const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
         // aspect: [4, 4],
         quality: 0.2,
@@ -323,6 +295,40 @@ function AppWord() {
     newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
+
+  const handleMidiaStorageTypeChange = (definitionId: string, value: 'upload' | 'linkVideo' | null) => {
+    setMidiaStorageType((prev) => ({
+      ...prev,
+      [definitionId]: value,
+    }));
+  };
+
+  const handleYoutubeLinkChange = (definitionId: string, url: string) => {
+    setYoutubeLinks((prevLinks) => ({
+      ...prevLinks,
+      [definitionId]: url, // Atualiza o link para a definição específica
+    }));
+  };
+
+  const toggleMudarMidia = (definitionId) => {
+    setMudarMidia((prevState) => ({
+      ...prevState,
+      [definitionId]: !prevState[definitionId], // Alterna o estado da definição específica
+    }));
+  };
+
+  const extractYoutubeVideoId = (url) => {
+    let videoId = null;
+    // Verifica se a URL é do formato longo (youtube.com)
+    if (url.includes('youtube.com/watch?v=')) {
+      videoId = url.split('v=')[1]?.split('&')[0];
+    } 
+    // Verifica se a URL é do formato curto (youtu.be)
+    else if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0];
+    }
+    return videoId;
+  };
 
   // ----------------------  Controller data change by input ----------------------------
   //   function handleTextCategory(text: string) {
@@ -486,8 +492,70 @@ function AppWord() {
               </Picker>
             </View>
 
-            {/* ---------------------- select image  ---------------------------- */}
-            <Pressable
+            {/* Botão de Trocar/Manter mídia */}
+          <Pressable
+            style={({ pressed }) => [
+              {
+                backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+              },
+              styles.button2,
+            ]}
+            onPress={() => toggleMudarMidia(definition._id)} // Alterna o estado para esta definição específica
+          >
+            <Text style={{ fontSize: 17 }}>
+              {mudarMidia[definition._id] ? 'Manter mídia' : 'Trocar mídia'}
+            </Text>
+          </Pressable>
+
+            {/* ---------------------- Radio Buttons para selecionar Imagem ou Vídeo ---------------------------- */}
+            {mudarMidia[definition._id] && (
+              <Text style={{
+                alignSelf: 'center',
+                textAlign: 'center',
+                fontSize: 25,
+                width: '85%',
+                fontWeight: 'bold',
+                marginTop: 10,
+              }}>Alterar arquivo</Text>)}
+            {mudarMidia[definition._id] && (<View style={styles.radioContainer}>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="upload"
+                  status={midiaStorageType[definition._id] === 'upload' ? 'checked' : 'unchecked'}
+                  onPress={() => handleMidiaStorageTypeChange(definition._id, 'upload')}
+                />
+                <Text>Upload da mídia</Text>
+              </View>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="linkVideo"
+                  status={midiaStorageType[definition._id] === 'linkVideo' ? 'checked' : 'unchecked'}
+                  onPress={() => handleMidiaStorageTypeChange(definition._id, 'linkVideo')}
+                />
+                <Text>Link do Youtube</Text>
+              </View>
+            </View>)}
+
+            {/* ---------------------- Exibição das midias atuais de cada definição  ---------------------------- */}
+            {/*midiaStorageType[definition._id] === 'upload' || definition.fileType === 'image' && (<Image
+              style={styles.image}
+              source={{
+                uri: `data:image/jpeg;base64,${definition.src}`,
+              }}
+              contentFit="cover"
+              placeholder={{ blurhash }}
+              transition={1000}
+            />)*/}
+
+            {midiaStorageType[definition._id] != 'upload' && midiaStorageType[definition._id] != 'linkVideo' && definition.fileType === 'video' &&(
+              <View style={styles.youtube}><YoutubeIframe 
+              videoId={extractYoutubeVideoId(definition.src)}
+              height={isTablet ? 295 : 180}
+              width={isTablet ? 660 : 340}
+              /></View>
+            )}
+
+            {midiaStorageType[definition._id] === 'upload' && (<Pressable
               style={({ pressed }) => [
                 {
                   backgroundColor: pressed ? '#fcce9b' : '#DB680B',
@@ -496,9 +564,9 @@ function AppWord() {
               ]}
               onPress={() => handleSelectImage(definition._id)}
             >
-              <Text style={{ fontSize: 17 }}>Trocar mídia</Text>
-            </Pressable>
-            {midiaselect === false && (<Image
+              <Text style={{ fontSize: 17 }}>Trocar imagem</Text>
+            </Pressable>)}
+            {midiaStorageType[definition._id] === 'upload' || definition.fileType === 'image' && (<Image
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
@@ -507,7 +575,28 @@ function AppWord() {
               placeholder={{ blurhash }}
               transition={1000}
             />)}
-            {midiaselect === true && mediaType === 'image' && mediaUri && (
+
+            {/* ---------------------- Se a opção Link do youtube for selecionada  ---------------------------- */}
+            {midiaStorageType[definition._id] === 'linkVideo' && (
+              <View>
+                <Text style={styles.label}>Cole o link do vídeo do YouTube:</Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="https://www.youtube.com/..."
+                  value={youtubeLinks[definition._id] || ''} // Obtém o link atual do estado
+                  onChangeText={(text) => handleYoutubeLinkChange(definition._id, text)} // Atualiza o link no estado
+                />
+                {/* Exibir o vídeo do YouTube com o link inserido */}
+                {youtubeLinks[definition._id] && (
+                  <YoutubeIframe
+                    videoId={extractYoutubeVideoId(youtubeLinks[definition._id])}
+                    height={180}
+                    width={340}
+                  />
+                )}
+              </View>
+            )}
+            {/*{midiaselect === true && mediaType === 'image' && mediaUri && (
                 <ImageModal
                     style={styles.image}
                     source={{ uri: mediaUri }}
@@ -522,7 +611,7 @@ function AppWord() {
                     shouldPlay
                     isLooping
                 />
-            )}
+            )}*/}
             <View style={{ marginBottom: 60 }}></View>
           </View>
         ))}
@@ -767,6 +856,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 15,
   },
+  youtube: {
+    width: 290,
+    height: 280,
+    marginTop: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    borderRadius: 15,
+  },
   video: {
     width: 290,
     height: 280,
@@ -809,7 +909,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
+  radioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  radioItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  input: {
+    backgroundColor: 'white',
+    width: '85%',
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    color: 'red',
+    fontSize: 16,
+    marginBottom: 20,
+  },
   button: {
     width: 150,
     paddingVertical: 10,
@@ -819,6 +947,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderRadius: 10,
   },
+  button2:{
+    width: 150,
+    paddingVertical: 10,
+    marginTop: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    borderRadius: 10,
+    borderColor: '#e7503b',
+  }
 });
 
 export default gestureHandlerRootHOC(AppWord);

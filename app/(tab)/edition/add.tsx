@@ -72,7 +72,7 @@ function App() {
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(edition)',
+      pathname: '/edition',
     });
   }
 

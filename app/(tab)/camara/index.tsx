@@ -41,7 +41,7 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-        Expressões Regionais
+        Câmara municipal de Marabá
       </Text>
       <Libras_regional_container />
     </ScrollView>
