@@ -207,7 +207,7 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => routePush('edition/words/add')}
+                    onPress={() => routePush('edition/words/addWord')}
                   >
                     <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}

@@ -7,6 +7,8 @@ import {
   TextInput,
   Button,
   Modal,
+  Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
@@ -29,6 +31,12 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';
 import Joyride, { STATUS } from 'react-joyride';
+import Separator from '@/components/libras_componentes/separator';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
+const isWeb = width >= 1000 && height >= 617;
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -45,65 +53,19 @@ function AppWord() {
   });
   const [category, setCategory] = useState<TypeCategory[]>();
   const [selectedCategory, setSelectedCategory] = useState('');
+  const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
-  const blurhash =
-    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
+  const blurhash = 'LRK{nc~DoMt7EKofj[a#-WWUayj?';
   // ----------------------  DropDawn logic ----------------------------
 
-  const pickerStyle = {
-    placeholderColor: 'white',
-  };
-  4;
-
   // ----------------------  tour of onboarding ----------------------------
-  const [{ run, steps }, setState] = useState({
-    run: true,
-    steps: [
-      {
-        content: (
-          <h2>
-            Conhece algum sinal que ainda não está no glossário? Contribua para
-            o crescimento e a melhoria do aplicativo enviando a sua sugestão!
-          </h2>
-        ),
-        locale: { skip: <strong>SKIP</strong> },
-        placement: 'center',
-        target: 'body',
-      },
-      {
-        content: <h2>Digite o nome da palavra que deseja adicionar</h2>,
-        placement: 'center',
-        target: '#step-nameword',
-      },
-      {
-        content: (
-          <h2>
-            Adicione uma breve descrição para explicar o significado da palavra.
-          </h2>
-        ),
-        placement: 'center',
-        target: '#step-descriptionword',
-      },
-      {
-        content: <h2>Escolha uma categoria para classificar esta palavra.</h2>,
-        placement: 'center',
-        target: '#step-category',
-      },
-      {
-        content: (
-          <h2>Selecione uma imagem representando o sinal da palavra.</h2>
-        ),
-        placement: 'center',
-        target: '#step-image',
-      },
-    ],
-  });
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
+    setLoading(true);
     const result = await pushCreateSuggestionById(data);
+    setLoading(false);
     result.data;
     setModalVisible(true);
   }
@@ -229,108 +191,46 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <Joyride
-        continuous
-        callback={() => {}}
-        run={run}
-        steps={steps}
-        hideCloseButton
-        scrollToFirstStep
-        showSkipButton
-        showProgress
-        locale={{
-          back: 'Voltar',
-          close: 'Fechar',
-          last: 'Concluir',
-          next: 'Próximo',
-          skip: 'Pular',
-        }}
-        styles={{
-          options: {
-            zIndex: 10000,
-            backgroundColor: 'white',
-            arrowColor: '#E7D75D',
-            textColor: '#65160B',
-            width: 300,
-            padding: 10,
-            borderRadius: 10,
-            beaconSize: 20,
-            fontFamily: 'YourCustomFont, Georgia',
-            fontSize: 20,
-          },
-          buttonNext: {
-            backgroundColor: '#59C170',
-            color: '#fff',
-            borderRadius: 5,
-            padding: '8px 16px',
-            fontFamily: 'YourCustomFont, sans-serif',
-            border: 'none',
-          },
-          buttonBack: {
-            backgroundColor: '#007bff',
-            color: '#fff',
-            borderRadius: 5,
-            padding: '8px 16px',
-            fontFamily: 'YourCustomFont, sans-serif',
-            border: 'none',
-          },
-          buttonSkip: {
-            backgroundColor: '#E7503B',
-            color: '#fff',
-            borderRadius: 5,
-            padding: '8px 16px',
-            fontFamily: 'YourCustomFont, sans-serif',
-            border: 'none',
-          },
-          buttonClose: {
-            color: '#ff0000',
-            fontFamily: 'YourCustomFont, sans-serif',
-          },
-        }}
-      />
       <Text
         style={{
-          marginTop: 164,
+          marginTop: 95,
           alignSelf: 'center',
           textAlign: 'center',
-          fontSize: 25,
-          width: '85%',
-          fontStyle: 'italic',
+          fontSize: 26,
+          width: '90%',
           fontWeight: 'bold',
+          color: '#03459e',
         }}
       >
-        enviar sugestão de Palavra
+        Envie uma sugestão
       </Text>
+      <Separator marginTopProp={10} marginBottomProp={15}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
       {/* ----------------------  form imput  ---------------------------- */}
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
       <Text
         style={{
-          marginTop: 10,
+          marginTop: 0,
           alignSelf: 'center',
-          textAlign: 'center',
+          textAlign: 'left',
+          paddingLeft: 18,
           fontSize: 20,
-          width: '85%',
+          width: 360,
           fontWeight: 'bold',
+          color: '#03459e',
         }}
       >
         Nome da Palavra
       </Text>
       <TextInput
-        id={'step-nameword'}
         style={styles.inputNameWord}
         value={data.nameWord}
-        multiline={true}
+        placeholder="Informe o nome da palavra"
         onChangeText={(text) => {
           handleNameWord(text);
         }}
       ></TextInput>
+      <Separator marginTopProp={20} marginBottomProp={10}></Separator>
       {/* ---------------------- input description word  ---------------------------- */}
 
       {data &&
@@ -340,42 +240,30 @@ function AppWord() {
             <Text
               style={{
                 alignSelf: 'center',
-                textAlign: 'center',
+                textAlign: 'left',
                 fontSize: 25,
-                width: '85%',
+                paddingLeft: 18,
                 fontWeight: 'bold',
+                width: 360,
+                color: '#03459e',
               }}
             >
               Sinal
             </Text>
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelDescription}>Significado</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="black"
-              />
-            </View>
+            <Text style={styles.labelDescription}>Significado:</Text>
+
             <TextInput
-              id={'step-descriptionword'}
-              multiline={true}
-              placeholder="ex: esse termo se refere a uma expressão regional"
               style={styles.inputDescription}
+              placeholder="Informe o significado da palavra"
               value={definition.descriptionWordDefinition}
               onChangeText={(text) => {
                 descriptionSinal(text, definition._id);
               }}
             ></TextInput>
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelDescription}>Categoria</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="white"
-              />
-            </View>
+            {/* ---------------------- input category  ---------------------------- */}
+
+            <Text style={styles.labelDescription}>Categoria:</Text>
+
             <View style={styles.dropdown}>
               <Picker // Adicionando uma chave única para cada item
                 id={'step-category'}
@@ -407,16 +295,18 @@ function AppWord() {
             <Pressable
               style={({ pressed }) => [
                 {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                  backgroundColor: pressed ? '#beffe7' : 'white',
+                },
+                {
+                  elevation: pressed ? 1 : 6,
                 },
                 styles.button,
               ]}
-              onPress={() => handleSelectImage(definition._id)}
+              onPress={() => handleSelectImage(definition._id)} // Chama a nova função handleSelectMedia
             >
               <Text style={{ fontSize: 17 }}>Selecionar Imagem</Text>
             </Pressable>
             <Image
-              id={'step-image'}
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
@@ -425,36 +315,19 @@ function AppWord() {
               placeholder={{ blurhash }}
               transition={1000}
             />
-            <View style={{ marginBottom: 60 }}></View>
           </View>
         ))}
 
-      {/* ---------------------- input description Category  ---------------------------- */}
-      {/* <View style={styles.groupDescription}>
-        <Text style={styles.labelDescription}>Descrição do sinal</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="#e7503b"
-        />
-      </View>
-      <ScrollView>
-        <TextInput
-          style={styles.inputDescription}
-          value={data?.nameWord}
-          multiline={true}
-          onChangeText={(text) => {
-            handleTextDescription(text);
-          }}
-        ></TextInput>
-      </ScrollView> */}
+      <Separator marginTopProp={25} marginBottomProp={20}></Separator>
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
+            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
+          },
+          {
+            elevation: pressed ? 1 : 6,
           },
           styles.buttonSalvar,
         ]}
@@ -462,12 +335,23 @@ function AppWord() {
           sendData();
         }}
       >
-        <Text style={{ fontSize: 18 }}>Enviar</Text>
+        {loading ? (
+          <ActivityIndicator
+            size="small"
+            color="#03459e"
+            style={{ paddingVertical: 3 }}
+          />
+        ) : (
+          <Text style={{ fontSize: 18 }}>Enviar</Text>
+        )}
       </Pressable>
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
+            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+          },
+          {
+            elevation: pressed ? 1 : 6,
           },
           styles.buttonCancelar,
         ]}
@@ -486,9 +370,7 @@ function AppWord() {
       >
         <BlurView tint={'prominent'} intensity={60} style={styles.modalOverlay}>
           <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>
-              Alteração realizada com sucesso!
-            </Text>
+            <Text style={styles.modalText}>Envio realizado com sucesso!</Text>
             <Pressable
               style={styles.modalButton}
               onPress={() => closeModalAndBack()}
@@ -511,33 +393,31 @@ const styles = StyleSheet.create({
   },
   inputNameWord: {
     backgroundColor: 'white',
-    width: '85%',
+    width: 360,
     alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'left',
     paddingVertical: 6,
-    borderRadius: 10,
+    paddingLeft: 11,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
-    fontSize: 20,
-    marginBottom: 20,
+    // fontWeight: 'bold',
+    fontSize: 17,
+    elevation: 6,
   },
   inputDescription: {
-    justifyContent: 'space-around',
-    textAlignVertical: 'top',
-    paddingHorizontal: 6,
     backgroundColor: 'white',
-    width: '85%',
-    height: 70,
+    width: 360,
     alignSelf: 'center',
-    textAlign: 'center',
+    textAlign: 'left',
     paddingVertical: 6,
-    borderRadius: 10,
+    paddingLeft: 11,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: '#e7503b',
-    color: 'Red',
-    fontWeight: 'bold',
-    fontSize: 15,
+    borderColor: '#3d9577',
+    fontSize: 17,
+    elevation: 6,
   },
   labelCategory: {
     marginTop: 0,
@@ -549,12 +429,14 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   labelDescription: {
+    marginTop: 10,
     alignSelf: 'center',
     textAlign: 'left',
-    fontSize: 18,
-    width: '80%',
+    fontSize: 20,
+    paddingLeft: 18,
     fontWeight: 'bold',
-    color: 'black',
+    width: 360,
+    color: '#03459e',
   },
   iconClip: {
     marginTop: 0,
@@ -605,38 +487,36 @@ const styles = StyleSheet.create({
   },
   buttonCancelar: {
     marginTop: 15,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
     marginBottom: 25,
   },
   buttonSalvar: {
-    alignSelf: 'flex-end',
+    marginTop: 10,
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
   },
   dropdown: {
     marginTop: 0,
-    width: '85%',
+    width: 360,
+    height: isWeb ? 45 : 55,
     alignSelf: 'center',
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     backgroundColor: 'white',
-    // borderTopRightRadius: 0,
-    // borderTopLeftRadius: 0,
   },
   image: {
     width: 290,
@@ -663,14 +543,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -682,13 +562,16 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: 150,
+    width: 180,
     paddingVertical: 10,
-    marginTop: 10,
+    marginTop: 20,
+    // paddingHorizontal: 60,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#3d9577',
   },
 });
 

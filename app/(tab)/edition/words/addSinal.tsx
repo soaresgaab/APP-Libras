@@ -7,57 +7,51 @@ import {
   TextInput,
   Button,
   Modal,
-  Alert,
-  Dimensions,
-  ActivityIndicator,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
+import { searchById } from '@/utils/axios/searchById';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Foundation } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { FontAwesome6 } from '@expo/vector-icons';
+import { Link } from 'expo-router';
 import { router } from 'expo-router';
+import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { TypeLibrasDataWithId } from '@/@types/LibrasData';
+import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
+import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
-import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
-import ImageModal from '@/module/Image-modal';
-import { firebase } from '@/config';
-import { Video } from 'expo-av';
-import Separator from '@/components/libras_componentes/separator';
-import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';
-
-const { width, height } = Dimensions.get('window');
-
-const isTablet = width >= 768 && height >= 1024;
-const isWeb = width >= 1000 && height >= 617;
+import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
+import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
     _id: undefined,
-    nameWord: '',
+    nameWord: 'nada',
     wordDefinitions: [
       {
         _id: undefined,
         descriptionWordDefinition: '',
         src: '',
-        fileType: '',
         category: undefined,
       },
     ],
   });
   const [category, setCategory] = useState<TypeCategory[]>();
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [loading, setLoading] = useState<boolean>(false);
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
-  const blurhash = 'LRK{nc~DoMt7EKofj[a#-WWUayj?';
+  const blurhash =
+    '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
+
   // ----------------------  DropDawn logic ----------------------------
 
   const pickerStyle = {
@@ -66,10 +60,8 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    setLoading(true);
-    const result = await pushCreateSuggestionById(data);
-    setLoading(false);
-    result.data;
+    const result = await pushAddSignalById(data);
+    console.log(result.data);
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -84,7 +76,26 @@ function AppWord() {
   }
 
   async function deleteData() {
+    // const result = await pushDeleteCategoryById(data);
+    // console.log(result.status);
     setModalVisible(true);
+  }
+
+  function descriptionSinal(item: string, definitionID: number | undefined) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            descriptionWordDefinition: item,
+          };
+        }
+        return definition;
+      }),
+    };
+    console.log(newData);
+    setDataFetch(newData as TypeLibrasDataWithId);
   }
 
   // ----------------------  function to fetch data ----------------------------
@@ -92,9 +103,41 @@ function AppWord() {
     // const response = await searchById('word_id', id);
     const category = await searchByRoute('category');
     setCategory(category.data);
-
     categorySelectNull(category.data[0]);
-    // setDataFetch(response.data);
+    // setDataFetch(response.data)
+  }
+
+  function categorySelectNull(item: any) {
+    const newData = {
+      ...data,
+      _id: id,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            category: item._id,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
+
+  function categorySelect(item: number, definitionID: number | undefined) {
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition) => {
+        if (definition._id === definitionID) {
+          return {
+            ...definition,
+            category: item,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
   }
 
   useEffect(() => {
@@ -113,7 +156,7 @@ function AppWord() {
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 4],
+        // aspect: [4, 4],
         quality: 0.2,
         base64: true,
       });
@@ -135,56 +178,15 @@ function AppWord() {
     }
   };
 
-  // ----------------------  Upload de vídeo para o firebase storage ----------------------------
-
   // ----------------------  Controller data change by input ----------------------------
-  function categorySelect(item: number, definitionID: number | undefined) {
-    const newData = {
-      ...data,
-      wordDefinitions: data!.wordDefinitions?.map((definition) => {
-        if (definition._id === definitionID) {
-          return {
-            ...definition,
-            category: item,
-          };
-        }
-        return definition;
-      }),
-    };
-    setDataFetch(newData as TypeLibrasDataWithId);
-  }
-  function descriptionSinal(item: string, definitionID: number | undefined) {
-    const newData = {
-      ...data,
-      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
-        if (index === 0) {
-          return {
-            ...definition,
-            descriptionWordDefinition: item,
-          };
-        }
-        return definition;
-      }),
-    };
-    setDataFetch(newData as TypeLibrasDataWithId);
-  }
-
-  function categorySelectNull(item: any) {
-    const newData = {
-      ...data,
-      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
-        if (index === 0) {
-          return {
-            ...definition,
-            category: item._id,
-          };
-        }
-        return definition;
-      }),
-    };
-    setDataFetch(newData as TypeLibrasDataWithId);
-  }
-
+  //   function handleTextCategory(text: string) {
+  //     const newData = { ...data, nameCategory: text };
+  //     setDataFetch(newData);
+  //   }
+  //   function handleTextDescription(text: string) {
+  //     const newData = { ...data, descriptionCategory: text };
+  //     setDataFetch(newData);
+  //   }
   // ----------------------  start of component return  ----------------------------
   return (
     <ScrollView
@@ -193,69 +195,78 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <Text style={styles.headerTitle}>Criar uma Palavra</Text>
-      <Separator marginTopProp={10} marginBottomProp={10}></Separator>
+      <SearchInput></SearchInput>
+      <Text
+        style={{
+          marginTop: 10,
+          alignSelf: 'center',
+          textAlign: 'center',
+          fontSize: 20,
+          width: '75%',
+          fontStyle: 'italic',
+          fontWeight: 'bold',
+        }}
+      >
+        Adicionar Sinal
+      </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
       {/* ----------------------  form imput  ---------------------------- */}
-
-      <Text style={styles.labelWord}>Nome:</Text>
-      <TextInput
-        style={styles.inputNameWord}
-        value={data.nameWord}
-        placeholder="Informe o nome da palavra"
-        onChangeText={(text) => {
-          handleNameWord(text);
-        }}
-      ></TextInput>
-      <Separator marginTopProp={20} marginBottomProp={10}></Separator>
-      {/* ---------------------- input description word  ---------------------------- */}
+      <Foundation
+        style={styles.iconClip}
+        name="paperclip"
+        size={35}
+        color="black"
+      />
 
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
-            {/* ----------------------  form picker  ---------------------------- */}
             <Text
               style={{
                 alignSelf: 'center',
-                textAlign: 'left',
+                textAlign: 'center',
                 fontSize: 25,
-                paddingLeft: 18,
+                width: '85%',
                 fontWeight: 'bold',
-                width: 360,
-                color: '#03459e',
               }}
             >
               Sinal
             </Text>
-            <Text style={styles.labelDescription}>Significado:</Text>
+            <View style={styles.groupDescription}>
+              <Text style={styles.labelDescription}>Descrição do sinal</Text>
+              <Feather
+                style={styles.iconEditDescription}
+                name="edit"
+                size={24}
+                color="white"
+              />
+            </View>
             <TextInput
               style={styles.inputDescription}
-              placeholder="Informe o significado da palavra"
               value={definition.descriptionWordDefinition}
               onChangeText={(text) => {
                 descriptionSinal(text, definition._id);
               }}
             ></TextInput>
-            {/* ---------------------- input category  ---------------------------- */}
-
-            <Text style={styles.labelDescription}>Categoria:</Text>
-
+            {/* ----------------------  form picker  ---------------------------- */}
+            <View style={styles.groupDescription}>
+              <Text style={styles.labelCategory}>Categoria</Text>
+              <Feather
+                style={styles.iconEditDescription}
+                name="edit"
+                size={24}
+                color="white"
+              />
+            </View>
             <View style={styles.dropdown}>
               <Picker // Adicionando uma chave única para cada item
                 prompt="Escolha uma categoria"
-                style={{
-                  fontSize: 18,
-                  // backgroundColor: 'green',
-                  borderRadius: 10,
-                  paddingVertical: 10,
-                  paddingHorizontal: 5,
-                  borderWidth: 1,
-                }}
+                style={{ fontSize: 18 }}
                 mode="dialog"
-                dropdownIconColor="green"
+                dropdownIconColor="black"
+                dropdownIconRippleColor="#fcce9b"
                 selectedValue={definition.category}
-                placeholder="Selecione uma categoria"
                 onValueChange={(itemValue, itemIndex) => {
                   // setSelectedCategory(itemValue);
                   categorySelect(itemValue, definition._id);
@@ -272,23 +283,18 @@ function AppWord() {
                 })}
               </Picker>
             </View>
-            {/* ---------------------- input category  ---------------------------- */}
 
             {/* ---------------------- select image  ---------------------------- */}
-
             <Pressable
               style={({ pressed }) => [
                 {
-                  backgroundColor: pressed ? '#beffe7' : 'white',
-                },
-                {
-                  elevation: pressed ? 1 : 6,
+                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
                 },
                 styles.button,
               ]}
-              onPress={() => handleSelectImage(definition._id)} // Chama a nova função handleSelectMedia
+              onPress={() => handleSelectImage(definition._id)}
             >
-              <Text style={{ fontSize: 17 }}>Selecionar Imagem</Text>
+              <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
             </Pressable>
             <Image
               style={styles.image}
@@ -299,17 +305,16 @@ function AppWord() {
               placeholder={{ blurhash }}
               transition={1000}
             />
+            <View style={{ marginBottom: 60 }}></View>
           </View>
         ))}
 
-      <Separator marginTopProp={25} marginBottomProp={10}></Separator>
+      {/* ---------------------- buttons to create Category  ---------------------------- */}
+
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
-          },
-          {
-            elevation: pressed ? 1 : 6,
+            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
           },
           styles.buttonSalvar,
         ]}
@@ -317,23 +322,12 @@ function AppWord() {
           sendData();
         }}
       >
-        {loading ? (
-          <ActivityIndicator
-            size="small"
-            color="#03459e"
-            style={{ paddingVertical: 3 }}
-          />
-        ) : (
-          <Text style={{ fontSize: 18 }}>Salvar</Text>
-        )}
+        <Text style={{ fontSize: 18 }}>Salvar</Text>
       </Pressable>
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
-          },
-          {
-            elevation: pressed ? 1 : 6,
+            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
           },
           styles.buttonCancelar,
         ]}
@@ -350,7 +344,11 @@ function AppWord() {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <BlurView tint={'prominent'} intensity={60} style={styles.modalOverlay}>
+        <BlurView
+          tint={'systemChromeMaterialDark'}
+          intensity={60}
+          style={styles.modalOverlay}
+        >
           <View style={styles.modalContainer}>
             <Text style={styles.modalText}>
               Alteração realizada com sucesso!
@@ -371,78 +369,59 @@ function AppWord() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#edf8f4',
+    backgroundColor: '#F6F2DA',
     width: 'auto',
     paddingVertical: 0,
   },
-  headerTitle: {
-    marginTop: isWeb ? 70 : 90,
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 26,
-    width: '90%',
-    fontWeight: 'bold',
-    color: '#03459e',
-  },
   inputNameWord: {
     backgroundColor: 'white',
-    width: 360,
-    alignSelf: 'center',
-    textAlign: 'left',
-    paddingVertical: 6,
-    paddingLeft: 11,
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: '#3d9577',
-    color: 'Red',
-    // fontWeight: 'bold',
-    fontSize: 17,
-    elevation: 6,
-  },
-  labelWord: {
-    marginTop: 0,
-    alignSelf: 'center',
-    textAlign: 'left',
-    paddingLeft: 18,
-    fontSize: 20,
-    width: 360,
-    fontWeight: 'bold',
-    color: '#03459e',
-  },
-  inputDescription: {
-    backgroundColor: 'white',
-    width: 360,
-    alignSelf: 'center',
-    textAlign: 'left',
-    paddingVertical: 6,
-    paddingLeft: 11,
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: '#3d9577',
-    fontSize: 17,
-    elevation: 6,
-  },
-  labelCategory: {
-    marginTop: 0,
+    width: '75%',
     alignSelf: 'center',
     textAlign: 'center',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    color: 'Red',
     fontSize: 20,
-    width: '65%',
+    marginBottom: 40,
+  },
+  inputDescription: {
+    justifyContent: 'space-around',
+    textAlignVertical: 'top',
+    paddingHorizontal: 6,
+    backgroundColor: 'white',
+    width: '85%',
+    height: 70,
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 6,
+    borderBottomLeftRadius: 10,
+    borderBottomRightRadius: 10,
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    color: 'Red',
     fontWeight: 'bold',
-    color: 'black',
+    fontSize: 15,
+  },
+  labelCategory: {
+    alignSelf: 'center',
+    textAlign: 'left',
+    fontSize: 18,
+    width: '80%',
+    fontWeight: 'bold',
+    color: 'white',
   },
   labelDescription: {
-    marginTop: 10,
     alignSelf: 'center',
     textAlign: 'left',
     fontSize: 20,
-    paddingLeft: 18,
+    width: '80%',
     fontWeight: 'bold',
-    width: 360,
-    color: '#03459e',
+    color: 'white',
   },
   iconClip: {
-    marginTop: 0,
+    marginTop: 5,
     marginBottom: 15,
     alignSelf: 'center',
     textAlign: 'center',
@@ -456,6 +435,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   groupDescription: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     backgroundColor: '#e7503b',
     marginTop: 10,
     flexDirection: 'row',
@@ -470,7 +451,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e7503b',
     marginTop: 10,
     flexDirection: 'row',
-    width: 370,
+    width: '85%',
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -487,40 +468,42 @@ const styles = StyleSheet.create({
   },
   buttonCancelar: {
     marginTop: 15,
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
+    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#3d9577',
+    borderColor: '#6ca5f0',
     marginBottom: 25,
   },
   buttonSalvar: {
-    marginTop: 10,
-    alignSelf: 'center',
+    alignSelf: 'flex-end',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
+    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#3d9577',
+    borderColor: '#6ca5f0',
   },
   dropdown: {
     marginTop: 0,
-    width: 360,
-    height: isWeb ? 45 : 55,
+    width: '85%',
     alignSelf: 'center',
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#3d9577',
+    borderColor: '#e7503b',
     backgroundColor: 'white',
+    borderTopRightRadius: 0,
+    borderTopLeftRadius: 0,
   },
   image: {
     width: 290,
-    height: 180,
+    height: 280,
     marginTop: 18,
     alignSelf: 'center',
     textAlign: 'center',
@@ -528,8 +511,6 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     fontWeight: 'bold',
     borderRadius: 15,
-    borderWidth: 3,
-    borderColor: '#3d9577',
   },
   //-------------------------  modal style---------------------------
   modalOverlay: {
@@ -545,14 +526,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#3d9577',
+    borderColor: '#e7503b',
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#3d9577',
+    backgroundColor: '#e7503b',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -564,16 +545,13 @@ const styles = StyleSheet.create({
   },
 
   button: {
-    width: 180,
+    width: 150,
     paddingVertical: 10,
-    marginTop: 20,
-    // paddingHorizontal: 60,
+    marginTop: 10,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 20,
-    borderWidth: 2,
-    borderColor: '#3d9577',
+    borderRadius: 10,
   },
 });
 
