@@ -40,20 +40,20 @@ function App() {
 
   function routePush(id: number) {
     router.push({
-      pathname: '/(editionwords)/[words]',
+      pathname: '/editionwords/[words]',
       params: { id: `${id}` },
     });
   }
   function routePushAdd(id: number) {
     router.push({
-      pathname: '/(editionwords)/addWord',
+      pathname: '/editionwords/addWord',
       params: { id: `${id}` },
     });
   }
 
   function routePushAddSinal(id: number) {
     router.push({
-      pathname: '/(editionwords)/addSinal',
+      pathname: '/editionwords/addSinal',
       params: { id: `${id}` },
     });
   }
@@ -94,7 +94,7 @@ function App() {
       >
         <MaterialCommunityIcons name="reload" size={25} color="white" />
       </Pressable>
-      <CreateButton router="addWord" label="+ Incluir Palavra"></CreateButton>
+      <CreateButton router="editionwords/addWord" label="+ Incluir Palavra"></CreateButton>
       {data?.map((word, index) => (
         <Pressable key={index} onPress={() => {}}>
           <View style={styles.div}>

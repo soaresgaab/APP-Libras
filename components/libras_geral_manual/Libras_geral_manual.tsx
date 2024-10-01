@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { ActivityIndicator } from 'react-native';
+import YoutubeIframe from 'react-native-youtube-iframe'
 
 const { width, height } = Dimensions.get('window');
 
@@ -31,6 +32,7 @@ export const Libras_container = ({
       `word/category/${label}`,
     ).finally(() => setIsLoading(false));
     setFetchData(data.data);
+    console.log(data.data)
   }
 
   useEffect(() => {
@@ -58,14 +60,21 @@ export const Libras_container = ({
               {item.wordDefinitions?.map((item2, index2) => (
                 <View key={index2} style={styles.container}>
                   <Pressable style={styles.div}>
-                    {
+                    {item2.fileType ===  'image' && (
                       <ImageModal
                         style={styles.image}
                         source={{
                           uri: `data:image/jpeg;base64,${item2.src}`,
                         }}
                       ></ImageModal>
-                    }
+                    )}
+                    {item2.fileType ===  'video' && (
+                      <YoutubeIframe 
+                      videoId={item2.src.split('https://www.youtube.com/watch?v=')[1]?.split('&')[0]}
+                      height={isTablet ? 295 : 180}
+                      width={isTablet ? 660 : 340}
+                      />
+                    )}
                     <Text style={styles.label}>{item.nameWord}</Text>
                   </Pressable>
                 </View>
@@ -116,6 +125,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e7503b',
     marginTop: 5,
+    display: 'flex',
+    alignItems: 'center',
   },
   logo: {
     width: 66,

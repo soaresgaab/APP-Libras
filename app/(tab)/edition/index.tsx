@@ -41,7 +41,7 @@ function App() {
 
   function routePush(id: number) {
     router.push({
-      pathname: '/(edition)/[id]',
+      pathname: '/edition/[id]',
       params: { id: `${id}` },
     });
   }
@@ -85,7 +85,7 @@ function App() {
           color="white"
         />
       </Pressable>
-      <CreateButton router="add" label="+ Incluir Categoria"></CreateButton>
+      <CreateButton router="edition/add" label="+ Incluir Categoria"></CreateButton>
       {data?.map((category, index) => (
         <Pressable key={index}>
           <View style={styles.div}>
