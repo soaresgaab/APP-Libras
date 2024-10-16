@@ -1,67 +1,153 @@
-import { View, Text, Dimensions, StyleSheet, Pressable } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { TypeCategory } from '@/@types/Category';
-import { Entypo, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
+import { View, Text, Dimensions, StyleSheet, Pressable, Modal, TouchableWithoutFeedback } from 'react-native';
+import React, { useState } from 'react';
+import { Entypo, Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
-import { CreateButton } from '../createData/create-Button';
+import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
+import { CreateButton } from '../createData/create-Button';
 import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
 import ImageModal from '@/module/Image-modal';
+import Separator from '../libras_componentes/separator';
 
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 const isWeb = width >= 1000 && height >= 617;
 
-const SuggestionViewerEdition = ({
-  data,
-}: {
-  data: TypeLibrasDataWithId[] | undefined;
-}) => {
+const SuggestionViewerEdition = ({ 
+  data }: { data: TypeLibrasDataWithId[] | undefined }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedSuggestion, setSelectedSuggestion] = useState<TypeLibrasDataWithId | null>(null);
+
+  function closeModal() {
+    setModalVisible(false);
+    setSelectedSuggestion(null);
+  }
+
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={false} progressViewOffset={70} />
-      }
-    >
-      <View style={[isWeb ? styles.divSuggestionWeb : {}]}>
-        {data?.map((suggestion, index) => (
-          <View style={styles.listContainer} key={index}>
-            <View style={styles.divImage}>
-              <ImageModal
-                style={styles.image}
-                source={{
-                  uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
-                }}
-              />
-            </View>
-            <View style={styles.divLabelAndOption}>
-              <View style={styles.divButtonOptions}>
-                <Pressable
-                  style={({ pressed }) => [
-                    styles.buttonOption,
-                    {
-                      backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
-                    },
-                  ]}
-                >
-                  <Entypo
-                    style={{ alignSelf: 'center' }}
-                    name="dots-three-vertical"
-                    size={21}
-                    color="black"
-                  />
-                </Pressable>
+    <>
+      <ScrollView
+        style={styles.container}
+        refreshControl={<RefreshControl refreshing={false} progressViewOffset={70} />}
+      >
+        <View style={[isWeb ? styles.divSuggestionWeb : {}]}>
+          {data?.map((suggestion, index) => (
+            <View style={styles.listContainer} key={index}>
+              <View style={styles.divImage}>
+                <ImageModal
+                  style={styles.image}
+                  source={{
+                    uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
+                  }}
+                />
               </View>
-              <View style={styles.divLabelCategory}>
-                <Text style={styles.textCategory}>{suggestion.nameWord}</Text>
+              <View style={styles.divLabelAndOption}>
+                <View style={styles.divButtonOptions}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.buttonOption,
+                      {
+                        backgroundColor: pressed ? '#3d9577' : '#ecf7f4',
+                      },
+                    ]}
+                    onPress={() => {
+                      setSelectedSuggestion(suggestion);
+                      setModalVisible(true);
+                    }}
+                  >
+                    <Entypo
+                      style={{ alignSelf: 'center' }}
+                      name="dots-three-vertical"
+                      size={21}
+                      color="black"
+                    />
+                  </Pressable>
+                </View>
+                <View style={styles.divLabelCategory}>
+                  <Text style={styles.textCategory}>{suggestion.nameWord}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        ))}
-      </View>
-    </ScrollView>
+          ))}
+        </View>
+      </ScrollView>
+
+      {/* Modal */}
+      <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <BlurView tint={'systemChromeMaterialDark'} intensity={60} style={styles.modalOverlay}>
+            <TouchableWithoutFeedback>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                    ]}
+                    onPress={() => {
+                      console.log('Editar');
+                      closeModal();
+                    }}
+                  >
+                    <Feather
+                      style={{ alignSelf: 'center' }}
+                      name="edit"
+                      size={24}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Editar</Text>
+                  </Pressable>
+                </View>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                    ]}
+                    onPress={() => {
+                      console.log('Excluir');
+                      closeModal();
+                    }}
+                  >
+                    <MaterialCommunityIcons
+                      style={{ alignSelf: 'center' }}
+                      name="trash-can-outline"
+                      size={24}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Lixeira</Text>
+                  </Pressable>
+                </View>
+
+                <Separator
+                  marginLeftProp={-40}
+                  marginTopProp={7}
+                  marginBottomProp={5}
+                  widthProps={isWeb ? 280 : width * 0.7}
+                />
+
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButtonClose,
+                      pressed && styles.modalButtonCloseOnPress,
+                    ]}
+                    onPress={closeModal}
+                  >
+                    <Ionicons
+                      name="close-circle-outline"
+                      size={24}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>Cancelar</Text>
+                  </Pressable>
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </BlurView>
+        </TouchableWithoutFeedback>
+      </Modal>
+    </>
   );
 };
 
@@ -146,6 +232,58 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 8,
     justifyContent: 'center',
+  },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContainer: {
+    width: 350,
+    paddingVertical: 15,
+    flexDirection: 'column',
+    backgroundColor: '#ecf7f4',
+    marginBottom: 4,
+    paddingLeft: 35,
+    borderRadius: 10,
+    alignItems: 'flex-start',
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    justifyContent: 'center',
+  },
+  modalText: {
+    textAlign: 'center',
+    textAlignVertical: 'center',
+    justifyContent: 'center',
+    fontSize: 18,
+    paddingLeft: 6,
+  },
+  modalButton: {
+    flexDirection: 'row',
+    paddingVertical: 5,
+    paddingHorizontal: 1,
+    borderRadius: 5,
+    width: isWeb ? 280 : '90%',
+  },
+  modalButtonOnPress: {
+    backgroundColor: '#8e8e8e8a',
+  },
+  modalButtonClose: {
+    flexDirection: 'row',
+    paddingLeft: 1,
+    marginBottom: -12,
+    borderRadius: 5,
+    width: isWeb ? 280 : '90%',
+    paddingVertical: 5,
+  },
+  modalButtonCloseOnPress: {
+    backgroundColor: '#8e8e8e8a',
+  },
+  modalIconsAndButtons: {
+    flexDirection: 'row',
+    paddingVertical: 1,
+    marginBottom: 5,
   },
 });
 
