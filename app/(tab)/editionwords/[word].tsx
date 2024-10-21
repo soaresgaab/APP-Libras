@@ -35,9 +35,6 @@ import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushDeleteWordById } from '@/utils/axios/Words/pushDeleteWordById';
 import ImageModal from '@/module/Image-modal';
-import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
-import { Video } from 'expo-av';
-import { storage } from '@/firebaseConfig'; 
 import { RadioButton } from 'react-native-paper';
 import YoutubeIframe from 'react-native-youtube-iframe'
 
@@ -45,15 +42,9 @@ function AppWord() {
   const { width, height } = Dimensions.get('window');
   const isTablet = width >= 768 && height >= 1024;
 
-  const [mediaUri, setMediaUri] = useState<string | null>(null);
-  const [mediaType, setMediaType] = useState<'image' | 'video' | null>(null);
   const [midiaStorageType, setMidiaStorageType] = useState<{ [key: string]: 'upload' | 'linkVideo' | null }>({});
   const [youtubeLinks, setYoutubeLinks] = useState<{ [key: string]: string }>({});
-  const [isVideoModalVisible, setVideoModalVisible] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const videoRef = useRef(null);
-  let updatedSrc:string = '';
-  let midiaselect:boolean = false;
   const [mudarMidia, setMudarMidia] = useState(false);
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
     _id: undefined,
@@ -67,7 +58,6 @@ function AppWord() {
       },
     ],
   });
-  const [video, setVideo] = useState<string>('');
   const [category, setCategory] = useState<TypeCategory[]>();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -83,9 +73,11 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
+    console.log("data sjs: ", data)
     const updatedDefinitions = await Promise.all(
       data?.wordDefinitions.map(async (definition) => {
-        console.log(midiaStorageType[definition._id])
+        console.log("mudar midis: ",mudarMidia[definition._id])
+        console.log("tipo midia: ",midiaStorageType[definition._id])
         if (mudarMidia[definition._id] && mudarMidia[definition._id] === true && midiaStorageType[definition._id] === 'linkVideo') {
           try {
             return {
@@ -98,10 +90,21 @@ function AppWord() {
             return definition; 
           }
         } else {
-          return {
-            ...definition,
-            fileType: 'image',
-          };
+          if(mudarMidia[definition._id] && mudarMidia[definition._id] === true && midiaStorageType[definition._id] === 'upload'){
+            try {
+              return {
+                ...definition,
+                fileType: 'image',
+              };
+            } catch (error) {
+              console.error(error);
+              return definition; 
+            }
+          } else {
+            return {
+              ...definition,
+            };
+          }
         }
       })
     );
@@ -113,11 +116,8 @@ function AppWord() {
     const result = await pushUpdateWordById(newData);
     console.log(result.data);
     setModalVisible(true);
-
-    //const result = await pushUpdateWordById(data);
-    //console.log(result.data);
-    //setModalVisible(true);
   }
+
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
@@ -130,33 +130,12 @@ function AppWord() {
   }
 
   async function deleteData() {
-    /*const result = await pushDeleteWordById(data);
-    console.log(result.status);
-    setModalVisible(true);*/
-    let videosDelete = data.wordDefinitions
-      .filter(video => video.fileType === 'video')
-      .map(video => video.src);
     const result = await pushDeleteWordById(data);
     console.log(result.status);
-    //Excluir os arquivos no firebase storage-------------------
-    console.log("arquivos deletados",videosDelete)
-    try {
-        for (const videoUrl of videosDelete) {
-            const filePath = "videos/" + videoUrl.replace('https://firebasestorage.googleapis.com/v0/b/videossignallibras.appspot.com/o/videos%2F', '').replace(/\?.*$/, '');
-            const fileRef = ref(storage, filePath);
-            await deleteObject(fileRef);
-            console.log(`Arquivo excluído: ${videoUrl}`);
-        }
-    } catch (error) {
-        console.error('Erro ao excluir vídeos:', error);
-    }
     setModalVisible(true);
   }
+
   async function deleteDataSignal(id: number | undefined) {
-    const definitionToDelete = data.wordDefinitions?.find(definition => definition._id === id);
-    if(definitionToDelete?.fileType === 'video'){
-      setVideo(definitionToDelete.src);
-    }
     const newData = {
       ...data,
       wordDefinitions: data!.wordDefinitions?.filter(
@@ -165,21 +144,7 @@ function AppWord() {
     };
     setDataFetch(newData as TypeLibrasDataWithId);
   }
-  // ----------------------  Upload de vídeo para o firebase storage ----------------------------
-  async function uploadVideoToFirebase(uri: string) {
-    console.log("na função upload firebase")
-    try {
-      const storageRef = ref(storage, `videos/${Date.now()}.mp4`);
-      console.log('storageref:  ', storageRef);
-      const fileBlob = await fetch(uri).then((r) => r.blob()); 
-      await uploadBytes(storageRef, fileBlob);
-      const downloadURL = await getDownloadURL(storageRef);
-      return downloadURL;
-    } catch (error) {
-      console.error("Erro ao fazer upload do vídeo:", error);
-      throw error;
-    }
-  }
+
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
     const response = await searchById('word_id', id);
@@ -219,49 +184,10 @@ function AppWord() {
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        // aspect: [4, 4],
-        quality: 0.2,
-        base64: true,
-    });
-    console.log('Mídia selecionada:', result);
-    if (!result.canceled && result.assets.length > 0) {
-      const { uri, base64, type } = result.assets[0];
-      setMediaUri(uri);
-      setMediaType(type === 'image' ? 'image' : 'video');
-
-      if (type === 'image') {
-        updatedSrc = result.assets[0].base64;
-        midiaselect = true;
-      } else if (type === 'video') {
-        updatedSrc = uri;
-        midiaselect = true;
-      }
-      const newData = {
-        ...data,
-        wordDefinitions: data!.wordDefinitions?.map((definition) => {
-          if (definition._id === itemID) {
-            return {
-              ...definition,
-              src: updatedSrc,
-              fileType: type,
-            };
-          }
-          return definition;
-        }),
-      };
-      console.log("newsate : ", newData)
-      setDataFetch(newData as TypeLibrasDataWithId);
-    }
-
-    /*const result: ImagePicker.ImagePickerResult =
-      await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
         aspect: [4, 4],
         quality: 0.2,
         base64: true,
       });
-
     if (!result.canceled && result.assets[0].base64) {
       const newData = {
         ...data,
@@ -276,7 +202,7 @@ function AppWord() {
         }),
       };
       setDataFetch(newData as TypeLibrasDataWithId);
-    }*/
+    }
   };
 
   function descriptionSinal(item: string, definitionID: number | undefined) {
@@ -555,18 +481,20 @@ function AppWord() {
               /></View>
             )}
 
-            {midiaStorageType[definition._id] === 'upload' && (<Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                },
-                styles.button,
-              ]}
-              onPress={() => handleSelectImage(definition._id)}
-            >
-              <Text style={{ fontSize: 17 }}>Trocar imagem</Text>
-            </Pressable>)}
-            {midiaStorageType[definition._id] === 'upload' || definition.fileType === 'image' && (<Image
+            {midiaStorageType[definition._id] === 'upload' && (
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                  },
+                  styles.button,
+                ]}
+                onPress={() => handleSelectImage(definition._id)}
+              >
+                <Text style={{ fontSize: 17 }}>Trocar imagem</Text>
+              </Pressable>
+            )}
+            {mudarMidia[definition._id] === 'Manter mídia' && midiaStorageType[definition._id] === 'upload' || definition.fileType === 'image' && (<Image
               style={styles.image}
               source={{
                 uri: `data:image/jpeg;base64,${definition.src}`,
@@ -574,6 +502,12 @@ function AppWord() {
               contentFit="cover"
               placeholder={{ blurhash }}
               transition={1000}
+            />)}
+            {mudarMidia[definition._id] === 'Trocar mídia' && midiaStorageType[definition._id] ===  'upload' && (<ImageModal
+                style={styles.image}
+                source={{
+                  uri: `data:image/jpeg;base64,${definition.src}`,
+                }}
             />)}
 
             {/* ---------------------- Se a opção Link do youtube for selecionada  ---------------------------- */}
@@ -588,30 +522,14 @@ function AppWord() {
                 />
                 {/* Exibir o vídeo do YouTube com o link inserido */}
                 {youtubeLinks[definition._id] && (
-                  <YoutubeIframe
+                  <View style={styles.youtube}><YoutubeIframe
                     videoId={extractYoutubeVideoId(youtubeLinks[definition._id])}
                     height={180}
                     width={340}
-                  />
+                  /></View>
                 )}
               </View>
             )}
-            {/*{midiaselect === true && mediaType === 'image' && mediaUri && (
-                <ImageModal
-                    style={styles.image}
-                    source={{ uri: mediaUri }}
-                />
-            )}
-            
-            {midiaselect === true && mediaType === 'video' && mediaUri && (
-                <Video
-                    source={{ uri: mediaUri }}
-                    style={styles.video}
-                    resizeMode="cover"
-                    shouldPlay
-                    isLooping
-                />
-            )}*/}
             <View style={{ marginBottom: 60 }}></View>
           </View>
         ))}
