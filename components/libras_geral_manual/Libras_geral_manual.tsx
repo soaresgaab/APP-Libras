@@ -6,6 +6,7 @@ import {
   Pressable,
   Dimensions,
 } from 'react-native';
+import React from 'react';
 import { Link } from 'expo-router';
 import { View } from '../Themed';
 import ImageModal from '@/module/Image-modal/index';
@@ -13,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { ActivityIndicator } from 'react-native';
-import YoutubeIframe from 'react-native-youtube-iframe'
+import YoutubeIframe from 'react-native-youtube-iframe';
 
 const { width, height } = Dimensions.get('window');
 
@@ -22,7 +23,7 @@ const isTablet = width >= 768 && height >= 1024;
 export const Libras_container = ({
   label,
 }: {
-  label: string;
+  label: string | string[];
 }): React.ReactNode => {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
   const [isLoading, setIsLoading] = useState(true);
@@ -32,7 +33,7 @@ export const Libras_container = ({
       setIsLoading(false),
     );
     setFetchData(data.data);
-    console.log(data.data)
+    console.log(data.data);
   }
 
   useEffect(() => {
@@ -44,7 +45,7 @@ export const Libras_container = ({
     // Verifica se a URL é do formato longo (youtube.com)
     if (url.includes('youtube.com/watch?v=')) {
       videoId = url.split('v=')[1]?.split('&')[0];
-    } 
+    }
     // Verifica se a URL é do formato curto (youtu.be)
     else if (url.includes('youtu.be/')) {
       videoId = url.split('youtu.be/')[1]?.split('?')[0];
@@ -73,7 +74,7 @@ export const Libras_container = ({
               {item.wordDefinitions?.map((item2, index2) => (
                 <View key={index2} style={styles.container}>
                   <Pressable style={styles.div}>
-                    {item2.fileType ===  'image' && (
+                    {item2.fileType === 'image' && (
                       <ImageModal
                         style={styles.image}
                         source={{
@@ -81,11 +82,11 @@ export const Libras_container = ({
                         }}
                       ></ImageModal>
                     )}
-                    {item2.fileType ===  'video' && (
-                      <YoutubeIframe 
-                      videoId={extractYoutubeVideoId(item2.src)}
-                      height={isTablet ? 295 : 180}
-                      width={isTablet ? 660 : 340}
+                    {item2.fileType === 'video' && (
+                      <YoutubeIframe
+                        videoId={extractYoutubeVideoId(item2.src)}
+                        height={isTablet ? 295 : 180}
+                        width={isTablet ? 660 : 340}
                       />
                     )}
                     <Text style={styles.label}>{item.nameWord}</Text>
