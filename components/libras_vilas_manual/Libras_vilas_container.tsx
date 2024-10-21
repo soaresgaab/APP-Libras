@@ -19,20 +19,15 @@ const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
-export const Libras_container = ({
-  label,
-}: {
-  label: string;
-}): React.ReactNode => {
+export const Libras_vilas_container = ({}): React.ReactNode => {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
   const [isLoading, setIsLoading] = useState(true);
 
   async function SearchData() {
-    const data = await searchByRoute(`word/category/${label}`).finally(() =>
-      setIsLoading(false),
-    );
+    const data = await searchByRoute(
+      'word/category/Vila',
+    ).finally(() => setIsLoading(false));
     setFetchData(data.data);
-    console.log(data.data)
   }
 
   useEffect(() => {
@@ -69,11 +64,11 @@ export const Libras_container = ({
       ) : (
         <>
           {fetchData?.map((item, index) => (
-            <View key={index} style={{ backgroundColor: '#edf8f4' }}>
+            <View key={index} style={{ backgroundColor: '#F6F2DA' }}>
               {item.wordDefinitions?.map((item2, index2) => (
                 <View key={index2} style={styles.container}>
                   <Pressable style={styles.div}>
-                    {item2.fileType ===  'image' && (
+                  {item2.fileType ===  'image' && (
                       <ImageModal
                         style={styles.image}
                         source={{
@@ -102,7 +97,7 @@ export const Libras_container = ({
 const styles = StyleSheet.create({
   container: {
     // paddingTop: 25,
-    backgroundColor: '#edf8f4',
+    backgroundColor: '#F6F2DA',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
@@ -138,8 +133,6 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#e7503b',
     marginTop: 5,
-    display: 'flex',
-    alignItems: 'center',
   },
   logo: {
     width: 66,

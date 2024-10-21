@@ -153,6 +153,7 @@ function AppWord() {
     }
 
     const result: ImagePicker.ImagePickerResult =
+    const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
