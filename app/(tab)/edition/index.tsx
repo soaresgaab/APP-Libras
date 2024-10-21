@@ -224,6 +224,25 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
+                    onPress={() => routePush('edition/words/[word]')}
+                  >
+                    <MaterialCommunityIcons
+                      style={{ alignSelf: 'center' }}
+                      name="plus-box-multiple-outline"
+                      size={23}
+                      color="black"
+                    />
+                    <Text style={styles.modalText}>
+                      Adicionar Palavras tete com yt
+                    </Text>
+                  </Pressable>
+                </View>
+                <View style={styles.modalIconsAndButtons}>
+                  <Pressable
+                    style={({ pressed }) => [
+                      styles.modalButton,
+                      pressed && styles.modalButtonOnPress,
+                    ]}
                     onPress={() => closeModalAndBack()}
                   >
                     <Ionicons

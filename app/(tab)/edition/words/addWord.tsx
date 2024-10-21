@@ -28,7 +28,6 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
 import ImageModal from '@/module/Image-modal';
-import { firebase } from '@/config';
 import { Video } from 'expo-av';
 import Separator from '@/components/libras_componentes/separator';
 import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';

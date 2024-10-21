@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState, useRef } from 'react';
 import {
   StyleSheet,
   RefreshControl,
@@ -7,6 +7,8 @@ import {
   TextInput,
   Button,
   Modal,
+  TouchableOpacity,
+  Dimensions,
   Alert,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
@@ -31,14 +33,19 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
-import { pushDeleteWordById } from '@/utils/axios/Words/pushDeleteWordById';
+import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
 import ImageModal from '@/module/Image-modal';
-import { firebase } from '@/config';
+import { RadioButton } from 'react-native-paper';
 
 function AppWord() {
+  const [youtubeLinkUri, setYoutubeLinkUri] = useState<string | undefined>('');
+  const [midiaStorageType, setMidiaStorageType] = useState<
+    'upload' | 'linkVideo' | null
+  >(null);
+
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
     _id: undefined,
-    nameWord: '',
+    nameWord: 'nada',
     wordDefinitions: [
       {
         _id: undefined,
@@ -49,7 +56,6 @@ function AppWord() {
       },
     ],
   });
-  const storage = firebase.storage();
   const [category, setCategory] = useState<TypeCategory[]>();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
@@ -65,14 +71,61 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushUpdateWordById(data);
-    result.data;
+    if (
+      !data.nameWord ||
+      !data.wordDefinitions!.every(
+        (def) => def.descriptionWordDefinition && def.category,
+      )
+    ) {
+      Alert.alert(
+        'Campos obrigatórios',
+        'Por favor, preencha todos os campos obrigatórios antes de salvar.',
+        [{ text: 'OK' }],
+      );
+      return;
+    }
+    let updatedDefinitions = data.wordDefinitions;
+    if (midiaStorageType === 'upload') {
+      updatedDefinitions = await Promise.all(
+        data?.wordDefinitions!.map(async (definition) => {
+          return {
+            ...definition,
+            fileType: 'image',
+          };
+        }),
+      );
+    } else {
+      if (midiaStorageType === 'linkVideo') {
+        console.log('entrou nesse else');
+        updatedDefinitions = await Promise.all(
+          data?.wordDefinitions!.map(async (definition) => {
+            try {
+              return {
+                ...definition,
+                src: youtubeLinkUri,
+                fileType: 'video',
+              };
+            } catch (error) {
+              console.error('Erro no processamento do link:', error);
+              return definition;
+            }
+          }),
+        );
+      }
+    }
+    const newData = {
+      ...data,
+      wordDefinitions: updatedDefinitions,
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+    const result = await pushAddSignalById(newData);
     setModalVisible(true);
   }
+
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(editionwords)',
+      pathname: '/editionwords',
     });
   }
 
@@ -81,52 +134,52 @@ function AppWord() {
   }
 
   async function deleteData() {
-    const videosDelete = data.wordDefinitions
-      .filter((video) => video.fileType === 'video')
-      .map((video) => video.src);
-    const result = await pushDeleteWordById(data);
-    result.status;
+    // const result = await pushDeleteCategoryById(data);
+    // (result.status);
     setModalVisible(true);
   }
-  async function deleteDataSignal(id: number | undefined) {
-    const definitionToDelete = data.wordDefinitions?.find(
-      (definition) => definition._id === id,
-    );
-    let video: string;
-    if (definitionToDelete?.fileType === 'video') {
-      video = definitionToDelete.src;
-    }
+
+  function descriptionSinal(item: string, definitionID: number | undefined) {
     const newData = {
       ...data,
-      wordDefinitions: data!.wordDefinitions?.filter(
-        (definition) => definition._id !== id,
-      ),
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            descriptionWordDefinition: item,
+          };
+        }
+        return definition;
+      }),
     };
+    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
-    //Excluir os arquivo no firebase storage-------------------
-    if (video) {
-      try {
-        const filePath = video
-          .replace(
-            'https://firebasestorage.googleapis.com/v0/b/signallibrastcc.appspot.com/o/',
-            '',
-          )
-          .replace(/\?.*$/, '');
-        const storageRef = storage.ref(decodeURIComponent(filePath));
-        await storageRef.delete();
-      } catch (error) {
-        console.error('Erro ao excluir o arquivo do Firebase Storage:', error);
-      }
-    }
   }
-  // ----------------------  function to fetch data ----------------------------
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    const response = await searchById('word_id', id);
+    // const response = await searchById('word_id', id);
     const category = await searchByRoute('category');
     setCategory(category.data);
-    setDataFetch(response.data);
+    categorySelectNull(category.data[0]);
+    // setDataFetch(response.data)
+  }
+
+  function categorySelectNull(item: any) {
+    const newData = {
+      ...data,
+      _id: id,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            category: item._id,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
   }
 
   function categorySelect(item: number, definitionID: number | undefined) {
@@ -157,11 +210,11 @@ function AppWord() {
       return;
     }
 
-    /*const result: ImagePicker.ImagePickerResult =
+    const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
         allowsEditing: true,
-        aspect: [4, 4],
+        // aspect: [4, 4],
         quality: 0.2,
         base64: true,
       });
@@ -180,88 +233,8 @@ function AppWord() {
         }),
       };
       setDataFetch(newData as TypeLibrasDataWithId);
-    }*/
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All, // Permitir todas as mídias
-      allowsEditing: true,
-      quality: 0.5,
-    });
-    console.log('Mídia selecionada:', result);
-    if (!result.canceled && result.assets[0]) {
-      console.log('entrou no if');
-      const { uri, base64 } = result.assets[0];
-      let type = '';
-      let updatedSrc = '';
-
-      if (uri.startsWith('data:image')) {
-        console.log('imagem');
-        // Para imagens, armazene como base64
-        updatedSrc = base64 ? `data:image/jpeg;base64,${base64}` : uri;
-        type = 'image';
-      } else if (uri.startsWith('data:video')) {
-        console.log('video');
-        // Para vídeos, armazene a URI local para upload posterior
-        updatedSrc = uri;
-        type = 'video';
-      }
-      console.log('Novo src:', updatedSrc);
-      // Atualiza o estado com a mídia selecionada
-      const newData = {
-        ...data,
-        wordDefinitions: data.wordDefinitions?.map((definition) => {
-          if (definition._id === itemID) {
-            console.log('Novo src dentor do if:', updatedSrc);
-            return {
-              ...definition,
-              src: updatedSrc,
-              fileType: type, // Atualiza o fileType com base no tipo da mídia
-            };
-          }
-          console.log('definition', definition);
-          return definition;
-        }),
-      };
-      console.log('newdat:', newData);
-
-      setDataFetch(newData as TypeLibrasDataWithId);
     }
   };
-
-  // ----------------------  Upload de vídeo para o firebase storage ----------------------------
-  async function uploadVideoToFirebase(uri: string) {
-    try {
-      const response = await fetch(uri);
-      const blob = await response.blob();
-
-      const storageRef = firebase.storage().ref();
-      const videoRef = storageRef.child(`videos/${Date.now()}.mp4`); // Define um caminho único para o vídeo
-
-      const snapshot = await videoRef.put(blob);
-      const downloadURL = await snapshot.ref.getDownloadURL();
-
-      return downloadURL;
-    } catch (error) {
-      console.error('Erro ao fazer upload do vídeo:', error);
-      throw error;
-    }
-  }
-
-  function descriptionSinal(item: string, definitionID: number | undefined) {
-    const newData = {
-      ...data,
-      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
-        if (definition._id === definitionID) {
-          return {
-            ...definition,
-            descriptionWordDefinition: item,
-          };
-        }
-        return definition;
-      }),
-    };
-    newData;
-    setDataFetch(newData as TypeLibrasDataWithId);
-  }
 
   // ----------------------  Controller data change by input ----------------------------
   //   function handleTextCategory(text: string) {
@@ -292,27 +265,10 @@ function AppWord() {
           fontWeight: 'bold',
         }}
       >
-        Editar Palavra
+        Adicionar Sinal
       </Text>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonTrash,
-        ]}
-        onPress={() => {
-          deleteData();
-        }}
-      >
-        <FontAwesome6
-          styles={styles.iconTrash}
-          name="trash-can"
-          size={25}
-          color="white"
-        />
-      </Pressable>
+
       {/* ----------------------  form imput  ---------------------------- */}
       <Foundation
         style={styles.iconClip}
@@ -320,48 +276,10 @@ function AppWord() {
         size={35}
         color="black"
       />
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 25,
-          width: '75%',
-          fontWeight: 'bold',
-        }}
-      >
-        Nome
-      </Text>
-      <TextInput
-        style={styles.inputNameWord}
-        value={data.nameWord}
-        multiline={true}
-        onChangeText={(text) => {
-          handleNameWord(text);
-        }}
-      ></TextInput>
 
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-                },
-                styles.buttonTrash,
-              ]}
-              onPress={() => {
-                deleteDataSignal(definition._id);
-              }}
-            >
-              <FontAwesome6
-                styles={styles.iconTrash}
-                name="trash-can"
-                size={25}
-                color="white"
-              />
-            </Pressable>
             <Text
               style={{
                 alignSelf: 'center',
@@ -369,7 +287,6 @@ function AppWord() {
                 fontSize: 25,
                 width: '85%',
                 fontWeight: 'bold',
-                marginTop: -10,
               }}
             >
               Sinal
@@ -425,52 +342,68 @@ function AppWord() {
               </Picker>
             </View>
 
-            {/* ---------------------- select image  ---------------------------- */}
-            {/*<Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                },
-                styles.button,
-              ]}
-              onPress={() => handleSelectImage(definition._id)}
-            >
-              <Text style={{ fontSize: 17 }}>Trocar Mídia</Text>
-            </Pressable>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `data:image/jpeg;base64,${definition.src}`,
-              }}
-              contentFit="cover"
-              placeholder={{ blurhash }}
-              transition={1000}
-            />*/}
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                },
-                styles.button,
-              ]}
-              onPress={() => handleSelectImage(definition._id)} // Chama a nova função handleSelectMedia
-            >
-              <Text style={{ fontSize: 17 }}>Selecionar Mídia</Text>
-            </Pressable>
-            <ImageModal
-              style={styles.image}
-              source={
-                definition.src.startsWith('data:video')
-                  ? { uri: definition.src } // Para vídeos
-                  : {
-                      uri:
-                        definition.src.startsWith('data:image') ||
-                        definition.src.startsWith('https://')
-                          ? definition.src
-                          : `data:image/jpeg;base64,${definition.src}`,
-                    } // Para imagens
-              }
-            />
+            {/* ---------------------- Radio Buttons para selecionar Imagem ou Vídeo ---------------------------- */}
+            <Text style={styles.label}>Selecione o tipo de mídia:</Text>
+            <View style={styles.radioContainer}>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="upload"
+                  status={
+                    midiaStorageType === 'upload' ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setMidiaStorageType('upload')}
+                />
+                <Text>Upload da mídia</Text>
+              </View>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="linkVideo"
+                  status={
+                    midiaStorageType === 'linkVideo' ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setMidiaStorageType('linkVideo')}
+                />
+                <Text>Link do Youtube</Text>
+              </View>
+            </View>
+
+            {/* ---------------------- select image - opção Upload de mídia ---------------------------- */}
+            {midiaStorageType === 'upload' && (
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                  },
+                  styles.button,
+                ]}
+                onPress={() => handleSelectImage(definition._id)}
+              >
+                <Text style={{ fontSize: 17 }}>Selecionar mídia</Text>
+              </Pressable>
+            )}
+            {midiaStorageType === 'upload' && (
+              <ImageModal
+                style={styles.image}
+                source={{
+                  uri: `data:image/jpeg;base64,${definition.src}`,
+                }}
+              />
+            )}
+
+            {/* ---------------------- Se a opção Link do youtube for selecionada  ---------------------------- */}
+            {midiaStorageType === 'linkVideo' && (
+              <View>
+                <Text style={styles.label}>
+                  Cole o link do vídeo do YouTube:
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="https://www.youtube.com/..."
+                  value={youtubeLinkUri}
+                  onChangeText={(text) => setYoutubeLinkUri(text)}
+                />
+              </View>
+            )}
             <View style={{ marginBottom: 60 }}></View>
           </View>
         ))}
@@ -572,7 +505,7 @@ function AppWord() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#edf8f4',
+    backgroundColor: '#F6F2DA',
     width: 'auto',
     paddingVertical: 0,
   },
@@ -624,8 +557,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   iconClip: {
-    marginTop: -25,
-    marginBottom: 0,
+    marginTop: 5,
+    marginBottom: 15,
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
@@ -715,6 +648,17 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     borderRadius: 15,
   },
+  video: {
+    width: 290,
+    height: 280,
+    marginTop: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    borderRadius: 15,
+  },
   //-------------------------  modal style---------------------------
   modalOverlay: {
     flex: 1,
@@ -746,7 +690,35 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
+  radioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  radioItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+  },
+  input: {
+    backgroundColor: 'white',
+    width: '85%',
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#e7503b',
+    color: 'red',
+    fontSize: 16,
+    marginBottom: 20,
+  },
   button: {
     width: 150,
     paddingVertical: 10,

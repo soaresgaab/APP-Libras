@@ -19,15 +19,13 @@ export type TypeLibrasData = {
 export type TypeLibrasDataWithId = {
   _id?: number | undefined;
   nameWord?: string;
-  wordDefinitions?: [
-    {
-      _id: number | undefined;
-      descriptionWordDefinition?: string;
-      src?: string;
-      fileType?: string;
-      category?: number;
-    },
-  ];
+  wordDefinitions?: {
+    _id: number | undefined;
+    descriptionWordDefinition?: string;
+    src?: string;
+    fileType?: string;
+    category?: number;
+  }[];
 };
 
 type Action = {

@@ -186,11 +186,12 @@ export default function CustomDrawerContent(props: any) {
           icon={() => <SvgCamara />}
           label={'Camara Municipal de Marabá'}
           onPress={() => {
-            router.push('/camara');
+            router.push('screensCategory/camara');
           }}
           style={{
             marginLeft: -0,
-            backgroundColor: path == '/camara' ? '#a4e1cb' : '#edf8f4',
+            backgroundColor:
+              path == '/screensCategory/camara' ? '#a4e1cb' : '#edf8f4',
           }}
           labelStyle={{
             marginLeft: -25,
