@@ -86,6 +86,9 @@ const WordViewerEdition = ({
                     style={({ pressed }) => [
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
+                      {
+                        paddingLeft: 3,
+                      },
                     ]}
                     onPress={() => {
                       closeModal();

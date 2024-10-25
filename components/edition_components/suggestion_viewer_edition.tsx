@@ -1,6 +1,6 @@
 import { View, Text, Dimensions, StyleSheet, Pressable, Modal, TouchableWithoutFeedback } from 'react-native';
 import React, { useState } from 'react';
-import { Entypo, Feather, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import { Entypo, Feather,FontAwesome, FontAwesome5, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
@@ -83,16 +83,19 @@ const SuggestionViewerEdition = ({
                     style={({ pressed }) => [
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
+                      {
+                        paddingLeft: 3,
+                      },
                     ]}
                     onPress={() => {
                       console.log('Editar');
                       closeModal();
                     }}
                   >
-                    <Feather
+                    <FontAwesome
                       style={{ alignSelf: 'center' }}
                       name="edit"
-                      size={24}
+                      size={21}
                       color="black"
                     />
                     <Text style={styles.modalText}>Editar</Text>
@@ -158,6 +161,11 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
     marginTop: 13,
   },
+  containerWeb: {
+    flex: 1,
+    paddingVertical: 0,
+    marginTop: 13,
+  },
   divSuggestionWeb: {
     flex: 1,
     flexDirection: 'row',
@@ -169,9 +177,29 @@ const styles = StyleSheet.create({
   listContainer: {
     backgroundColor: 'white',
     marginBottom: 13,
-    marginHorizontal: 10,
-    width: isWeb ? 395 : width * 0.95,
-    height: 125,
+    width: isWeb ? 500 : 385,
+    height: isWeb ? 150 : 125,
+    alignSelf: 'center',
+    borderRadius: 10,
+    borderColor: '#3d9577',
+    borderWidth: 2,
+    flexDirection: 'row',
+    alignContent: 'center',
+    alignItems: 'center',
+    // Sombra no iOS
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.8,
+    shadowRadius: 4,
+    // Sombra no Android
+    elevation: 5,
+  },
+  listContainerWeb: {
+    backgroundColor: 'white',
+    marginBottom: 13,
+    marginHorizontal: 15,
+    width: 395,
+    height: isWeb ? 120 : 125,
     alignSelf: 'center',
     borderRadius: 10,
     borderColor: '#3d9577',
@@ -237,7 +265,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    backgroundColor: 'rgba(0, 0, 0, 0.0s)',
   },
   modalContainer: {
     width: 350,
@@ -267,7 +295,12 @@ const styles = StyleSheet.create({
     width: isWeb ? 280 : '90%',
   },
   modalButtonOnPress: {
+    flexDirection: 'row',
     backgroundColor: '#8e8e8e8a',
+    paddingVertical: 5,
+    paddingHorizontal: 1,
+    borderRadius: 5,
+    width: isWeb ? 280 : '90%',
   },
   modalButtonClose: {
     flexDirection: 'row',
@@ -278,7 +311,12 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
   },
   modalButtonCloseOnPress: {
+    flexDirection: 'row',
     backgroundColor: '#8e8e8e8a',
+    paddingLeft: 1,
+    marginBottom: -12,
+    borderRadius: 5,
+    width: isWeb ? 280 : '90%',
   },
   modalIconsAndButtons: {
     flexDirection: 'row',
