@@ -96,7 +96,7 @@ export const Libras_regional_container = ({}): React.ReactNode => {
 };
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: 25,
+    paddingTop: 25,
     backgroundColor: '#edf8f4',
     flexDirection: 'column',
     alignItems: 'center',
@@ -122,17 +122,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   div: {
-    paddingTop: 0,
     width: isTablet ? 700 : 370,
     height: isTablet ? 370 : 250,
+    paddingBottom: 60,
+    paddingTop: 60,
     marginBottom: 15,
     borderRadius: 12,
     alignSelf: 'center',
     backgroundColor: 'white',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#e7503b',
-    marginTop: 5,
+    borderColor: '#3d9577',
+    alignItems: 'center',
   },
   logo: {
     width: 66,

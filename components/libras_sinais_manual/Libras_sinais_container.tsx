@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     marginTop: 5,
   },
   logo: {

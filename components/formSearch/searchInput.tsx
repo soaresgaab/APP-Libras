@@ -47,14 +47,14 @@ function SearchInput({ fetchData, setRefreshing }: any) {
           }}
           cursorColor={'black'}
           inputMode="text"
-          placeholderTextColor="#e7503b"
+          placeholderTextColor="black"
         />
 
         <Pressable
           onPress={handlePress}
           style={({ pressed }) => [
             {
-              backgroundColor: pressed ? '#fcce9b' : '#e7503b',
+              backgroundColor: pressed ? '#fcce9b' : '#3d9577',
             },
             styles.button,
           ]}
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'black',
   },
   errorText: {

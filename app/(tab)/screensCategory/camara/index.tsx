@@ -38,10 +38,10 @@ function App() {
           marginTop: isTablet ? 164 : 122,
           alignSelf: 'center',
           textAlign: 'center',
-          fontSize: 20,
+          fontSize: 26,
           width: '75%',
-          fontStyle: 'italic',
           fontWeight: 'bold',
+          color: '#03459e',
         }}
       >
         Câmara municipal de Marabá

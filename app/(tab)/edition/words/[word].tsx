@@ -36,6 +36,7 @@ import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
 import ImageModal from '@/module/Image-modal';
 import { RadioButton } from 'react-native-paper';
+import Separator from '@/components/libras_componentes/separator';
 
 function AppWord() {
   const [youtubeLinkUri, setYoutubeLinkUri] = useState<string | undefined>('');
@@ -259,10 +260,10 @@ function AppWord() {
           marginTop: 10,
           alignSelf: 'center',
           textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          fontStyle: 'italic',
+          fontSize: 26,
+          width: '90%',
           fontWeight: 'bold',
+          color: '#03459e',
         }}
       >
         Adicionar Sinal
@@ -284,9 +285,10 @@ function AppWord() {
               style={{
                 alignSelf: 'center',
                 textAlign: 'center',
-                fontSize: 25,
-                width: '85%',
+                fontSize: 20,
+                width: '75%',
                 fontWeight: 'bold',
+                color: '#03459e',
               }}
             >
               Sinal
@@ -320,7 +322,12 @@ function AppWord() {
             <View style={styles.dropdown}>
               <Picker // Adicionando uma chave única para cada item
                 prompt="Escolha uma categoria"
-                style={{ fontSize: 18 }}
+                style={{ fontSize: 18,
+                  borderRadius: 10,
+                  paddingVertical: 10,
+                  paddingHorizontal: 5,
+                  borderWidth: 1,
+                 }}
                 mode="dialog"
                 dropdownIconColor="black"
                 dropdownIconRippleColor="#fcce9b"
@@ -372,7 +379,7 @@ function AppWord() {
               <Pressable
                 style={({ pressed }) => [
                   {
-                    backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+                    backgroundColor: pressed ? '#86c7aa' : '#ffffff',
                   },
                   styles.button,
                 ]}
@@ -404,7 +411,7 @@ function AppWord() {
                 />
               </View>
             )}
-            <View style={{ marginBottom: 60 }}></View>
+            <View style={{ marginBottom: 20 }}></View>
           </View>
         ))}
 
@@ -446,11 +453,12 @@ function AppWord() {
         ></TextInput>
       </ScrollView> */}
       {/* ---------------------- buttons to create Category  ---------------------------- */}
-
+      
+      <Separator marginTopProp={5} marginBottomProp={10}></Separator>
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
+            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
           },
           styles.buttonSalvar,
         ]}
@@ -463,7 +471,7 @@ function AppWord() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
+            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
           },
           styles.buttonCancelar,
         ]}
@@ -505,7 +513,7 @@ function AppWord() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     width: 'auto',
     paddingVertical: 0,
   },
@@ -562,7 +570,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
-    color: '#e7503b',
+    color: '#03459e',
   },
   iconEditDescription: {
     alignSelf: 'center',
@@ -587,7 +595,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#e7503b',
     marginTop: 10,
     flexDirection: 'row',
-    width: '85%',
+    width: 370,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -604,27 +612,26 @@ const styles = StyleSheet.create({
   },
   buttonCancelar: {
     marginTop: 15,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
     marginBottom: 25,
   },
   buttonSalvar: {
-    alignSelf: 'flex-end',
+    marginTop: 10,
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
   },
   dropdown: {
     marginTop: 0,
@@ -705,6 +712,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom: 10,
+    color: '#03459e',
   },
   input: {
     backgroundColor: 'white',
@@ -714,8 +722,8 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
-    color: 'red',
+    borderColor: '#3d9577',
+    color: 'black',
     fontSize: 16,
     marginBottom: 20,
   },
@@ -726,7 +734,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#3d9577',
   },
 });
 
