@@ -1,8 +1,7 @@
-import { Text, StyleSheet, Button, Pressable, Dimensions } from 'react-native';
+import { Image, Text, StyleSheet, Button, Pressable, Dimensions } from 'react-native';
 import { Link } from 'expo-router';
 import { View } from '../Themed';
 import ImageModal from '@/module/Image-modal/index';
-import { Image } from 'expo-image';
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,15 +29,10 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   image: {
-    width: isTablet ? 580 : 360,
-    // height: 25,
-    flex: 1,
-    marginLeft: 0,
-    marginRight: 0,
+    width: isTablet ? 660 : 340,
+    height: isTablet ? 295 : 180,
     alignSelf: 'center',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
+    borderRadius: 10,
   },
   div: {
     paddingBottom: 40,

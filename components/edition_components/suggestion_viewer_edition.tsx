@@ -32,15 +32,18 @@ const SuggestionViewerEdition = ({
       >
         <View style={[isWeb ? styles.divSuggestionWeb : {}]}>
           {data?.map((suggestion, index) => (
-            <View style={styles.listContainer} key={index}>
-              <View style={styles.divImage}>
-                <ImageModal
-                  style={styles.image}
-                  source={{
-                    uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
-                  }}
-                />
-              </View>
+            <View 
+            key={index} 
+            style={[isWeb ? styles.listContainerWeb : styles.listContainer]}
+          >
+            <View style={styles.divImage}>
+              <ImageModal
+                style={styles.image}
+                source={{
+                  uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
+                }}
+              />
+            </View>
               <View style={styles.divLabelAndOption}>
                 <View style={styles.divButtonOptions}>
                   <Pressable
