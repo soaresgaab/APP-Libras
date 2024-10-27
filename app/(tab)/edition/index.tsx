@@ -233,7 +233,7 @@ function App() {
                       color="black"
                     />
                     <Text style={styles.modalText}>
-                      Adicionar Palavras tete com yt
+                     Adicionar Palavras com Youtube
                     </Text>
                   </Pressable>
                 </View>
@@ -395,7 +395,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 1,
     borderRadius: 5,
-    width: isWeb ? 280 : '90%',
+    width: isWeb ? 300 : '90%',
   },
   modalButtonOnPress: {
     flexDirection: 'row',
@@ -403,7 +403,7 @@ const styles = StyleSheet.create({
     paddingVertical: 5,
     paddingHorizontal: 1,
     borderRadius: 5,
-    width: isWeb ? 280 : '90%',
+    width: isWeb ? 300 : '90%',
   },
   modalButtonClose: {
     flexDirection: 'row',
@@ -411,7 +411,7 @@ const styles = StyleSheet.create({
     paddingLeft: 1,
     marginBottom: -12,
     borderRadius: 5,
-    width: isWeb ? 280 : '90%',
+    width: isWeb ? 300 : '90%',
     paddingVertical: 5,
   },
   modalButtonCloseOnPress: {
