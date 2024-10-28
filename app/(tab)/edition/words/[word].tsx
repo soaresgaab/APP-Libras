@@ -38,6 +38,9 @@ import ImageModal from '@/module/Image-modal';
 import { RadioButton } from 'react-native-paper';
 import Separator from '@/components/libras_componentes/separator';
 
+const { width, height } = Dimensions.get('window');
+const isWeb = width >= 1000 && height >= 617;
+
 function AppWord() {
   const [youtubeLinkUri, setYoutubeLinkUri] = useState<string | undefined>('');
   const [midiaStorageType, setMidiaStorageType] = useState<
@@ -63,7 +66,7 @@ function AppWord() {
   const { id } = useLocalSearchParams();
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-
+  
   // ----------------------  DropDawn logic ----------------------------
 
   const pickerStyle = {
@@ -254,71 +257,31 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <SearchInput></SearchInput>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 26,
-          width: '90%',
-          fontWeight: 'bold',
-          color: '#03459e',
-        }}
-      >
-        Adicionar Sinal
-      </Text>
+      <Text style={styles.headerTitle}>Adicionar Sinal</Text>
+      <Separator marginTopProp={10} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
       {/* ----------------------  form imput  ---------------------------- */}
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
+
 
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
-            <Text
-              style={{
-                alignSelf: 'center',
-                textAlign: 'center',
-                fontSize: 20,
-                width: '75%',
-                fontWeight: 'bold',
-                color: '#03459e',
-              }}
-            >
-              Sinal
-            </Text>
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelDescription}>Descrição do sinal</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="white"
-              />
-            </View>
+            <Text style={styles.labelDescription}>Descrição do sinal:</Text>
+  
             <TextInput
               style={styles.inputDescription}
               value={definition.descriptionWordDefinition}
+              placeholder="Informe uma descrição para o sinal"
+              multiline={true}
               onChangeText={(text) => {
                 descriptionSinal(text, definition._id);
               }}
             ></TextInput>
+            
             {/* ----------------------  form picker  ---------------------------- */}
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelCategory}>Categoria</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="white"
-              />
-            </View>
+
+              <Text style={styles.labelCategory}>Categoria:</Text>
             <View style={styles.dropdown}>
               <Picker // Adicionando uma chave única para cada item
                 prompt="Escolha uma categoria"
@@ -517,6 +480,15 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
+  headerTitle: {
+    marginTop: isWeb ? 70 : 90,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 26,
+    width: '90%',
+    fontWeight: 'bold',
+    color: '#03459e',
+  },
   inputNameWord: {
     backgroundColor: 'white',
     width: '75%',
@@ -531,38 +503,38 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   inputDescription: {
-    justifyContent: 'space-around',
-    textAlignVertical: 'top',
-    paddingHorizontal: 6,
     backgroundColor: 'white',
-    width: '85%',
-    height: 70,
-    alignSelf: 'center',
-    textAlign: 'center',
-    paddingVertical: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    borderWidth: 2,
-    borderColor: '#e7503b',
-    color: 'Red',
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
-  labelCategory: {
+    width: 360,
     alignSelf: 'center',
     textAlign: 'left',
-    fontSize: 18,
-    width: '80%',
+    paddingVertical: 6,
+    paddingLeft: 11,
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    color: 'Red',
+    fontSize: 17,
+    elevation: 6,
+  },
+  labelCategory: {
+    marginTop: 20,
+    alignSelf: 'center',
+    textAlign: 'left',
+    paddingLeft: 18,
+    fontSize: 20,
+    width: 360,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#03459e',
   },
   labelDescription: {
+    marginTop: 20,
     alignSelf: 'center',
     textAlign: 'left',
     fontSize: 20,
-    width: '80%',
+    paddingLeft: 18,
     fontWeight: 'bold',
-    color: 'white',
+    width: 360,
+    color: '#03459e',
   },
   iconClip: {
     marginTop: 5,
@@ -635,14 +607,13 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     marginTop: 0,
-    width: '85%',
+    width: 360,
+    height: isWeb ? 45 : 55,
     alignSelf: 'center',
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     backgroundColor: 'white',
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
   },
   image: {
     width: 290,
@@ -708,6 +679,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
   },
   label: {
+    marginTop: 20,
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
