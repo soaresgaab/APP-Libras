@@ -46,6 +46,7 @@ export default function CustomDrawerContent(props: any) {
   const [dataF, setDataF] = useState<any>();
   const noAuth = ['(edition)', '(editionwords)', '(auth)', '(viewsugesstion)'];
   const [labelLogout, setLabel] = useState<string | null>('');
+  const [viwerRoute, setViwerRoute] = useState<boolean | null>(false);
 
   const token = useToken(props);
   const path = usePathname();
@@ -53,33 +54,9 @@ export default function CustomDrawerContent(props: any) {
     console.log(path);
     const filterRoutes = () => {
       if (token === null) {
-        const filteredRoutes = props.state.routes.filter(
-          (route: any) => !noAuth.includes(route.name),
-        );
-        const filterRoutesNames = props.state.routeNames.filter(
-          (route: any) => !noAuth.includes(route),
-        );
-        const teste = Object.keys(props.descriptors)
-          .filter((key) => !noAuth.some((noAuthKey) => key.includes(noAuthKey)))
-          .reduce((obj: any, key: any) => {
-            obj[key] = props.descriptors[key];
-            return obj;
-          }, {});
-        const newState = {
-          ...props,
-          descriptors: teste,
-          state: {
-            ...props.state,
-            index: props.state.index,
-            routeNames: filterRoutesNames,
-            routes: filteredRoutes,
-          },
-        };
         setLabel(null);
-        setDataF(newState);
       } else {
         setLabel('Logout');
-        setDataF(null);
       }
     };
 
@@ -93,7 +70,7 @@ export default function CustomDrawerContent(props: any) {
       AsyncStorage.clear();
       router.navigate('/');
     } else {
-      router.navigate('(auth)');
+      router.navigate('/auth');
     }
   };
 
@@ -315,19 +292,21 @@ export default function CustomDrawerContent(props: any) {
           }}
         ></DrawerItem>
 
-        <DrawerItem
-          icon={() => <Feather name="edit" size={20} color="black" />}
-          label={'Personalizar'}
-          onPress={() => {
-            router.push('/edition');
-          }}
-          style={{
-            backgroundColor: path == '/edition' ? '#a4e1cb' : '#edf8f4',
-          }}
-          labelStyle={{
-            marginLeft: -15,
-          }}
-        ></DrawerItem>
+        {labelLogout ? (
+          <DrawerItem
+            icon={() => <Feather name="edit" size={20} color="black" />}
+            label={'Personalizar'}
+            onPress={() => {
+              router.push('/edition');
+            }}
+            style={{
+              backgroundColor: path == '/edition' ? '#a4e1cb' : '#edf8f4',
+            }}
+            labelStyle={{
+              marginLeft: -15,
+            }}
+          ></DrawerItem>
+        ) : null}
       </DrawerContentScrollView>
 
       <View style={{}}>

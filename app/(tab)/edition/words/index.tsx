@@ -81,7 +81,7 @@ function App() {
           fontWeight: 'bold',
         }}
       >
-      Gerenciamento
+        Gerenciamento
       </Text>
       <Link href={`/editionwords`} asChild>
         <Pressable style={styles.direction}>
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   iconTrash: {},
   buttonReload: {
     alignSelf: 'flex-end',
-    width:300,
+    width: 300,
     paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'center',

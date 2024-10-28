@@ -94,7 +94,10 @@ function App() {
       >
         <MaterialCommunityIcons name="reload" size={25} color="white" />
       </Pressable>
-      <CreateButton router="editionwords/addWord" label="+ Incluir Palavra"></CreateButton>
+      <CreateButton
+        router="editionwords/addWord"
+        label="+ Incluir Palavra"
+      ></CreateButton>
       {data?.map((word, index) => (
         <Pressable key={index} onPress={() => {}}>
           <View style={styles.div}>

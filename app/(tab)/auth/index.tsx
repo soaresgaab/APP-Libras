@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, RefreshControl } from 'react-native';
+import { StyleSheet, RefreshControl, Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
@@ -8,6 +8,9 @@ import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
 import * as Crypto from 'expo-crypto';
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 import { View } from 'react-native';
 import { TextInput } from 'react-native';
@@ -16,6 +19,7 @@ import { Pressable } from 'react-native';
 import { GetToken } from '@/utils/axios/auth/GetToken';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Separator from '@/components/libras_componentes/separator';
 
 const App = () => {
   const [DataUser, setDataUser] = useState({
@@ -48,25 +52,21 @@ const App = () => {
 
   return (
     <ScrollView style={{ backgroundColor: '#edf8f4' }}>
-      <SearchInput></SearchInput>
       <Text
         style={{
-          marginTop: 10,
+          marginTop: isTablet ? 120 : 90,
           alignSelf: 'center',
           textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
+          fontSize: 26,
+          letterSpacing: 0,
+          width: '90%',
           fontWeight: 'bold',
+          color: '#03459e',
         }}
       >
         Acesso de usuários administradores
       </Text>
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
+      <Separator marginTopProp={15} marginBottomProp={15}></Separator>
       <Text
         style={{
           alignSelf: 'center',
@@ -85,11 +85,11 @@ const App = () => {
             paddingVertical: 6,
             borderRadius: 10,
             borderWidth: 2,
-            borderColor: '#e7503b',
+            borderColor: '#3d9577',
             width: '90%',
             fontSize: 16,
           }}
-          placeholder="Ex: Usuario312"
+          placeholder="Insira o nome de usuário"
           value={DataUser.userName}
           onChangeText={(text) => handleInput(text, 'userName')}
         ></TextInput>
@@ -113,12 +113,12 @@ const App = () => {
             paddingVertical: 6,
             borderRadius: 10,
             borderWidth: 2,
-            borderColor: '#e7503b',
+            borderColor: '#3d9577',
             width: '90%',
             fontSize: 16,
           }}
           secureTextEntry={true}
-          placeholder="Ex: Senha132"
+          placeholder="Insira a senha"
           value={DataUser.password}
           onChangeText={(text) => {
             handleInput(text, 'password');
@@ -141,7 +141,7 @@ const App = () => {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#fa8f80' : '#e7503b',
+            backgroundColor: pressed ? '#ffffff' : '#86c7aa',
           },
           styles.buttonLogin,
         ]}
@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 20,
     borderWidth: 2,
-    borderColor: '#ff1e00',
+    borderColor: '#3d9577',
   },
 });
 
