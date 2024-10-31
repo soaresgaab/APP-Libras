@@ -25,11 +25,18 @@ import ImageModal from '@/module/Image-modal';
 import Separator from '../libras_componentes/separator';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
+import Id from '@/app/(tab)/edition/category/[id]';
+import category from '@/app/(tab)/edition/category';
 
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 const isWeb = width >= 1000 && height >= 617;
+
+// const handleSelectItem = (id) => {
+//   setIdSelected(id); // Define o ID do item selecionado
+// };
+
 
 const CategoryViewerEdition = ({
   data,
@@ -37,7 +44,12 @@ const CategoryViewerEdition = ({
   data: TypeCategory[] | undefined;
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [idSelected, setSelectedId] = useState();
+  //const [idSelected, setSelectedId] = useState();
+
+  function setIdSelected(id: string){
+    id = id
+    return id
+  }
 
   function closeModalAndBack() {
     setModalVisible(false);
@@ -48,6 +60,17 @@ const CategoryViewerEdition = ({
       pathname: '/(editionwords)/[words]',
       params: { id: `${id}` },
     });
+  }
+
+  async function handleDelete(id: number) {
+    try {
+      await fetch(`http://192.168.100.133:4002/edition/category/${id}`, {
+        method: 'DELETE',
+      });
+      router.push('/(editionwords)/[words]');
+    } catch (error) {
+      console.error("Erro ao deletar categoria:", error);
+    }
   }
 
   return (
@@ -75,7 +98,12 @@ const CategoryViewerEdition = ({
               <View style={styles.divLabelAndOption}>
                 <View style={styles.divButtonOptions}>
                   <Pressable
-                    onPress={() => setModalVisible(true)}
+                    onPress={() => {
+                      setModalVisible(true);
+                      const idSelected = category._id
+                    }}
+
+
                     style={({ pressed }) => [
                       styles.buttonOption,
                       {
@@ -142,7 +170,10 @@ const CategoryViewerEdition = ({
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => closeModalAndBack()}
+                    onPress={() => {
+                        handleDelete(idSelected);
+                        closeModalAndBack();
+                    }}
                   >
                     <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}
