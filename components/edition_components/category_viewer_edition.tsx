@@ -65,7 +65,7 @@ const CategoryViewerEdition = ({
   async function handleDelete() {
     try {
       const response = await fetch(
-        `http://192.168.100.133:4002/category/${idSelected}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/category/${idSelected}`,
         {
           method: 'DELETE',
         },
