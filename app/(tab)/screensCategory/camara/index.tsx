@@ -7,6 +7,7 @@ import { Text } from '@/components/Themed';
 import { AlfabetoButton } from '@/components/libras_componentes/alfabeto-button';
 import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
+import Separator from '@/components/libras_componentes/separator';
 import { AlfabetoContainer } from '@/components/libras_alfabeto_manual/alfabeto_container';
 import { Libras_numeros_container } from '@/components/libras_numeros_manual/Libras_numeros_container';
 import { Libras_saudacoes_container } from '@/components/libras_saudacoes_manual/Libras_saudacoes_container';
@@ -35,7 +36,7 @@ function App() {
     >
       <Text
         style={{
-          marginTop: isTablet ? 164 : 122,
+          marginTop: isTablet ? 164 : 115,
           alignSelf: 'center',
           textAlign: 'center',
           fontSize: 26,
@@ -46,6 +47,7 @@ function App() {
       >
         Câmara municipal de Marabá
       </Text>
+      <Separator marginTopProp={10} marginBottomProp={10}></Separator>
       <Libras_regional_container />
     </ScrollView>
   );
