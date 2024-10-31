@@ -27,7 +27,7 @@ function SearchInput({ fetchData, setRefreshing }: any) {
       return;
     }
     router.push({
-      pathname: '/(search)/[slug]',
+      pathname: '/search/[slug]',
       params: { slug: `${search2}` },
     });
   };

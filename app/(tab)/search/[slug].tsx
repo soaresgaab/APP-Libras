@@ -21,6 +21,7 @@ import { initialStateDataLibrasReducer } from '../../../utils/reducer/DataLibras
 import * as ImagePicker from 'expo-image-picker';
 import { Foundation } from '@expo/vector-icons';
 import ImageModal, { ImageDetail } from '@/module/Image-modal';
+import YoutubeIframe from 'react-native-youtube-iframe'
 
 function App() {
   const [base64Image, setBase64Image] = useState('');
@@ -80,6 +81,7 @@ function App() {
 
   async function searchData() {
     setLoading(true);
+    console.log("aquiiiii ",slug)
     const response = await searchAxiosGetWords(slug).finally(() => {
       setLoading(false);
     });
@@ -97,6 +99,19 @@ function App() {
     }
     setNoData(true);
   }
+
+  const extractYoutubeVideoId = (url) => {
+    let videoId = null;
+    // Verifica se a URL é do formato longo (youtube.com)
+    if (url.includes('youtube.com/watch?v=')) {
+      videoId = url.split('v=')[1]?.split('&')[0];
+    } 
+    // Verifica se a URL é do formato curto (youtu.be)
+    else if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0];
+    }
+    return videoId;
+  };
 
   useEffect(() => {
     searchData();
@@ -185,12 +200,19 @@ function App() {
                 (item2: Partial<TypeLibrasDataSinais>, innerindex: number) => (
                   <View key={`outer_${index}${innerindex}`}>
                     <View>
-                      <ImageModal
+                      {item2.fileType === 'image' && (
+                        <ImageModal
                         style={styles.image}
                         source={{
                           uri: `data:image/jpeg;base64,${item2.src}`,
                         }}
                       ></ImageModal>
+                      )}
+                      {item2.fileType === 'video' && (
+                        <View style={styles.youtube}><YoutubeIframe 
+                        videoId={extractYoutubeVideoId(item2.src)}
+                        /></View>
+                      )}
                     </View>
                     {editable && (
                       <Pressable
@@ -391,6 +413,17 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     color: '#e7503b',
+  },
+  youtube: {
+    width: 290,
+    height: 280,
+    marginTop: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    borderRadius: 15,
   },
 });
 

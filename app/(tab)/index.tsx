@@ -58,27 +58,27 @@ function App() {
       >
         <CoresButton
           renderComponent={<SVGSinaisImage></SVGSinaisImage>}
-          router={'(expregional)'}
+          router={'expressoesregionais'}
           label={'Expressões Regionais'}
         />
         <CoresButton
           renderComponent={<SVGSinaisImage></SVGSinaisImage>}
-          router={'(matematica)'}
+          router={'matematica'}
           label={'Matemática'}
         />
         <CoresButton
           renderComponent={<SVGSinaisImage></SVGSinaisImage>}
-          router={'(numeros)'}
+          router={'numeros'}
           label={'Números'}
         />
         <CoresButton
           renderComponent={<SVGSinaisImage></SVGSinaisImage>}
-          router={'(saudacoes)'}
+          router={'saudacoes'}
           label={'Saudações'}
         />
         <CoresButton
           renderComponent={<SVGSinaisImage></SVGSinaisImage>}
-          router={'(sinais)'}
+          router={'sinais'}
           label={'Sinais'}
         />
         {/*data?.map((category, index) => (
