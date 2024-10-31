@@ -1,6 +1,19 @@
-import { View, Text, Dimensions, StyleSheet, Pressable, Modal, TouchableWithoutFeedback,} from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Pressable,
+  Modal,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import React, { useState } from 'react';
-import { Entypo, FontAwesome, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  Entypo,
+  FontAwesome,
+  Ionicons,
+  MaterialCommunityIcons,
+} from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { BlurView } from 'expo-blur';
@@ -17,7 +30,9 @@ const WordViewerEdition = ({
   data: TypeLibrasDataWithId[] | undefined;
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedWord, setSelectedWord] = useState<TypeLibrasDataWithId | null>(null);
+  const [selectedWord, setSelectedWord] = useState<TypeLibrasDataWithId | null>(
+    null,
+  );
 
   function closeModal() {
     setModalVisible(false);

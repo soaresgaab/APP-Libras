@@ -73,9 +73,7 @@ function AppWord() {
   }
   function closeModalAndBack() {
     setModalVisible(false);
-    router.push({
-      pathname: '/(editionwords)',
-    });
+    router.push('edition');
   }
 
   function handleNameWord(text: string) {

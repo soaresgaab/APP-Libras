@@ -66,7 +66,7 @@ function AppWord() {
   const { id } = useLocalSearchParams();
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
-  
+
   // ----------------------  DropDawn logic ----------------------------
 
   const pickerStyle = {
@@ -128,9 +128,7 @@ function AppWord() {
 
   function closeModalAndBack() {
     setModalVisible(false);
-    router.push({
-      pathname: '/editionwords',
-    });
+    router.push('edition');
   }
 
   function handleNameWord(text: string) {
@@ -263,12 +261,11 @@ function AppWord() {
 
       {/* ----------------------  form imput  ---------------------------- */}
 
-
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
             <Text style={styles.labelDescription}>Descrição do sinal:</Text>
-  
+
             <TextInput
               style={styles.inputDescription}
               value={definition.descriptionWordDefinition}
@@ -278,19 +275,20 @@ function AppWord() {
                 descriptionSinal(text, definition._id);
               }}
             ></TextInput>
-            
+
             {/* ----------------------  form picker  ---------------------------- */}
 
-              <Text style={styles.labelCategory}>Categoria:</Text>
+            <Text style={styles.labelCategory}>Categoria:</Text>
             <View style={styles.dropdown}>
               <Picker // Adicionando uma chave única para cada item
                 prompt="Escolha uma categoria"
-                style={{ fontSize: 18,
+                style={{
+                  fontSize: 18,
                   borderRadius: 10,
                   paddingVertical: 10,
                   paddingHorizontal: 5,
                   borderWidth: 1,
-                 }}
+                }}
                 mode="dialog"
                 dropdownIconColor="black"
                 dropdownIconRippleColor="#fcce9b"
@@ -416,7 +414,7 @@ function AppWord() {
         ></TextInput>
       </ScrollView> */}
       {/* ---------------------- buttons to create Category  ---------------------------- */}
-      
+
       <Separator marginTopProp={5} marginBottomProp={10}></Separator>
       <Pressable
         style={({ pressed }) => [

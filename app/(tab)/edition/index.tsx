@@ -233,7 +233,7 @@ function App() {
                       color="black"
                     />
                     <Text style={styles.modalText}>
-                     Adicionar Palavras com Youtube
+                      Adicionar Palavras com Youtube
                     </Text>
                   </Pressable>
                 </View>

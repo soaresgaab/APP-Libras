@@ -37,18 +37,18 @@ const isWeb = width >= 1000 && height >= 617;
 //   setIdSelected(id); // Define o ID do item selecionado
 // };
 
-
 const CategoryViewerEdition = ({
   data,
 }: {
   data: TypeCategory[] | undefined;
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  //const [idSelected, setSelectedId] = useState();
+  const [idSelected, setSelectedId] = useState(0);
 
-  function setIdSelected(id: string){
-    id = id
-    return id
+  function deleteCategory(id: number) {
+    console.log(idSelected);
+    setModalVisible(true);
+    setSelectedId(id);
   }
 
   function closeModalAndBack() {
@@ -62,14 +62,18 @@ const CategoryViewerEdition = ({
     });
   }
 
-  async function handleDelete(id: number) {
+  async function handleDelete() {
     try {
-      await fetch(`http://192.168.100.133:4002/edition/category/${id}`, {
-        method: 'DELETE',
-      });
-      router.push('/(editionwords)/[words]');
+      const response = await fetch(
+        `http://192.168.100.133:4002/category/${idSelected}`,
+        {
+          method: 'DELETE',
+        },
+      );
+      console.log(response);
+      router.push('/edition');
     } catch (error) {
-      console.error("Erro ao deletar categoria:", error);
+      console.error('Erro ao deletar categoria:', error);
     }
   }
 
@@ -99,11 +103,8 @@ const CategoryViewerEdition = ({
                 <View style={styles.divButtonOptions}>
                   <Pressable
                     onPress={() => {
-                      setModalVisible(true);
-                      const idSelected = category._id
+                      deleteCategory(category._id);
                     }}
-
-
                     style={({ pressed }) => [
                       styles.buttonOption,
                       {
@@ -171,8 +172,7 @@ const CategoryViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                        handleDelete(idSelected);
-                        closeModalAndBack();
+                      handleDelete();
                     }}
                   >
                     <MaterialCommunityIcons
