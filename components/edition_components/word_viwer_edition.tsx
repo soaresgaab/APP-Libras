@@ -17,6 +17,7 @@ import {
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { BlurView } from 'expo-blur';
+import { router } from 'expo-router';
 import Separator from '../libras_componentes/separator';
 
 const { width, height } = Dimensions.get('window');
@@ -30,13 +31,38 @@ const WordViewerEdition = ({
   data: TypeLibrasDataWithId[] | undefined;
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedWord, setSelectedWord] = useState<TypeLibrasDataWithId | null>(
-    null,
-  );
+  const [idSelected, setSelectedId] = useState(0);
+
+  function deleteWord(id: number) {
+    console.log(idSelected);
+    setModalVisible(true);
+    setSelectedId(id);
+  }
 
   function closeModal() {
     setModalVisible(false);
-    setSelectedWord(null);
+  }
+
+  function routePush(id: number) {
+    router.push({
+      pathname: '/(editionwords)/[words]',
+      params: { id: `${id}` },
+    });
+  }
+
+  async function handleDelete() {
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/word/${idSelected}`,
+        {
+          method: 'DELETE',
+        },
+      );
+      console.log(response);
+      router.push('/edition');
+    } catch (error) {
+      console.error('Erro ao deletar palavra', error);
+    }
   }
 
   return (
@@ -57,8 +83,7 @@ const WordViewerEdition = ({
                 <View style={styles.divButtonOptions}>
                   <Pressable
                     onPress={() => {
-                      setSelectedWord(word);
-                      setModalVisible(true);
+                      deleteWord(word._id);
                     }}
                     style={({ pressed }) => [
                       styles.buttonOption,
@@ -125,6 +150,7 @@ const WordViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
+                      handleDelete(), 
                       closeModal();
                     }}
                   >

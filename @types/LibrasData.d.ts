@@ -17,7 +17,7 @@ export type TypeLibrasData = {
 };
 
 export type TypeLibrasDataWithId = {
-  _id?: number | undefined;
+  _id: number;
   nameWord?: string;
   wordDefinitions?: {
     _id: number | undefined;

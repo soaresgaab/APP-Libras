@@ -8,6 +8,7 @@ import { CreateButton } from '../createData/create-Button';
 import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
 import ImageModal from '@/module/Image-modal';
 import Separator from '../libras_componentes/separator';
+import { router } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 
@@ -16,12 +17,32 @@ const isWeb = width >= 1000 && height >= 617;
 
 const SuggestionViewerEdition = ({ 
   data }: { data: TypeLibrasDataWithId[] | undefined }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [selectedSuggestion, setSelectedSuggestion] = useState<TypeLibrasDataWithId | null>(null);
+    const [modalVisible, setModalVisible] = useState(false);
+    const [idSelected, setSelectedId] = useState(0);
+
+  function deleteSuggestion(id: number) {
+    console.log(idSelected);
+    setModalVisible(true);
+    setSelectedId(id);
+  }
 
   function closeModal() {
     setModalVisible(false);
-    setSelectedSuggestion(null);
+  }
+
+  async function handleDelete() {
+    try {
+      const response = await fetch(
+        `${process.env.EXPO_PUBLIC_API_URL}/suggestion/${idSelected}`,
+        {
+          method: 'DELETE',
+        },
+      );
+      console.log(response);
+      router.push('/edition');
+    } catch (error) {
+      console.error('Erro ao deletar palavra', error);
+    }
   }
 
   return (
@@ -54,8 +75,7 @@ const SuggestionViewerEdition = ({
                       },
                     ]}
                     onPress={() => {
-                      setSelectedSuggestion(suggestion);
-                      setModalVisible(true);
+                      deleteSuggestion(suggestion._id);
                     }}
                   >
                     <Entypo
@@ -111,7 +131,7 @@ const SuggestionViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      console.log('Excluir');
+                      handleDelete(),
                       closeModal();
                     }}
                   >
