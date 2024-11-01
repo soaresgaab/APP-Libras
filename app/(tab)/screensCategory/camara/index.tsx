@@ -45,7 +45,7 @@ function App() {
           color: '#03459e',
         }}
       >
-        Câmara municipal de Marabá
+        Câmara Municipal de Marabá
       </Text>
       <Separator marginTopProp={10} marginBottomProp={10}></Separator>
       <Libras_regional_container />

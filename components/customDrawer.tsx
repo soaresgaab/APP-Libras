@@ -104,7 +104,7 @@ export default function CustomDrawerContent(props: any) {
               fontWeight: '900',
             }}
           >
-            ParáLibras
+            Libras Sudeste Pará
           </Text>
         </View>
         <DrawerItem

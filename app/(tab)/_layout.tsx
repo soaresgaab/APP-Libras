@@ -105,7 +105,7 @@ export default function TabLayout() {
         name="screensCategory/camara"
         options={{
           headerShown: false,
-          tabBarLabel: 'Câmara',
+          tabBarLabel: 'CMM',
           tabBarLabelStyle: {
             fontSize: 13,
             marginBottom: 3,

@@ -38,7 +38,7 @@ function App() {
           color: '#03459e',
         }}
       >
-        Saudações
+        Vilas de Marabá
       </Text>
       <Libras_saudacoes_container />
     </ScrollView>
