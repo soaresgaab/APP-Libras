@@ -20,6 +20,7 @@ import { Feather } from '@expo/vector-icons';
 import { FontAwesome6 } from '@expo/vector-icons';
 import { Link } from 'expo-router';
 import { router } from 'expo-router';
+import Separator from '@/components/libras_componentes/separator';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
 import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
@@ -67,7 +68,7 @@ function AppWord() {
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(editionwords)',
+      pathname: '/edition',
     });
   }
 
@@ -187,54 +188,22 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <SearchInput></SearchInput>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-        }}
-      >
-        Editar Palavra
-      </Text>
+      <Text style={styles.headerTitle}>Editar Palavra</Text>
+      <Separator marginTopProp={15} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonTrash,
-        ]}
-        onPress={() => {
-          deleteData();
-        }}
-      >
-        <FontAwesome6
-          styles={styles.iconTrash}
-          name="trash-can"
-          size={25}
-          color="white"
-        />
-      </Pressable>
+      
       {/* ----------------------  form imput  ---------------------------- */}
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
+
       <Text
         style={{
-          marginTop: 10,
+          marginTop: 20,
           alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 25,
-          width: '75%',
+          textAlign: 'left',
+          paddingLeft: 18,
+          fontSize: 20,
+          width: 360,
           fontWeight: 'bold',
+          color: '#03459e',
         }}
       >
         Nome
@@ -247,115 +216,6 @@ function AppWord() {
           handleNameWord(text);
         }}
       ></TextInput>
-
-      {data &&
-        data.wordDefinitions?.map((definition, index) => (
-          <View key={index}>
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-                },
-                styles.buttonTrash,
-              ]}
-              onPress={() => {
-                deleteDataSignal(definition._id);
-              }}
-            >
-              <FontAwesome6
-                styles={styles.iconTrash}
-                name="trash-can"
-                size={25}
-                color="white"
-              />
-            </Pressable>
-            <Text
-              style={{
-                alignSelf: 'center',
-                textAlign: 'center',
-                fontSize: 25,
-                width: '85%',
-                fontWeight: 'bold',
-                marginTop: -10,
-              }}
-            >
-              Sinal
-            </Text>
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelDescription}>Descrição do sinal</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="white"
-              />
-            </View>
-            <TextInput
-              style={styles.inputDescription}
-              value={definition.descriptionWordDefinition}
-              onChangeText={(text) => {
-                descriptionSinal(text, definition._id);
-              }}
-            ></TextInput>
-            {/* ----------------------  form picker  ---------------------------- */}
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelCategory}>Categoria</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="white"
-              />
-            </View>
-            <View style={styles.dropdown}>
-              <Picker // Adicionando uma chave única para cada item
-                prompt="Escolha uma categoria"
-                style={{ fontSize: 18 }}
-                mode="dialog"
-                dropdownIconColor="black"
-                dropdownIconRippleColor="#fcce9b"
-                selectedValue={definition.category}
-                onValueChange={(itemValue, itemIndex) => {
-                  // setSelectedCategory(itemValue);
-                  categorySelect(itemValue, definition._id);
-                }}
-              >
-                {category?.map((category, index2) => {
-                  return (
-                    <Picker.Item
-                      key={index2}
-                      label={category.nameCategory}
-                      value={category._id}
-                    />
-                  );
-                })}
-              </Picker>
-            </View>
-
-            {/* ---------------------- select image  ---------------------------- */}
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                },
-                styles.button,
-              ]}
-              onPress={() => handleSelectImage(definition._id)}
-            >
-              <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
-            </Pressable>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `data:image/jpeg;base64,${definition.src}`,
-              }}
-              contentFit="cover"
-              placeholder={{ blurhash }}
-              transition={1000}
-            />
-            <View style={{ marginBottom: 60 }}></View>
-          </View>
-        ))}
 
       {/* ---------------------- input name Category  ---------------------------- */}
       {/* <View style={styles.groupCategory}>
@@ -399,7 +259,7 @@ function AppWord() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
+            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
           },
           styles.buttonSalvar,
         ]}
@@ -412,7 +272,7 @@ function AppWord() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
+            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
           },
           styles.buttonCancelar,
         ]}
@@ -460,16 +320,17 @@ const styles = StyleSheet.create({
   },
   inputNameWord: {
     backgroundColor: 'white',
-    width: '75%',
+    width: 360,
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
-    borderRadius: 10,
+    paddingLeft: 11,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
-    fontSize: 20,
-    marginBottom: 40,
+    fontSize: 17,
+    elevation: 6,
   },
   inputDescription: {
     justifyContent: 'space-around',
@@ -504,6 +365,15 @@ const styles = StyleSheet.create({
     width: '80%',
     fontWeight: 'bold',
     color: 'white',
+  },
+  headerTitle: {
+    marginTop: 20,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 26,
+    width: '90%',
+    fontWeight: 'bold',
+    color: '#03459e',
   },
   iconClip: {
     marginTop: -25,
@@ -553,27 +423,26 @@ const styles = StyleSheet.create({
   },
   buttonCancelar: {
     marginTop: 15,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
     marginBottom: 25,
   },
   buttonSalvar: {
-    alignSelf: 'flex-end',
+    marginTop: 30,
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
   },
   dropdown: {
     marginTop: 0,
@@ -611,14 +480,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,

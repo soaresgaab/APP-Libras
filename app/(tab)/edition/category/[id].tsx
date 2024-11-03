@@ -7,9 +7,11 @@ import {
   TextInput,
   Button,
   Modal,
+  Dimensions,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
+import Separator from '@/components/libras_componentes/separator';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
@@ -27,6 +29,11 @@ import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategor
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import DropDownPicker from 'react-native-dropdown-picker';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
+const isWeb = width >= 1000 && height >= 617;
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
@@ -118,51 +125,17 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <SearchInput></SearchInput>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-        }}
-      >
-        Editar Categoria
-      </Text>
+      <Text style={styles.headerTitle}>Editar Categoria</Text>
+      <Separator marginTopProp={15} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#fcce9b' : '#e7503b',
-          },
-          styles.buttonTrash,
-        ]}
-        onPress={() => {
-          deleteData();
-        }}
-      >
-        <FontAwesome6
-          styles={styles.iconTrash}
-          name="trash-can"
-          size={25}
-          color="white"
-        />
-      </Pressable>
+      
       {/* ----------------------  form imput  ---------------------------- */}
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
+
       {/* ---------------------- input img Category  ---------------------------- */}
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#fcce9b' : '#DB680B',
+            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
           },
           styles.button,
         ]}
@@ -179,15 +152,7 @@ function App() {
       />
       <View style={{ marginBottom: 60 }}></View>
       {/* ---------------------- input name Category  ---------------------------- */}
-      <View style={styles.groupCategory}>
-        <Text style={styles.labelCategory}>Nome</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="white"
-        />
-      </View>
+      <Text style={styles.labelCategory}>Nome</Text>
       <TextInput
         style={styles.inputCategory}
         value={data?.nameCategory}
@@ -196,15 +161,7 @@ function App() {
         }}
       ></TextInput>
       {/* ---------------------- input description Category  ---------------------------- */}
-      <View style={styles.groupDescription}>
-        <Text style={styles.labelDescription}>Descrição</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="#e7503b"
-        />
-      </View>
+      <Text style={styles.labelDescription}>Descrição</Text>
       <TextInput
         style={styles.inputDescription}
         value={data?.descriptionCategory}
@@ -215,9 +172,8 @@ function App() {
       ></TextInput>
 
       {/* ---------------------- create shortcut on main screen?  ---------------------------- */}
-      <View style={styles.groupDescription}>
-        <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
-      </View>
+      
+      <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
       <View style={styles.selectContainer}>
         <DropDownPicker
           open={open}
@@ -238,7 +194,7 @@ function App() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
+            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
           },
           styles.buttonSalvar,
         ]}
@@ -251,7 +207,7 @@ function App() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
+            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
           },
           styles.buttonCancelar,
         ]}
@@ -299,60 +255,60 @@ const styles = StyleSheet.create({
   },
   inputCategory: {
     backgroundColor: 'white',
-    width: '75%',
+    width: 360,
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    paddingLeft: 11,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
-    fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 17,
+    elevation: 6,
   },
   inputDescription: {
-    justifyContent: 'space-around',
-    textAlignVertical: 'top',
-    paddingHorizontal: 6,
     backgroundColor: 'white',
-    width: '90%',
-    height: 140,
+    width: 360,
     alignSelf: 'center',
     textAlign: 'center',
     paddingVertical: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
+    paddingLeft: 11,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
-    fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 17,
+    elevation: 6,
   },
   labelCategory: {
     marginTop: 0,
     alignSelf: 'center',
     textAlign: 'left',
+    paddingLeft: 18,
     fontSize: 20,
-    width: '65%',
+    width: 360,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#03459e',
   },
   labelDescription: {
+    marginTop: 15,
     alignSelf: 'center',
     textAlign: 'left',
+    paddingLeft: 18,
     fontSize: 20,
-    width: '80%',
+    width: 360,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#03459e',
   },
-  iconClip: {
-    marginTop: 0,
-    marginBottom: 15,
+  headerTitle: {
+    marginTop: 95,
     alignSelf: 'center',
     textAlign: 'center',
+    fontSize: 26,
+    width: '90%',
     fontWeight: 'bold',
-    color: '#e7503b',
+    color: '#03459e',
   },
   iconEditDescription: {
     alignSelf: 'center',
@@ -382,40 +338,28 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
   },
-  iconTrash: {},
-  buttonTrash: {
-    alignSelf: 'flex-end',
-    width: 45,
-    paddingVertical: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 10,
-    marginRight: '5%',
-  },
   buttonCancelar: {
     marginTop: 15,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
     marginBottom: 25,
   },
   buttonSalvar: {
-    marginTop: 30,
-    alignSelf: 'flex-end',
+    marginTop: 10,
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
   },
   image: {
     width: 290,
@@ -429,20 +373,22 @@ const styles = StyleSheet.create({
     borderRadius: 15,
   },
   selectContainer: {
-    width: '90%',
+    width: 360,
     alignSelf: 'center',
     marginBottom: 20,
   },
   dropdown: {
-    backgroundColor: 'white',
-    borderColor: '#e7503b',
-    borderWidth: 2,
+    marginTop: 0,
+    width: 360,
+    height: isWeb ? 45 : 55,
+    alignSelf: 'center',
     borderRadius: 10,
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    backgroundColor: 'white',
   },
   dropdownContainer: {
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     borderWidth: 2,
     borderRadius: 10,
   },
@@ -460,14 +406,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -478,13 +424,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   button: {
-    width: 150,
+    width: 180,
     paddingVertical: 10,
-    marginTop: 10,
+    marginTop: 20,
+    // paddingHorizontal: 60,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#3d9577',
   },
 });
 

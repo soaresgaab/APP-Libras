@@ -18,6 +18,7 @@ import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
+import Id from '@/app/(tab)/edition/personalize/[word]';
 import Separator from '../libras_componentes/separator';
 
 const { width, height } = Dimensions.get('window');
@@ -63,6 +64,13 @@ const WordViewerEdition = ({
     } catch (error) {
       console.error('Erro ao deletar palavra', error);
     }
+  }
+
+  function editWord(id: number) {
+    router.push({
+      pathname: '/(tab)/edition/personalize/[word]',
+      params: { id: `${id}` },
+    });
   }
 
   return (
@@ -131,6 +139,7 @@ const WordViewerEdition = ({
                       },
                     ]}
                     onPress={() => {
+                      editWord(idSelected);
                       closeModal();
                     }}
                   >

@@ -77,6 +77,13 @@ const CategoryViewerEdition = ({
     }
   }
 
+  function editCategory(id: number) {
+    router.push({
+      pathname: '/(tab)/edition/category/[id]',
+      params: { id: `${id}` },
+    });
+  }
+
   return (
     <>
       <ScrollView
@@ -154,7 +161,10 @@ const CategoryViewerEdition = ({
                         paddingLeft: 3,
                       },
                     ]}
-                    onPress={() => closeModalAndBack()}
+                    onPress={() => {
+                      editCategory(idSelected);
+                      closeModalAndBack();
+                    }}
                   >
                     <FontAwesome
                       style={{ alignSelf: 'center' }}
