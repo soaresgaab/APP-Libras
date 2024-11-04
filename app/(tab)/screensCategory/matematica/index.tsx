@@ -28,7 +28,6 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <SearchInput></SearchInput>
       <Text
         style={{
           marginTop: 95,
