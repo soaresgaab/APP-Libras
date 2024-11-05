@@ -18,6 +18,8 @@ import { searchByRoute } from '@/utils/axios/searchByRote';
 import { SVGSinaisImage } from '@/components/libras_componentes/image-component-home';
 import { SVGSinaisImageByCategory } from '@/components/libras_componentes/image-component-homeByCategory';
 import Separator from '@/components/libras_componentes/separator';
+import { TypeCategory } from '@/@types/Category';
+import { CardsInMenu } from '../../components/libras_componentes/cores-button-dynamic';
 
 const { width, height } = Dimensions.get('window');
 
@@ -25,7 +27,7 @@ const isTablet = width >= 768 && height >= 1024;
 
 function App() {
   const [option, setData] = useState({});
-  const [data, setDataFetch] = useState();
+  const [data, setDataFetch] = useState<TypeCategory[]>();
   const [refreshing, setRefreshing] = useState(true);
 
   async function searchData() {
@@ -52,6 +54,27 @@ function App() {
       <Text style={styles.subHeaderTitle}>Região sudeste do Pará</Text>
 
       <Separator />
+
+      {data ? (
+        <View
+          style={
+            isTablet ? styles.buttonContainerTablet : styles.buttonContainer
+          }
+        >
+          {data.map((item) => {
+            if (item.showInMenu) {
+              return (
+                <View key={item._id}>
+                  <CardsInMenu
+                    imageBase64={item.imgCategory}
+                    label={item.nameCategory}
+                  ></CardsInMenu>
+                </View>
+              );
+            }
+          })}
+        </View>
+      ) : null}
 
       <View
         style={isTablet ? styles.buttonContainerTablet : styles.buttonContainer}
