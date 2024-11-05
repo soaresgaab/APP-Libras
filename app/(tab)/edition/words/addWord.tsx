@@ -39,11 +39,11 @@ const isWeb = width >= 1000 && height >= 617;
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
-    _id: undefined,
+    _id: 0,
     nameWord: '',
     wordDefinitions: [
       {
-        _id: undefined,
+        _id: 0,
         descriptionWordDefinition: '',
         src: '',
         fileType: '',

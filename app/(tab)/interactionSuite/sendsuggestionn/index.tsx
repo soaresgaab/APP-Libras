@@ -23,7 +23,11 @@ import { Link } from 'expo-router';
 import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import {
+  TypeLibrasData,
+  TypeLibrasDataSuggestion,
+  TypeLibrasDataWithId,
+} from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
@@ -39,8 +43,9 @@ const isTablet = width >= 768 && height >= 1024;
 const isWeb = width >= 1000 && height >= 617;
 
 function AppWord() {
-  const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
+  const [data, setDataFetch] = useState<TypeLibrasDataSuggestion>({
     _id: undefined,
+    emailContact: '',
     nameWord: '',
     wordDefinitions: [
       {
@@ -78,6 +83,9 @@ function AppWord() {
 
   function handleNameWord(text: string) {
     setDataFetch((prev) => ({ ...prev, nameWord: text }));
+  }
+  function handleEmail(text: string) {
+    setDataFetch((prev) => ({ ...prev, emailContact: text }));
   }
 
   async function deleteData() {
@@ -220,6 +228,30 @@ function AppWord() {
           color: '#03459e',
         }}
       >
+        Email para Contato
+      </Text>
+      <TextInput
+        style={styles.inputNameWord}
+        value={data.emailContact}
+        placeholder="Informe seu email para contato"
+        onChangeText={(text) => {
+          handleEmail(text);
+        }}
+        inputMode="email"
+      ></TextInput>
+      <Separator marginTopProp={20} marginBottomProp={10}></Separator>
+      <Text
+        style={{
+          marginTop: 0,
+          alignSelf: 'center',
+          textAlign: 'left',
+          paddingLeft: 18,
+          fontSize: 20,
+          width: 360,
+          fontWeight: 'bold',
+          color: '#03459e',
+        }}
+      >
         Nome da Palavra
       </Text>
       <TextInput
@@ -254,7 +286,7 @@ function AppWord() {
 
             <TextInput
               style={styles.inputDescription}
-              placeholder="Informe o significado da palavra"
+              placeholder="Informe o significado do sinal"
               value={definition.descriptionWordDefinition}
               onChangeText={(text) => {
                 descriptionSinal(text, definition._id);

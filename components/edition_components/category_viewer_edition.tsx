@@ -182,8 +182,7 @@ const CategoryViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(),
-                      closeModalAndBack();
+                      handleDelete(), closeModalAndBack();
                     }}
                   >
                     <MaterialCommunityIcons

@@ -17,8 +17,20 @@ export type TypeLibrasData = {
 };
 
 export type TypeLibrasDataWithId = {
-  _id: number;
+  _id: number | undefined;
   nameWord?: string;
+  wordDefinitions?: {
+    _id: number | undefined;
+    descriptionWordDefinition?: string;
+    src?: string;
+    fileType?: string;
+    category?: number;
+  }[];
+};
+export type TypeLibrasDataSuggestion = {
+  _id: number | undefined;
+  nameWord?: string;
+  emailContact?: string;
   wordDefinitions?: {
     _id: number | undefined;
     descriptionWordDefinition?: string;

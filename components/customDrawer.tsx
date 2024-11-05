@@ -37,6 +37,7 @@ import {
   SvgExpressaoRegional,
   SvgVila,
 } from './libras_componentes/image-icon-drawer';
+import SVGNameApp from './libras_componentes/name-app';
 
 const { width, height } = Dimensions.get('window');
 
@@ -93,19 +94,7 @@ export default function CustomDrawerContent(props: any) {
             }}
             source={imageLogo}
           ></ImageModal>
-          <Text
-            style={{
-              marginTop: 0,
-              marginBottom: 10,
-              alignSelf: 'center',
-              textAlign: 'center',
-              fontSize: 20,
-              width: '75%',
-              fontWeight: '900',
-            }}
-          >
-            Libras Sudeste Pará
-          </Text>
+          <SVGNameApp />
         </View>
         <DrawerItem
           icon={() => <Ionicons name="home" size={20}></Ionicons>}
@@ -115,6 +104,7 @@ export default function CustomDrawerContent(props: any) {
             backgroundColor: path == '/' ? '#a4e1cb' : '#edf8f4',
             borderTopColor: '#5e6b66',
             borderTopWidth: 1,
+            marginTop: 10,
           }}
           labelStyle={{
             marginLeft: -12,

@@ -18,7 +18,6 @@ import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
-import Id from '@/app/(tab)/edition/personalize/[word]';
 import Separator from '../libras_componentes/separator';
 
 const { width, height } = Dimensions.get('window');
@@ -91,7 +90,7 @@ const WordViewerEdition = ({
                 <View style={styles.divButtonOptions}>
                   <Pressable
                     onPress={() => {
-                      deleteWord(word._id);
+                      deleteWord(word._id!);
                     }}
                     style={({ pressed }) => [
                       styles.buttonOption,
@@ -159,8 +158,7 @@ const WordViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(), 
-                      closeModal();
+                      handleDelete(), closeModal();
                     }}
                   >
                     <MaterialCommunityIcons
