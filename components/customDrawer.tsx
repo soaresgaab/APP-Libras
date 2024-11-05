@@ -267,9 +267,9 @@ export default function CustomDrawerContent(props: any) {
 
         <DrawerItem
           icon={() => <Octicons name="number" size={20} color="black" />}
-          label={'screensCategory/Matemática'}
+          label={'Matemática'}
           onPress={() => {
-            router.push('/matematica');
+            router.push('/screensCategory/matematica');
           }}
           style={{
             marginLeft: 15,
