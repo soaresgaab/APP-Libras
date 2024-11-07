@@ -48,11 +48,11 @@ function AppWord() {
   >(null);
 
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
-    _id: undefined,
+    _id: 0,
     nameWord: 'nada',
     wordDefinitions: [
       {
-        _id: undefined,
+        _id: 0,
         descriptionWordDefinition: '',
         src: '',
         fileType: '',

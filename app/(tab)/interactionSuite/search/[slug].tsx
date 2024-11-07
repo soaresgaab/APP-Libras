@@ -6,6 +6,7 @@ import {
   Pressable,
   TextInput,
   Button,
+  Dimensions,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -13,7 +14,11 @@ import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
 import { useLocalSearchParams } from 'expo-router';
 import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
-import { TypeLibrasData, TypeLibrasDataSinais } from '@/@types/LibrasData';
+import {
+  TypeLibrasData,
+  TypeLibrasDataSinais,
+  TypeLibrasResponse,
+} from '@/@types/LibrasData';
 import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
 import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
@@ -21,6 +26,12 @@ import { initialStateDataLibrasReducer } from '../../../../utils/reducer/DataLib
 import * as ImagePicker from 'expo-image-picker';
 import { Foundation } from '@expo/vector-icons';
 import ImageModal, { ImageDetail } from '@/module/Image-modal';
+import YoutubeIframe from 'react-native-youtube-iframe';
+import Separator from '@/components/libras_componentes/separator';
+
+const { width, height } = Dimensions.get('window');
+
+const isTablet = width >= 768 && height >= 1024;
 
 function App() {
   const [base64Image, setBase64Image] = useState('');
@@ -32,6 +43,8 @@ function App() {
     DataLibrasReducer,
     initialStateDataLibrasReducer,
   );
+
+  const [data2, setData2] = useState<TypeLibrasData[]>();
   const [refreshing, setRefreshing] = useState(true);
   const [ConfirmData, setConfirmData] = useState('');
   const { slug } = useLocalSearchParams();
@@ -78,6 +91,19 @@ function App() {
     }
   };
 
+  const extractYoutubeVideoId = (url: any) => {
+    let videoId = null;
+    // Verifica se a URL é do formato longo (youtube.com)
+    if (url.includes('youtube.com/watch?v=')) {
+      videoId = url.split('v=')[1]?.split('&')[0];
+    }
+    // Verifica se a URL é do formato curto (youtu.be)
+    else if (url.includes('youtu.be/')) {
+      videoId = url.split('youtu.be/')[1]?.split('?')[0];
+    }
+    return videoId;
+  };
+
   async function searchData() {
     setLoading(true);
     const response = await searchAxiosGetWords(slug).finally(() => {
@@ -86,21 +112,33 @@ function App() {
     setConfirmData(response.data);
     const data: [] = response.data;
     if (response!.data && data.length > 0) {
-      response!.data.map((item: TypeLibrasData) => {
+      response!.data.map((itens: TypeLibrasResponse) => {
         dispatchUpdateData({
           type: 'added',
-          payload: item,
+          payload: itens.item,
         });
       });
-      setData(response!.data);
+      const dataResponseItens = response!.data.map(
+        (itens: TypeLibrasResponse) => {
+          return itens.item;
+        },
+      );
+
+      console.log(dataResponseItens);
+      setData(dataResponseItens);
       return;
     }
     setNoData(true);
   }
 
+  function clearData() {
+    setData([]);
+  }
   useEffect(() => {
+    clearData();
+    console.log(slug);
     searchData();
-  }, []);
+  }, [slug]);
 
   return (
     <ScrollView
@@ -126,7 +164,7 @@ function App() {
               width: '95%',
             }}
           >
-            {`Confira alguns significados para a palavra "${slug}" e seus respectivos sinais`}
+            {`Confira alguns referencias para a palavra "${slug}" e seus respectivos sinais`}
           </Text>
           {/* <Pressable
             style={{
@@ -155,9 +193,10 @@ function App() {
         </>
       )}
 
-      {updatedData &&
-        updatedData.map((item: TypeLibrasData, index: number) => (
+      {data &&
+        data.map((item: TypeLibrasData, index: number) => (
           <View key={`inner_${index}`}>
+            <Separator marginTopProp={10} marginBottomProp={5} />
             <TextInput
               editable={editable}
               key={index}
@@ -174,98 +213,28 @@ function App() {
                 });
               }}
             ></TextInput>
-            <Foundation
-              style={styles.iconClip}
-              name="paperclip"
-              size={35}
-              color="black"
-            />
             {data &&
               item.wordDefinitions.map(
                 (item2: Partial<TypeLibrasDataSinais>, innerindex: number) => (
-                  <View key={`outer_${index}${innerindex}`}>
-                    <View>
-                      <ImageModal
-                        style={styles.image}
-                        source={{
-                          uri: `data:image/jpeg;base64,${item2.src}`,
-                        }}
-                      ></ImageModal>
-                    </View>
-                    {editable && (
-                      <Pressable
-                        style={({ pressed }) => [
-                          {
-                            backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                          },
-                          styles.button,
-                        ]}
-                        onPress={() => handleSelectImage(item, item2)}
-                      >
-                        <Text style={{ fontSize: 17 }}>
-                          Selecionar Nova Imagem
-                        </Text>
-                      </Pressable>
-                    )}
-                    {/* aki msm  */}
-                    <View
-                      style={{
-                        backgroundColor: '#F2D4B0',
-                        width: '85%',
-                        height: 100,
-                        alignSelf: 'center',
-                        marginTop: 15,
-                        borderRadius: 15,
-                      }}
-                    >
-                      <TextInput
-                        editable={editable}
-                        key={index}
-                        style={
-                          editable
-                            ? styles.inputCategory
-                            : styles.inputDisabled2
-                        }
-                        value={item2.category?.nameCategory}
-                        onChangeText={(text) => {
-                          dispatchUpdateData({
-                            type: 'changed2',
-                            payload: {
-                              _id: item._id,
-                              nameWord: item.nameWord,
-                              wordDefinitions: [
-                                {
-                                  ...item2,
-                                  _id: item2._id!,
-                                  category: {
-                                    ...item2.category!,
-                                    nameCategory: text,
-                                  },
-                                },
-                              ],
-                            },
-                          });
-                        }}
-                      ></TextInput>
-
-                      <Text
-                        style={{
-                          marginTop: 10,
-                          alignSelf: 'center',
-                          textAlign: 'center',
-                          fontSize: 20,
-                          width: '75%',
-                          fontStyle: 'italic',
-                          fontWeight: 'bold',
-                        }}
-                      >
-                        {item2.descriptionWordDefinition !== null
-                          ? item2.descriptionWordDefinition
-                          : 'oi'}
-                      </Text>
-                    </View>
-
-                    <View style={styles.borda}></View>
+                  <View key={innerindex} style={styles.container2}>
+                    <Pressable style={styles.div}>
+                      {item2.fileType === 'image' && (
+                        <ImageModal
+                          style={styles.image}
+                          source={{
+                            uri: `data:image/jpeg;base64,${item2.src}`,
+                          }}
+                        ></ImageModal>
+                      )}
+                      {item2.fileType === 'video' && (
+                        <YoutubeIframe
+                          videoId={extractYoutubeVideoId(item2.src)}
+                          height={isTablet ? 295 : 180}
+                          width={isTablet ? 660 : 340}
+                        />
+                      )}
+                      <Text style={styles.label}>{item.nameWord}</Text>
+                    </Pressable>
                   </View>
                 ),
               )}
@@ -306,6 +275,40 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
+  container2: {
+    paddingTop: 5,
+    backgroundColor: '#edf8f4',
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+  },
+  label: {
+    paddingVertical: 6,
+    marginTop: 10,
+    alignSelf: 'center',
+    // borderWidth: 2,
+    // borderColor: '#e7503b',
+    backgroundColor: '#3d9577',
+    borderRadius: 20,
+    width: '70%',
+    textAlign: 'center',
+    fontSize: 20,
+    fontWeight: '500',
+  },
+  div: {
+    width: isTablet ? 700 : 370,
+    height: isTablet ? 370 : 250,
+    paddingBottom: 60,
+    paddingTop: 60,
+    marginBottom: 5,
+    borderRadius: 12,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    borderWidth: 1,
+    borderColor: '#3d9577',
+    alignItems: 'center',
+  },
   button: {
     width: 250,
     paddingVertical: 10,
@@ -316,9 +319,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   image: {
-    width: 290,
-    height: 280,
-    marginTop: 18,
+    width: 190,
+    height: 180,
+    marginTop: 6,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 20,

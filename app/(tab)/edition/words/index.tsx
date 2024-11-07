@@ -256,7 +256,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderWidth: 2,
     borderColor: '#e7503b',
-    backgroundColor: '#e7d75d',
+    backgroundColor: '#3d9577',
     borderRadius: 20,
     width: '70%',
     textAlign: 'center',

@@ -19,7 +19,7 @@ import { SVGSinaisImage } from '@/components/libras_componentes/image-component-
 import { SVGSinaisImageByCategory } from '@/components/libras_componentes/image-component-homeByCategory';
 import Separator from '@/components/libras_componentes/separator';
 import { TypeCategory } from '@/@types/Category';
-import { CardsInMenu } from '../../components/libras_componentes/cores-button-dynamic';
+import { CardsInMenu } from '@/components/libras_componentes/cores-button-dynamic';
 
 const { width, height } = Dimensions.get('window');
 
@@ -48,12 +48,8 @@ function App() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <View style={{ marginTop: isTablet ? 134 : 92 }}></View>
-      <StatusBar backgroundColor={'black'} barStyle={'light-content'} />
-      <Text style={styles.headerTitle}>GLOSSÁRIO DE LIBRAS</Text>
-      <Text style={styles.subHeaderTitle}>Região sudeste do Pará</Text>
-
-      <Separator />
+      <SearchInput></SearchInput>
+      <Separator marginTopProp={15} marginBottomProp={15} />
 
       {data ? (
         <View

@@ -6,6 +6,7 @@ import {
   Pressable,
   Modal,
   TouchableWithoutFeedback,
+  TextInput,
 } from 'react-native';
 import React, { useState } from 'react';
 import {
@@ -32,6 +33,11 @@ const WordViewerEdition = ({
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [idSelected, setSelectedId] = useState(0);
+
+  const [filter, setFilter] = useState<string>('');
+  const filteredItems = (data || []).filter((item) =>
+    item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
+  );
 
   function deleteWord(id: number) {
     console.log(idSelected);
@@ -74,6 +80,17 @@ const WordViewerEdition = ({
 
   return (
     <>
+      <TextInput
+        style={[styles.input]}
+        placeholder="Filtrar as palavras"
+        value={filter}
+        onChangeText={(text) => {
+          setFilter(text);
+        }}
+        cursorColor={'black'}
+        inputMode="text"
+        placeholderTextColor="black"
+      />
       <ScrollView
         style={styles.container}
         refreshControl={
@@ -217,6 +234,19 @@ const styles = StyleSheet.create({
     width: '77%',
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  input: {
+    backgroundColor: 'white',
+    marginTop: 5,
+    alignSelf: 'center',
+    width: 350,
+    paddingLeft: 14,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    color: 'black',
+    fontSize: 18,
   },
   listContainer: {
     backgroundColor: 'white',

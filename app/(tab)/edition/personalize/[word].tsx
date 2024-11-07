@@ -172,14 +172,14 @@ function AppWord() {
   }
 
   // ----------------------  Controller data change by input ----------------------------
-  //   function handleTextCategory(text: string) {
-  //     const newData = { ...data, nameCategory: text };
-  //     setDataFetch(newData);
-  //   }
-  //   function handleTextDescription(text: string) {
-  //     const newData = { ...data, descriptionCategory: text };
-  //     setDataFetch(newData);
-  //   }
+  function handleTextCategory(text: string) {
+    const newData = { ...data, nameCategory: text };
+    setDataFetch(newData);
+  }
+  function handleTextDescription(text: string) {
+    const newData = { ...data, descriptionCategory: text };
+    setDataFetch(newData);
+  }
   // ----------------------  start of component return  ----------------------------
   return (
     <ScrollView
@@ -191,7 +191,7 @@ function AppWord() {
       <Text style={styles.headerTitle}>Editar Palavra</Text>
       <Separator marginTopProp={15} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      
+
       {/* ----------------------  form imput  ---------------------------- */}
 
       <Text
@@ -235,7 +235,7 @@ function AppWord() {
         }}
       ></TextInput> */}
       {/* ---------------------- input description Category  ---------------------------- */}
-      {/* <View style={styles.groupDescription}>
+      <View style={styles.groupDescription}>
         <Text style={styles.labelDescription}>Descrição do sinal</Text>
         <Feather
           style={styles.iconEditDescription}
@@ -250,10 +250,10 @@ function AppWord() {
           value={data?.nameWord}
           multiline={true}
           onChangeText={(text) => {
-            handleTextDescription(text);
+            text;
           }}
         ></TextInput>
-      </ScrollView> */}
+      </ScrollView>
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
       <Pressable

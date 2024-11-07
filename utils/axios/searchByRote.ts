@@ -10,6 +10,7 @@ export async function searchByRoute(
       const data: AxiosResponse<any> = await axios.get(
         `${process.env.EXPO_PUBLIC_API_URL}/${route}`,
       );
+      console.log(data.data);
       resolve(data);
     } catch (error) {
       reject(error);

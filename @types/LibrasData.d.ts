@@ -16,6 +16,11 @@ export type TypeLibrasData = {
   ];
 };
 
+export type TypeLibrasResponse = {
+  item: TypeLibrasData;
+  refIndex: number;
+};
+
 export type TypeLibrasDataWithId = {
   _id: number | undefined;
   nameWord?: string;

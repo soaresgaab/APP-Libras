@@ -10,6 +10,7 @@ import {
 import { View } from '@/components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,11 +27,16 @@ function SearchInput({ fetchData, setRefreshing }: any) {
       setTimeout(() => setError(''), 3000); // Limpar erro após 3 segundos
       return;
     }
-    router.push({
-      pathname: '/(search)/[slug]',
+    router.replace({
+      pathname: '/interactionSuite/search/[slug]',
       params: { slug: `${search2}` },
     });
   };
+
+  useEffect(() => {
+    // fetchData();
+    setMes('');
+  }, []);
 
   return (
     <>
@@ -71,7 +77,7 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     backgroundColor: '#edf8f4',
-    marginTop: isTablet ? 164 : 122,
+    marginTop: isTablet ? 164 : 112,
     width: 'auto',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -94,6 +100,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#3d9577',
     color: 'black',
+    fontSize: 18,
   },
   errorText: {
     color: 'red',
