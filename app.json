@@ -23,8 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#edf8f4"
       },
-      "package": "com.ericksousa312.ParaLibras",
-      "googleServicesFile": "./android/app/google-services.json"
+      "package": "com.ericksousa312.ParaLibras"
     },
     "web": {
       "bundler": "metro",
@@ -32,8 +31,7 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
-      "expo-router",
-      "@react-native-firebase/app"
+      "expo-router"
     ],
     "experiments": {
       "typedRoutes": true
