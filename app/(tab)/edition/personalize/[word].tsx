@@ -235,7 +235,7 @@ function AppWord() {
         }}
       ></TextInput> */}
       {/* ---------------------- input description Category  ---------------------------- */}
-      <View style={styles.groupDescription}>
+      {/* <View style={styles.groupDescription}>
         <Text style={styles.labelDescription}>Descrição do sinal</Text>
         <Feather
           style={styles.iconEditDescription}
@@ -253,7 +253,7 @@ function AppWord() {
             text;
           }}
         ></TextInput>
-      </ScrollView>
+      </ScrollView> */}
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
       <Pressable
@@ -272,7 +272,7 @@ function AppWord() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+            backgroundColor: pressed ? '#86c7aa' : '#86c7aa',
           },
           styles.buttonCancelar,
         ]}

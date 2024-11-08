@@ -32,6 +32,15 @@ export type TypeLibrasDataWithId = {
     category?: number;
   }[];
 };
+export type TypeLibrasDataWithOutId = {
+  nameWord?: string;
+  wordDefinitions?: {
+    descriptionWordDefinition?: string;
+    src?: string;
+    fileType?: string;
+    category?: number;
+  }[];
+};
 export type TypeLibrasDataSuggestion = {
   _id: number | undefined;
   nameWord?: string;

@@ -98,7 +98,7 @@ const WordViewerEdition = ({
         }
       >
         <View style={[isWeb ? styles.divWordWeb : {}]}>
-          {data?.map((word, index) => (
+          {filteredItems?.map((word, index) => (
             <View style={styles.listContainer} key={index}>
               <View style={styles.divLabelAndOption}>
                 <View style={styles.divLabelCategory}>

@@ -89,7 +89,7 @@ const SuggestionViewerEdition = ({
         }
       >
         <View style={[isWeb ? styles.divSuggestionWeb : {}]}>
-          {data?.map((suggestion, index) => (
+          {filteredItems?.map((suggestion, index) => (
             <View
               key={index}
               style={[isWeb ? styles.listContainerWeb : styles.listContainer]}

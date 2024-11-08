@@ -26,7 +26,11 @@ import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
 import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import {
+  TypeLibrasData,
+  TypeLibrasDataWithId,
+  TypeLibrasDataWithOutId,
+} from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
@@ -37,6 +41,7 @@ import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
 import ImageModal from '@/module/Image-modal';
 import { RadioButton } from 'react-native-paper';
 import Separator from '@/components/libras_componentes/separator';
+import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
 
 const { width, height } = Dimensions.get('window');
 const isWeb = width >= 1000 && height >= 617;
@@ -47,23 +52,20 @@ function AppWord() {
     'upload' | 'linkVideo' | null
   >(null);
 
-  const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
-    _id: 0,
+  const [data, setDataFetch] = useState<TypeLibrasDataWithOutId>({
     nameWord: 'nada',
     wordDefinitions: [
       {
-        _id: 0,
         descriptionWordDefinition: '',
         src: '',
         fileType: '',
-        category: undefined,
+        category: 0,
       },
     ],
   });
   const [category, setCategory] = useState<TypeCategory[]>();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const { id } = useLocalSearchParams();
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
@@ -122,13 +124,13 @@ function AppWord() {
       wordDefinitions: updatedDefinitions,
     };
     setDataFetch(newData as TypeLibrasDataWithId);
-    const result = await pushAddSignalById(newData);
+    const result = await pushCreateWordById(newData);
     setModalVisible(true);
   }
 
   function closeModalAndBack() {
     setModalVisible(false);
-    router.push('edition');
+    router.push('/edition');
   }
 
   function handleNameWord(text: string) {
@@ -170,7 +172,6 @@ function AppWord() {
   function categorySelectNull(item: any) {
     const newData = {
       ...data,
-      _id: id,
       wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
         if (index === 0) {
           return {
@@ -259,8 +260,18 @@ function AppWord() {
       <Separator marginTopProp={10} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
+      <Text style={styles.labelDescription}>Nome do sinal:</Text>
       {/* ----------------------  form imput  ---------------------------- */}
 
+      <TextInput
+        style={styles.inputDescription}
+        value={data.nameWord}
+        placeholder="Informe um nome para o sinal"
+        multiline={true}
+        onChangeText={(text) => {
+          handleNameWord(text);
+        }}
+      />
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
@@ -272,7 +283,7 @@ function AppWord() {
               placeholder="Informe uma descrição para o sinal"
               multiline={true}
               onChangeText={(text) => {
-                descriptionSinal(text, definition._id);
+                descriptionSinal(text, 0);
               }}
             ></TextInput>
 
@@ -495,7 +506,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
     fontSize: 20,
     marginBottom: 40,
@@ -551,7 +562,7 @@ const styles = StyleSheet.create({
   groupDescription: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     marginTop: 10,
     flexDirection: 'row',
     width: '85%',
@@ -562,7 +573,7 @@ const styles = StyleSheet.create({
   groupCategory: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     marginTop: 10,
     flexDirection: 'row',
     width: 370,
@@ -649,14 +660,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,

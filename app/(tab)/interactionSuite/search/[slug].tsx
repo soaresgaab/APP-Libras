@@ -162,9 +162,10 @@ function App() {
               textAlign: 'center',
               fontSize: 18,
               width: '95%',
+              color: '#000',
             }}
           >
-            {`Confira alguns referencias para a palavra "${slug}" e seus respectivos sinais`}
+            {`Confira algumas referencias para a palavra "${slug}" e seus respectivos sinais`}
           </Text>
           {/* <Pressable
             style={{
