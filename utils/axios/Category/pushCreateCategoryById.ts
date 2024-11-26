@@ -8,7 +8,7 @@ export async function pushCreateCategoryById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.post(
-        `https://libras.helpdesk-maraba.cloud/category/`,
+        `${process.env.EXPO_PUBLIC_API_URL}/category/`,
         dataCategory,
       );
       resolve(data);

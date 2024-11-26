@@ -1,16 +1,16 @@
 {
   "expo": {
-    "name": "ParáLibras",
-    "slug": "ParaLibras",
-    "version": "1.1.0",
+    "name": "Libras Sudeste Pará",
+    "slug": "LIbrasSudestePara",
+    "version": "2.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/newSplashArt.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#edf8f4"
     },
     "assetBundlePatterns": [
       "**/*"
@@ -21,9 +21,9 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#edf8f4"
       },
-      "package": "com.ericksousa312.ParaLibras"
+      "package": "com.ericksousa312.LIbrasSudestePara"
     },
     "web": {
       "bundler": "metro",
@@ -41,7 +41,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "c33fd3f2-5e4b-4852-9dfa-74a160bbff2b"
+        "projectId": "1c6bb6eb-bce0-46d2-9b60-8d7a036e9462"
       }
     }
   }

@@ -10,11 +10,13 @@ export async function pushCreateWordById(
   dataWord?: TypeLibrasDataWithId,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
+    console.log(dataWord);
     try {
       const data: AxiosResponse<any> = await axios.post(
-        `https://libras.helpdesk-maraba.cloud/word/`,
+        `${process.env.EXPO_PUBLIC_API_URL}/word/`,
         dataWord,
       );
+      console.log('response');
       resolve(data);
     } catch (error) {
       reject(error);

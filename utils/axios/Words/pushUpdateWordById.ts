@@ -12,7 +12,7 @@ export async function pushUpdateWordById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.put(
-        `https://libras.helpdesk-maraba.cloud/word/${dataWord?._id}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/word/${dataWord?._id}`,
         dataWord,
       );
       resolve(data);

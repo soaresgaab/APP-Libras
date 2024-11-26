@@ -50,7 +50,7 @@ export const Libras_matematica_container = ({}): React.ReactNode => {
       ) : (
         <>
           {fetchData?.map((item, index) => (
-            <View key={index} style={{ backgroundColor: '#F6F2DA' }}>
+            <View key={index} style={{ backgroundColor: '#edf8f4' }}>
               {item.wordDefinitions?.map((item2, index2) => (
                 <View key={index2} style={styles.container}>
                   <Pressable style={styles.div}>
@@ -76,7 +76,7 @@ export const Libras_matematica_container = ({}): React.ReactNode => {
 const styles = StyleSheet.create({
   container: {
     // paddingTop: 25,
-    backgroundColor: '#F6F2DA',
+    backgroundColor: '#edf8f4',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // borderWidth: 2,
     // borderColor: '#e7503b',
-    backgroundColor: '#e7d75d',
+    backgroundColor: '#3d9577',
     borderRadius: 20,
     width: '70%',
     textAlign: 'center',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     marginTop: 5,
   },
   logo: {

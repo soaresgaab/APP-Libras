@@ -8,7 +8,7 @@ export async function searchById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `https://libras.helpdesk-maraba.cloud/${rota}/${id}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/${rota}/${id}`,
       );
       resolve(data);
     } catch (error) {

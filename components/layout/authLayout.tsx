@@ -61,7 +61,7 @@ export function LayoutRoot() {
         // },
         drawerActiveBackgroundColor: '#e7503b',
         drawerStyle: {
-          backgroundColor: '#F6F2DA',
+          backgroundColor: '#edf8f4',
         },
         drawerActiveTintColor: 'black',
         // freezeOnBlur: false,

@@ -47,3 +47,4 @@ eas build -p android --profile preview
 
 - `npx expo run:android`
 - `eas build -p android`
+- eas build -e preview --clear-cache

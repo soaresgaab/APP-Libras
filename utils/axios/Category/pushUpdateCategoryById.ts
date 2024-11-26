@@ -8,7 +8,7 @@ export async function pushUpdateCategoryById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.put(
-        `https://libras.helpdesk-maraba.cloud/category/${dataCategory?._id}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/category/${dataCategory?._id}`,
         dataCategory,
       );
       resolve(data);

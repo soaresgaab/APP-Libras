@@ -12,7 +12,7 @@ export async function pushCreateSuggestionById(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.post(
-        `https://libras.helpdesk-maraba.cloud/suggestion/`,
+        `${process.env.EXPO_PUBLIC_API_URL}/suggestion/`,
         dataWord,
       );
       resolve(data);

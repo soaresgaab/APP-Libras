@@ -8,8 +8,9 @@ export async function searchByRoute(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `https://libras.helpdesk-maraba.cloud/${route}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/${route}`,
       );
+      console.log(data.data);
       resolve(data);
     } catch (error) {
       reject(error);

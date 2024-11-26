@@ -10,6 +10,7 @@ import {
 import { View } from '@/components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { useEffect } from 'react';
 
 const { width, height } = Dimensions.get('window');
 
@@ -26,11 +27,16 @@ function SearchInput({ fetchData, setRefreshing }: any) {
       setTimeout(() => setError(''), 3000); // Limpar erro após 3 segundos
       return;
     }
-    router.push({
-      pathname: '/(search)/[slug]',
+    router.replace({
+      pathname: '/interactionSuite/search/[slug]',
       params: { slug: `${search2}` },
     });
   };
+
+  useEffect(() => {
+    // fetchData();
+    setMes('');
+  }, []);
 
   return (
     <>
@@ -47,14 +53,14 @@ function SearchInput({ fetchData, setRefreshing }: any) {
           }}
           cursorColor={'black'}
           inputMode="text"
-          placeholderTextColor="#e7503b"
+          placeholderTextColor="black"
         />
 
         <Pressable
           onPress={handlePress}
           style={({ pressed }) => [
             {
-              backgroundColor: pressed ? '#fcce9b' : '#e7503b',
+              backgroundColor: pressed ? '#fcce9b' : '#3d9577',
             },
             styles.button,
           ]}
@@ -70,8 +76,8 @@ function SearchInput({ fetchData, setRefreshing }: any) {
 const styles = StyleSheet.create({
   container2: {
     flex: 1,
-    backgroundColor: '#F6F2DA',
-    marginTop: isTablet ? 164 : 122,
+    backgroundColor: '#edf8f4',
+    marginTop: isTablet ? 164 : 112,
     width: 'auto',
     flexDirection: 'row',
     justifyContent: 'center',
@@ -92,8 +98,9 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'black',
+    fontSize: 18,
   },
   errorText: {
     color: 'red',
