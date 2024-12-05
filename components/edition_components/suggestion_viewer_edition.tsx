@@ -5,7 +5,7 @@ import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { CreateButton } from '../createData/create-Button';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import { TypeLibrasData, TypeSuggestion } from '@/@types/LibrasData';
 import ImageModal from '@/module/Image-modal';
 import Separator from '../libras_componentes/separator';
 import { router } from 'expo-router';
@@ -16,7 +16,7 @@ const isTablet = width >= 768 && height >= 1024;
 const isWeb = width >= 1000 && height >= 617;
 
 const SuggestionViewerEdition = ({ 
-  data }: { data: TypeLibrasDataWithId[] | undefined }) => {
+  data }: { data: TypeSuggestion[] | undefined }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [idSelected, setSelectedId] = useState(0);
 
@@ -43,6 +43,13 @@ const SuggestionViewerEdition = ({
     } catch (error) {
       console.error('Erro ao deletar palavra', error);
     }
+  }
+
+  function editSuggestion(id: number) {
+    router.push({
+      pathname: '/(tab)/edition/personalize/addSinal',
+      params: { id: `${id}` },
+    });
   }
 
   return (
@@ -111,7 +118,7 @@ const SuggestionViewerEdition = ({
                       },
                     ]}
                     onPress={() => {
-                      console.log('Editar');
+                      editSuggestion(idSelected);
                       closeModal();
                     }}
                   >
