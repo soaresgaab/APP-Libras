@@ -1,6 +1,22 @@
-import { View, Text, Dimensions, StyleSheet, Pressable, Modal, TouchableWithoutFeedback } from 'react-native';
+import {
+  View,
+  Text,
+  Dimensions,
+  StyleSheet,
+  Pressable,
+  Modal,
+  TouchableWithoutFeedback,
+  TextInput,
+} from 'react-native';
 import React, { useState } from 'react';
-import { Entypo, Feather,FontAwesome, FontAwesome5, MaterialCommunityIcons, Ionicons } from '@expo/vector-icons';
+import {
+  Entypo,
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  MaterialCommunityIcons,
+  Ionicons,
+} from '@expo/vector-icons';
 import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
@@ -20,7 +36,12 @@ const SuggestionViewerEdition = ({
     const [modalVisible, setModalVisible] = useState(false);
     const [idSelected, setSelectedId] = useState(0);
 
-  function deleteSuggestion(id: number) {
+  const [filter, setFilter] = useState<string>('');
+  const filteredItems = (data || []).filter((item) =>
+    item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
+  );
+
+  function deleteSuggestion(id: any) {
     console.log(idSelected);
     setModalVisible(true);
     setSelectedId(id);
@@ -54,24 +75,37 @@ const SuggestionViewerEdition = ({
 
   return (
     <>
+      <TextInput
+        style={[styles.input]}
+        placeholder="Filtrar as sugestões"
+        value={filter}
+        onChangeText={(text) => {
+          setFilter(text);
+        }}
+        cursorColor={'black'}
+        inputMode="text"
+        placeholderTextColor="black"
+      />
       <ScrollView
         style={styles.container}
-        refreshControl={<RefreshControl refreshing={false} progressViewOffset={70} />}
+        refreshControl={
+          <RefreshControl refreshing={false} progressViewOffset={70} />
+        }
       >
         <View style={[isWeb ? styles.divSuggestionWeb : {}]}>
-          {data?.map((suggestion, index) => (
-            <View 
-            key={index} 
-            style={[isWeb ? styles.listContainerWeb : styles.listContainer]}
-          >
-            <View style={styles.divImage}>
-              <ImageModal
-                style={styles.image}
-                source={{
-                  uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
-                }}
-              />
-            </View>
+          {filteredItems?.map((suggestion, index) => (
+            <View
+              key={index}
+              style={[isWeb ? styles.listContainerWeb : styles.listContainer]}
+            >
+              <View style={styles.divImage}>
+                <ImageModal
+                  style={styles.image}
+                  source={{
+                    uri: `data:image/jpeg;base64,${suggestion.wordDefinitions![0].src}`,
+                  }}
+                />
+              </View>
               <View style={styles.divLabelAndOption}>
                 <View style={styles.divButtonOptions}>
                   <Pressable
@@ -103,9 +137,18 @@ const SuggestionViewerEdition = ({
       </ScrollView>
 
       {/* Modal */}
-      <Modal animationType="slide" transparent={true} visible={modalVisible} onRequestClose={closeModal}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
         <TouchableWithoutFeedback onPress={closeModal}>
-          <BlurView tint={'systemChromeMaterialDark'} intensity={60} style={styles.modalOverlay}>
+          <BlurView
+            tint={'systemChromeMaterialDark'}
+            intensity={60}
+            style={styles.modalOverlay}
+          >
             <TouchableWithoutFeedback>
               <View style={styles.modalContainer}>
                 <View style={styles.modalIconsAndButtons}>
@@ -138,8 +181,7 @@ const SuggestionViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(),
-                      closeModal();
+                      handleDelete(), closeModal();
                     }}
                   >
                     <MaterialCommunityIcons
@@ -195,6 +237,19 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 0,
     marginTop: 13,
+  },
+  input: {
+    backgroundColor: 'white',
+    marginTop: 5,
+    alignSelf: 'center',
+    width: 350,
+    paddingLeft: 14,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    color: 'black',
+    fontSize: 18,
   },
   divSuggestionWeb: {
     flex: 1,

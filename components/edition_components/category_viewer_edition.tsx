@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Modal,
   useWindowDimensions,
+  TextInput,
 } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { TypeCategory } from '@/@types/Category';
@@ -44,6 +45,11 @@ const CategoryViewerEdition = ({
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [idSelected, setSelectedId] = useState(0);
+
+  const [filter, setFilter] = useState<string>('');
+  const filteredItems = (data || []).filter((item) =>
+    item.nameCategory.toLowerCase().includes(filter.toLowerCase()),
+  );
 
   function deleteCategory(id: number) {
     console.log(idSelected);
@@ -86,6 +92,17 @@ const CategoryViewerEdition = ({
 
   return (
     <>
+      <TextInput
+        style={[styles.input]}
+        placeholder="Filtrar as categorias"
+        value={filter}
+        onChangeText={(text) => {
+          setFilter(text);
+        }}
+        cursorColor={'black'}
+        inputMode="text"
+        placeholderTextColor="black"
+      />
       <ScrollView
         style={[isWeb ? styles.containerWeb : styles.container]}
         refreshControl={
@@ -93,7 +110,7 @@ const CategoryViewerEdition = ({
         }
       >
         <View style={[isWeb ? styles.divCategoriesWeb : {}]}>
-          {data?.map((category, index) => (
+          {filteredItems?.map((category, index) => (
             <View
               key={index}
               style={[isWeb ? styles.listContainerWeb : styles.listContainer]}
@@ -265,6 +282,19 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     // Sombra no Android
     elevation: 5,
+  },
+  input: {
+    backgroundColor: 'white',
+    marginTop: 5,
+    alignSelf: 'center',
+    width: 350,
+    paddingLeft: 14,
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    color: 'black',
+    fontSize: 18,
   },
   listContainerWeb: {
     backgroundColor: 'white',

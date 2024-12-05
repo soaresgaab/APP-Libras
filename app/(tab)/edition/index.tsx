@@ -207,23 +207,6 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => routePush('edition/words/addWord')}
-                  >
-                    <MaterialCommunityIcons
-                      style={{ alignSelf: 'center' }}
-                      name="plus-box-multiple-outline"
-                      size={23}
-                      color="black"
-                    />
-                    <Text style={styles.modalText}>Adicionar Palavras</Text>
-                  </Pressable>
-                </View>
-                <View style={styles.modalIconsAndButtons}>
-                  <Pressable
-                    style={({ pressed }) => [
-                      styles.modalButton,
-                      pressed && styles.modalButtonOnPress,
-                    ]}
                     onPress={() => routePush('edition/words/[word]')}
                   >
                     <MaterialCommunityIcons
@@ -232,9 +215,7 @@ function App() {
                       size={23}
                       color="black"
                     />
-                    <Text style={styles.modalText}>
-                      Adicionar Palavras com Youtube
-                    </Text>
+                    <Text style={styles.modalText}>Adicionar Palavras</Text>
                   </Pressable>
                 </View>
                 <View style={styles.modalIconsAndButtons}>

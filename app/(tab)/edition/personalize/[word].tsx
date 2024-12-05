@@ -172,14 +172,14 @@ function AppWord() {
   }
 
   // ----------------------  Controller data change by input ----------------------------
-  //   function handleTextCategory(text: string) {
-  //     const newData = { ...data, nameCategory: text };
-  //     setDataFetch(newData);
-  //   }
-  //   function handleTextDescription(text: string) {
-  //     const newData = { ...data, descriptionCategory: text };
-  //     setDataFetch(newData);
-  //   }
+  function handleTextCategory(text: string) {
+    const newData = { ...data, nameCategory: text };
+    setDataFetch(newData);
+  }
+  function handleTextDescription(text: string) {
+    const newData = { ...data, descriptionCategory: text };
+    setDataFetch(newData);
+  }
   // ----------------------  start of component return  ----------------------------
   return (
     <ScrollView
@@ -191,7 +191,7 @@ function AppWord() {
       <Text style={styles.headerTitle}>Editar Palavra</Text>
       <Separator marginTopProp={15} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      
+
       {/* ----------------------  form imput  ---------------------------- */}
 
       <Text
@@ -250,7 +250,7 @@ function AppWord() {
           value={data?.nameWord}
           multiline={true}
           onChangeText={(text) => {
-            handleTextDescription(text);
+            text;
           }}
         ></TextInput>
       </ScrollView> */}
@@ -272,7 +272,7 @@ function AppWord() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+            backgroundColor: pressed ? '#86c7aa' : '#86c7aa',
           },
           styles.buttonCancelar,
         ]}

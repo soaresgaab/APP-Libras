@@ -73,7 +73,7 @@ function AppWord() {
   }
   function closeModalAndBack() {
     setModalVisible(false);
-    router.push('edition');
+    router.push('/edition');
   }
 
   function handleNameWord(text: string) {

@@ -60,7 +60,7 @@ export default function TabLayout() {
         options={{ headerShown: false, href: null }}
       />
       <Tabs.Screen
-        name="interactionSuite/search"
+        name="interactionSuite/search/find"
         options={{
           headerShown: false,
           tabBarLabel: 'Pesquisar',
@@ -175,6 +175,14 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name="screensCategory/vilas"
+        options={{ headerShown: false, href: null }}
+      />
+      <Tabs.Screen
+        name="screensCategory/dynamicCategory/[slug]"
+        options={{ headerShown: false, href: null }}
+      />
+      <Tabs.Screen
+        name="interactionSuite/search/[slug]"
         options={{ headerShown: false, href: null }}
       />
     </Tabs>

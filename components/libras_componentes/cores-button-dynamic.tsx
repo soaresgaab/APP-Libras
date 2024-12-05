@@ -2,6 +2,7 @@ import { Text, StyleSheet, Pressable, Dimensions, View } from 'react-native';
 import { Link } from 'expo-router';
 import { ReactNode } from 'react';
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 
 const { width, height } = Dimensions.get('window');
 const isTablet = width >= 768 && height >= 1024;
@@ -9,17 +10,25 @@ const blurhash =
   '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
 export const CardsInMenu = ({
-  router,
+  routerCategory,
   label,
   imageBase64,
 }: {
-  router?: string;
+  routerCategory?: string;
   label: string;
   imageBase64: string | undefined;
 }): React.ReactNode => {
   const isLongLabel = label.length > 15;
   return (
-    <Pressable style={styles.div}>
+    <Pressable
+      style={styles.div}
+      onPress={() => {
+        router.push({
+          pathname: '/screensCategory/dynamicCategory/[slug]',
+          params: { slug: `${routerCategory}` },
+        });
+      }}
+    >
       <View
         style={[
           styles.componentContainer,

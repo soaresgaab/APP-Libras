@@ -5,15 +5,15 @@ import {
   Button,
   Pressable,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
-import { Link } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { Link, router } from 'expo-router';
 import { View } from '../Themed';
 import ImageModal from '@/module/Image-modal/index';
-import { useEffect, useState } from 'react';
-import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
-import { ActivityIndicator } from 'react-native';
-import YoutubeIframe from 'react-native-youtube-iframe'
+import { searchByRoute } from '@/utils/axios/searchByRote';
+import YoutubeIframe from 'react-native-youtube-iframe';
 
 const { width, height } = Dimensions.get('window');
 
@@ -24,9 +24,9 @@ export const Libras_vilas_container = ({}): React.ReactNode => {
   const [isLoading, setIsLoading] = useState(true);
 
   async function SearchData() {
-    const data = await searchByRoute(
-      'word/category/Vila',
-    ).finally(() => setIsLoading(false));
+    const data = await searchByRoute('word/category/Bairro').finally(() =>
+      setIsLoading(false),
+    );
     setFetchData(data.data);
   }
 
@@ -34,12 +34,12 @@ export const Libras_vilas_container = ({}): React.ReactNode => {
     SearchData();
   }, []);
 
-  const extractYoutubeVideoId = (url) => {
+  const extractYoutubeVideoId = (url: any) => {
     let videoId = null;
     // Verifica se a URL é do formato longo (youtube.com)
     if (url.includes('youtube.com/watch?v=')) {
       videoId = url.split('v=')[1]?.split('&')[0];
-    } 
+    }
     // Verifica se a URL é do formato curto (youtu.be)
     else if (url.includes('youtu.be/')) {
       videoId = url.split('youtu.be/')[1]?.split('?')[0];
@@ -64,11 +64,11 @@ export const Libras_vilas_container = ({}): React.ReactNode => {
       ) : (
         <>
           {fetchData?.map((item, index) => (
-            <View key={index} style={{ backgroundColor: '#F6F2DA' }}>
+            <View key={index} style={{ backgroundColor: '#edf8f4' }}>
               {item.wordDefinitions?.map((item2, index2) => (
                 <View key={index2} style={styles.container}>
                   <Pressable style={styles.div}>
-                  {item2.fileType ===  'image' && (
+                    {item2.fileType === 'image' && (
                       <ImageModal
                         style={styles.image}
                         source={{
@@ -76,11 +76,11 @@ export const Libras_vilas_container = ({}): React.ReactNode => {
                         }}
                       ></ImageModal>
                     )}
-                    {item2.fileType ===  'video' && (
-                      <YoutubeIframe 
-                      videoId={extractYoutubeVideoId(item2.src)}
-                      height={isTablet ? 295 : 180}
-                      width={isTablet ? 660 : 340}
+                    {item2.fileType === 'video' && (
+                      <YoutubeIframe
+                        videoId={extractYoutubeVideoId(item2.src!)}
+                        height={isTablet ? 295 : 180}
+                        width={isTablet ? 660 : 340}
                       />
                     )}
                     <Text style={styles.label}>{item.nameWord}</Text>
@@ -96,8 +96,8 @@ export const Libras_vilas_container = ({}): React.ReactNode => {
 };
 const styles = StyleSheet.create({
   container: {
-    // paddingTop: 25,
-    backgroundColor: '#F6F2DA',
+    paddingTop: 5,
+    backgroundColor: '#edf8f4',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'space-evenly',
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     // borderWidth: 2,
     // borderColor: '#e7503b',
-    backgroundColor: '#e7d75d',
+    backgroundColor: '#3d9577',
     borderRadius: 20,
     width: '70%',
     textAlign: 'center',
@@ -122,17 +122,18 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   div: {
-    paddingTop: 0,
     width: isTablet ? 700 : 370,
     height: isTablet ? 370 : 250,
-    marginBottom: 15,
+    paddingBottom: 60,
+    paddingTop: 60,
+    marginBottom: 5,
     borderRadius: 12,
     alignSelf: 'center',
     backgroundColor: 'white',
     justifyContent: 'center',
     borderWidth: 1,
-    borderColor: '#e7503b',
-    marginTop: 5,
+    borderColor: '#3d9577',
+    alignItems: 'center',
   },
   logo: {
     width: 66,

@@ -100,7 +100,7 @@ function App() {
               <Pressable
                 style={({ pressed }) => [
                   {
-                    backgroundColor: pressed ? '#fcce9b' : '#e7d75d',
+                    backgroundColor: pressed ? '#fcce9b' : '#3d9577',
                   },
                   styles.buttonEdit,
                 ]}

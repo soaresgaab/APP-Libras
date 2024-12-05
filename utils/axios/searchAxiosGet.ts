@@ -8,7 +8,7 @@ export async function searchAxiosGetWords(
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.get(
-        `${process.env.EXPO_PUBLIC_API_URL}/word/${Query}`,
+        `${process.env.EXPO_PUBLIC_API_URL}/word/search/${Query}`,
       );
       resolve(data);
     } catch (error) {

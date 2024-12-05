@@ -1,32 +1,49 @@
+import React, { useEffect, useReducer, useState } from 'react';
 import {
-  Image,
-  Text,
   StyleSheet,
-  Button,
+  RefreshControl,
+  View,
   Pressable,
+  TextInput,
+  Button,
   Dimensions,
   ActivityIndicator,
 } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { Link, router } from 'expo-router';
-import { View } from '../Themed';
-import ImageModal from '@/module/Image-modal/index';
-import { TypeLibrasDataWithId } from '@/@types/LibrasData';
+import SearchInput from '@/components/formSearch/searchInput';
+import { ScrollView } from 'react-native-gesture-handler';
+import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
+import { Text } from '@/components/Themed';
+import { useLocalSearchParams } from 'expo-router';
+import { searchAxiosGetWords } from '@/utils/axios/searchAxiosGet';
+import {
+  TypeLibrasData,
+  TypeLibrasDataSinais,
+  TypeLibrasDataWithId,
+} from '@/@types/LibrasData';
+import { NoResultsComponent } from '@/components/formSearch/erroSearch';
+import { Image } from 'expo-image';
+import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
+import { initialStateDataLibrasReducer } from '../../../../utils/reducer/DataLibrasReducer';
+import * as ImagePicker from 'expo-image-picker';
+import { Foundation } from '@expo/vector-icons';
+import ImageModal, { ImageDetail } from '@/module/Image-modal';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import YoutubeIframe from 'react-native-youtube-iframe';
-
+import Separator from '@/components/libras_componentes/separator';
 const { width, height } = Dimensions.get('window');
 
 const isTablet = width >= 768 && height >= 1024;
 
-export const Libras_sinais_container = ({}): React.ReactNode => {
+function App() {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
   const [isLoading, setIsLoading] = useState(true);
+  const { slug } = useLocalSearchParams();
 
   async function SearchData() {
-    const data = await searchByRoute('word/category/Bairro').finally(() =>
+    const data = await searchByRoute(`word/category/${slug}`).finally(() =>
       setIsLoading(false),
     );
+    console.log(data.data);
     setFetchData(data.data);
   }
 
@@ -62,7 +79,21 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
           <ActivityIndicator size="large" color="#123456" />
         </View>
       ) : (
-        <>
+        <View style={{ backgroundColor: '#edf8f4' }}>
+          <View style={{ marginTop: 40 }}></View>
+          <Text
+            style={{
+              alignSelf: 'center',
+              textAlign: 'center',
+              fontSize: 26,
+              width: '75%',
+              fontWeight: 'bold',
+              color: '#03459e',
+            }}
+          >
+            {slug}
+          </Text>
+          <Separator marginTopProp={15} marginBottomProp={10}></Separator>
           {fetchData?.map((item, index) => (
             <View key={index} style={{ backgroundColor: '#edf8f4' }}>
               {item.wordDefinitions?.map((item2, index2) => (
@@ -78,7 +109,7 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
                     )}
                     {item2.fileType === 'video' && (
                       <YoutubeIframe
-                        videoId={extractYoutubeVideoId(item2.src!)}
+                        videoId={extractYoutubeVideoId(item2.src)}
                         height={isTablet ? 295 : 180}
                         width={isTablet ? 660 : 340}
                       />
@@ -89,14 +120,15 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
               ))}
             </View>
           ))}
-        </>
+        </View>
       )}
     </>
   );
-};
+}
+
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 5,
+    paddingTop: 15,
     backgroundColor: '#edf8f4',
     flexDirection: 'column',
     alignItems: 'center',
@@ -126,7 +158,7 @@ const styles = StyleSheet.create({
     height: isTablet ? 370 : 250,
     paddingBottom: 60,
     paddingTop: 60,
-    marginBottom: 5,
+    marginBottom: 0,
     borderRadius: 12,
     alignSelf: 'center',
     backgroundColor: 'white',
@@ -140,3 +172,5 @@ const styles = StyleSheet.create({
     height: 58,
   },
 });
+
+export default gestureHandlerRootHOC(App);

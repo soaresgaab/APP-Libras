@@ -13,6 +13,7 @@ import { Libras_numeros_container } from '@/components/libras_numeros_manual/Lib
 import { Libras_saudacoes_container } from '@/components/libras_saudacoes_manual/Libras_saudacoes_container';
 import { Libras_matematica_container } from '@/components/libras_matematica_manual/Libras_matematica_manual';
 import { Libras_regional_container } from '@/components/libras_expregionais_manual/Libras_expregionais_manual';
+import { Libras_camara } from '@/components/libras_expregionais_manual/Libras_camara';
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,7 +37,7 @@ function App() {
     >
       <Text
         style={{
-          marginTop: isTablet ? 164 : 115,
+          marginTop: isTablet ? 164 : 105,
           alignSelf: 'center',
           textAlign: 'center',
           fontSize: 26,
@@ -48,7 +49,7 @@ function App() {
         Câmara Municipal de Marabá
       </Text>
       <Separator marginTopProp={10} marginBottomProp={10}></Separator>
-      <Libras_regional_container />
+      <Libras_camara />
     </ScrollView>
   );
 }
