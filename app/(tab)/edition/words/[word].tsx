@@ -53,7 +53,7 @@ function AppWord() {
   >(null);
 
   const [data, setDataFetch] = useState<TypeLibrasDataWithOutId>({
-    nameWord: 'nada',
+    nameWord: '',
     wordDefinitions: [
       {
         descriptionWordDefinition: '',
@@ -305,7 +305,6 @@ function AppWord() {
                 dropdownIconRippleColor="#fcce9b"
                 selectedValue={definition.category}
                 onValueChange={(itemValue, itemIndex) => {
-                  // setSelectedCategory(itemValue);
                   categorySelect(itemValue, definition._id);
                 }}
               >

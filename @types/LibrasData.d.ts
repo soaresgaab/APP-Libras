@@ -53,6 +53,16 @@ export type TypeLibrasDataSuggestion = {
     category?: number;
   }[];
 };
+export type TypeLibrasDataSuggestion = {
+  nameWord?: string;
+  emailContact?: string;
+  wordDefinitions?: {
+    descriptionWordDefinition?: string;
+    src?: string;
+    fileType?: string;
+    category?: number;
+  }[];
+};
 
 type Action = {
   type: string;

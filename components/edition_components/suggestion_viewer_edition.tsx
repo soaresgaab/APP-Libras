@@ -21,7 +21,7 @@ import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { CreateButton } from '../createData/create-Button';
-import { TypeLibrasData, TypeSuggestion } from '@/@types/LibrasData';
+import { TypeLibrasData, TypeLibrasDataSuggestion } from '@/@types/LibrasData';
 import ImageModal from '@/module/Image-modal';
 import Separator from '../libras_componentes/separator';
 import { router } from 'expo-router';
@@ -31,10 +31,13 @@ const { width, height } = Dimensions.get('window');
 const isTablet = width >= 768 && height >= 1024;
 const isWeb = width >= 1000 && height >= 617;
 
-const SuggestionViewerEdition = ({ 
-  data }: { data: TypeSuggestion[] | undefined }) => {
-    const [modalVisible, setModalVisible] = useState(false);
-    const [idSelected, setSelectedId] = useState(0);
+const SuggestionViewerEdition = ({
+  data,
+}: {
+  data: TypeLibrasDataSuggestion[] | undefined;
+}) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [idSelected, setSelectedId] = useState(0);
 
   const [filter, setFilter] = useState<string>('');
   const filteredItems = (data || []).filter((item) =>

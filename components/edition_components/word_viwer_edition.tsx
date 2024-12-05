@@ -48,14 +48,6 @@ const WordViewerEdition = ({
   function closeModal() {
     setModalVisible(false);
   }
-
-  function routePush(id: number) {
-    router.push({
-      pathname: '/(editionwords)/[words]',
-      params: { id: `${id}` },
-    });
-  }
-
   async function handleDelete() {
     try {
       const response = await fetch(

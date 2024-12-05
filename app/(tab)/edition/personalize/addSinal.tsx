@@ -30,28 +30,38 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
-import { TypeSuggestion } from '@/@types/LibrasData';
+import { TypeLibrasDataSuggestion } from '@/@types/LibrasData';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-
 function AppWord() {
-  const [data, setDataFetch] = useState<TypeSuggestion>({
+  //trocar por TypeLibrasDataSuggestionWithOutId
+  const [data, setDataFetch] = useState<TypeLibrasDataSuggestion>({
     _id: 0,
-    nameSuggestion: '',
-    descriptionSuggestion: '',
-    showInMenu: false,
-    imgSuggestion: '',
+    nameWord: '',
+    emailContact: '',
+    wordDefinitions: [
+      {
+        _id: 101,
+        descriptionWordDefinition: '',
+        src: '',
+        fileType: '',
+        category: 1,
+      },
+      {
+        _id: 0,
+        descriptionWordDefinition: 'Another description of the word.',
+        src: 'https://example.com/video.mp4',
+        fileType: 'video/mp4',
+        category: 2,
+      },
+    ],
   });
   const [modalVisible, setModalVisible] = useState(false);
   const { id } = useLocalSearchParams();
 
   const [open, setOpen] = useState(false);
-  const [value, setValue] = useState(data.showInMenu ? 'sim' : 'não');
+  const [value, setValue] = useState('não');
 
-  const [items, setItems] = useState([
-    { label: 'Sim', value: 'sim' },
-    { label: 'Não', value: 'não' },
-  ]);
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
@@ -76,9 +86,10 @@ function AppWord() {
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    const response = await searchById('Category', id);
+    console.log('entrou');
+    const response = await searchById('suggestion_id', id);
+    console.log(response.data);
     setDataFetch(response.data);
-    setValue(response.data.showInMenu ? 'sim' : 'não');
   }
 
   useEffect(() => {
@@ -105,19 +116,41 @@ function AppWord() {
     if (!result.canceled && result.assets[0].base64) {
       const newData = {
         ...data,
-        imgSuggestion: result.assets[0].base64,
+        wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+          if (index === 0) {
+            return {
+              ...definition,
+              src: result.assets[0].base64,
+            };
+          }
+          return definition;
+        }),
       };
-      setDataFetch(newData);
+      setDataFetch(newData as TypeLibrasDataSuggestion);
     }
   };
 
   function handleTextSuggestion(text: string) {
-    const newData = { ...data, nameSuggestion: text };
-    setDataFetch(newData);
+    const newData = {
+      ...data,
+      nameWord: text,
+    };
+    setDataFetch(newData as TypeLibrasDataSuggestion);
   }
   function handleTextDescription(text: string) {
-    const newData = { ...data, descriptionSuggestion: text };
-    setDataFetch(newData);
+    const newData = {
+      ...data,
+      wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
+        if (index === 0) {
+          return {
+            ...definition,
+            descriptionWordDefinition: text,
+          };
+        }
+        return definition;
+      }),
+    };
+    setDataFetch(newData as TypeLibrasDataSuggestion);
   }
 
   return (
@@ -144,7 +177,7 @@ function AppWord() {
       <Text style={styles.labelDescription}>Nome</Text>
       <TextInput
         style={styles.inputDescription}
-        value={data?.nameSuggestion}
+        value={data?.nameWord}
         onChangeText={(text) => {
           handleTextSuggestion(text);
         }}
@@ -153,28 +186,12 @@ function AppWord() {
       <Text style={styles.labelDescription}>Descrição</Text>
       <TextInput
         style={styles.inputDescription}
-        value={data?.descriptionSuggestion}
+        value={data?.wordDefinitions?.[0].descriptionWordDefinition}
         multiline={true}
         onChangeText={(text) => {
           handleTextDescription(text);
         }}
       ></TextInput>
-      {/* ---------------------- create shortcut on main screen?  ---------------------------- */}
-      <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
-      <View style={styles.selectContainer}>
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={setValue}
-          setItems={setItems}
-          placeholder="Selecione uma opção"
-          style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownContainer}
-        />
-      </View>
-      {data.showInMenu}
       {/* ---------------------- select image  ---------------------------- */}
       <Pressable
         style={({ pressed }) => [
@@ -183,14 +200,14 @@ function AppWord() {
           },
           styles.button,
         ]}
-        onPress={() => handleSelectImage(data._id)}
+        onPress={() => handleSelectImage(1)}
       >
         <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
       </Pressable>
       <Image
         style={styles.image}
         source={{
-          uri: `data:image/jpeg;base64,${data.imgSuggestion}`,
+          uri: `data:image/jpeg;base64,${data!.wordDefinitions![0].src}`,
         }}
         contentFit="cover"
         placeholder={{ blurhash }}
@@ -198,43 +215,6 @@ function AppWord() {
       />
       <View style={{ marginBottom: 60 }}></View>
 
-      {/* ---------------------- input name Category  ---------------------------- */}
-      {/* <View style={styles.groupCategory}>
-        <Text style={styles.labelCategory}>Nome2</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="white"
-        />
-      </View>
-      <TextInput
-        style={styles.inputNameWord}
-        value={data?.nameWord}
-        onChangeText={(text) => {
-          handleTextCategory(text);
-        }}
-      ></TextInput> */}
-      {/* ---------------------- input description Category  ---------------------------- */}
-      {/* <View style={styles.groupDescription}>
-        <Text style={styles.labelDescription}>Descrição do sinal</Text>
-        <Feather
-          style={styles.iconEditDescription}
-          name="edit"
-          size={24}
-          color="#e7503b"
-        />
-      </View>
-      <ScrollView>
-        <TextInput
-          style={styles.inputDescription}
-          value={data?.nameWord}
-          multiline={true}
-          onChangeText={(text) => {
-            handleTextDescription(text);
-          }}
-        ></TextInput>
-      </ScrollView> */}
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
       <Pressable
