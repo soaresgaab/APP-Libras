@@ -73,10 +73,19 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushAddSignalById(data);
-    result.data;
-    setModalVisible(true);
+    try {
+      const result = await pushUpdateWordById(data);
+      if (result.status === 200) {
+        setModalVisible(true);
+      } else {
+        alert("Erro ao salvar as alterações.");
+      }
+    } catch (error) {
+      console.error("Erro ao atualizar:", error);
+      alert("Falha ao atualizar a sugestão.");
+    }
   }
+
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({

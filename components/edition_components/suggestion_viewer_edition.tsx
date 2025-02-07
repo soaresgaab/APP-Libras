@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginTop: 5,
+    marginTop: 40,
     alignSelf: 'center',
     width: 350,
     paddingLeft: 14,
