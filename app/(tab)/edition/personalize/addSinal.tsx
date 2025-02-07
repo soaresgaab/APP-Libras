@@ -30,6 +30,7 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
+import { pushUpdateSuggestionById } from '@/utils/axios/Suggestion/pushUpdateSuggestionById';
 import { TypeLibrasDataSuggestion } from '@/@types/LibrasData';
 import DropDownPicker from 'react-native-dropdown-picker';
 
@@ -73,17 +74,9 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    try {
-      const result = await pushUpdateWordById(data);
-      if (result.status === 200) {
-        setModalVisible(true);
-      } else {
-        alert("Erro ao salvar as alterações.");
-      }
-    } catch (error) {
-      console.error("Erro ao atualizar:", error);
-      alert("Falha ao atualizar a sugestão.");
-    }
+    const result = await pushUpdateSuggestionById(data);
+    result.data;
+    setModalVisible(true);
   }
 
   function closeModalAndBack() {

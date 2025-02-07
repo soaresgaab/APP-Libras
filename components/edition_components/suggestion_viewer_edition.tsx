@@ -43,6 +43,7 @@ const SuggestionViewerEdition = ({
   const filteredItems = (data || []).filter((item) =>
     item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
   );
+  console.log(data, filteredItems);
 
   function deleteSuggestion(id: any) {
     console.log(idSelected);
