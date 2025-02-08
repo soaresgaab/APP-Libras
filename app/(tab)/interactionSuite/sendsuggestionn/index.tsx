@@ -77,7 +77,7 @@ function AppWord() {
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/',
+      pathname: '/edition',
     });
   }
 
@@ -404,7 +404,15 @@ function AppWord() {
           <View style={styles.modalContainer}>
             <Text style={styles.modalText}>Envio realizado com sucesso!</Text>
             <Pressable
-              style={styles.modalButton}
+              style={({ pressed }) => [
+                {
+                  backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+                },
+                {
+                  elevation: pressed ? 1 : 6,
+                },
+                styles.modalButton,
+              ]}
               onPress={() => closeModalAndBack()}
             >
               <Text style={styles.modalButtonText}>OK</Text>

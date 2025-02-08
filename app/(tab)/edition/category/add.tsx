@@ -70,7 +70,7 @@ function App() {
 
   function closeModalAndBack() {
     setModalVisible(false);
-    router.push('edition');
+    router.push('/edition');
   }
 
   // ----------------------  Controller data change by input ----------------------------

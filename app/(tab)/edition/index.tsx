@@ -25,8 +25,10 @@ import { BlurView } from 'expo-blur';
 
 const { width, height } = Dimensions.get('window');
 
+
 const isTablet = width >= 768 && height >= 1024;
 const isWeb = width >= 1000 && height >= 617;
+
 
 function App() {
   const [data, setDataFetch] = useState<any[]>();
@@ -224,15 +226,15 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => closeModalAndBack()}
+                    onPress={() => routePush('/interactionSuite/sendsuggestionn')}
                   >
-                    <Ionicons
+                    <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}
-                      name="mail-outline"
+                      name="plus-box-multiple-outline"
                       size={23}
                       color="black"
                     />
-                    <Text style={styles.modalText}>Sugerir Palavras</Text>
+                    <Text style={styles.modalText}>Adicionar Sugestão</Text>
                   </Pressable>
                 </View>
                 <Separator

@@ -256,17 +256,17 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <Text style={styles.headerTitle}>Adicionar Sinal</Text>
+      <Text style={styles.headerTitle}>Adicionar Palavra</Text>
       <Separator marginTopProp={10} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
-      <Text style={styles.labelDescription}>Nome do sinal:</Text>
+      <Text style={styles.labelDescription}>Nome da palavra:</Text>
       {/* ----------------------  form imput  ---------------------------- */}
 
       <TextInput
         style={styles.inputDescription}
         value={data.nameWord}
-        placeholder="Informe um nome para o sinal"
+        placeholder="Informe um nome para a palavra"
         multiline={true}
         onChangeText={(text) => {
           handleNameWord(text);
@@ -275,12 +275,12 @@ function AppWord() {
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
-            <Text style={styles.labelDescription}>Descrição do sinal:</Text>
+            <Text style={styles.labelDescription}>Descrição da palavra:</Text>
 
             <TextInput
               style={styles.inputDescription}
               value={definition.descriptionWordDefinition}
-              placeholder="Informe uma descrição para o sinal"
+              placeholder="Informe uma descrição para a palavra"
               multiline={true}
               onChangeText={(text) => {
                 descriptionSinal(text, 0);
