@@ -90,57 +90,50 @@ function AppWord() {
       );
       return;
     }
+  
+    if (!midiaStorageType) {
+      console.log('🚨 Tipo de mídia não selecionado'); // 🔹 Log para depuração
+      Alert.alert(
+        'Erro',
+        'Por favor, selecione um tipo de mídia antes de salvar.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+  
     let updatedDefinitions = data.wordDefinitions;
+  
     if (midiaStorageType === 'upload') {
       updatedDefinitions = await Promise.all(
-        data?.wordDefinitions!.map(async (definition) => {
-          return {
-            ...definition,
-            fileType: 'image',
-          };
-        }),
+        data.wordDefinitions!.map(async (definition) => ({
+          ...definition,
+          fileType: 'image',
+        }))
       );
-    } else {
-      if (midiaStorageType === 'linkVideo') {
-        console.log('entrou nesse else');
-        updatedDefinitions = await Promise.all(
-          data?.wordDefinitions!.map(async (definition) => {
-            try {
-              return {
-                ...definition,
-                src: youtubeLinkUri,
-                fileType: 'video',
-              };
-            } catch (error) {
-              console.error('Erro no processamento do link:', error);
-              return definition;
-            }
-          }),
-        );
-      }
+    } else if (midiaStorageType === 'linkVideo') {
+      console.log('🎥 Tipo de mídia: linkVideo');
+      updatedDefinitions = await Promise.all(
+        data.wordDefinitions!.map(async (definition) => ({
+          ...definition,
+          src: youtubeLinkUri,
+          fileType: 'video',
+        }))
+      );
     }
+  
     const newData = {
       ...data,
       wordDefinitions: updatedDefinitions,
     };
+  
     setDataFetch(newData as TypeLibrasDataWithId);
-    const result = await pushCreateWordById(newData);
-    setModalVisible(true);
-  }
-
-  function closeModalAndBack() {
-    setModalVisible(false);
-    router.push('/edition');
-  }
-
-  function handleNameWord(text: string) {
-    setDataFetch((prev) => ({ ...prev, nameWord: text }));
-  }
-
-  async function deleteData() {
-    // const result = await pushDeleteCategoryById(data);
-    // (result.status);
-    setModalVisible(true);
+    
+    try {
+      const result = await pushCreateWordById(newData);
+      setModalVisible(true);
+    } catch (error) {
+      Alert.alert('Erro', 'Não foi possível salvar a palavra. Tente novamente.');
+    }
   }
 
   function descriptionSinal(item: string, definitionID: number | undefined) {
