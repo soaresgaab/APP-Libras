@@ -27,7 +27,6 @@ import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategor
 import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';

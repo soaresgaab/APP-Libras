@@ -33,6 +33,7 @@ import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
 import { pushUpdateSuggestionById } from '@/utils/axios/Suggestion/pushUpdateSuggestionById';
 import { TypeLibrasDataSuggestion } from '@/@types/LibrasData';
 import DropDownPicker from 'react-native-dropdown-picker';
+import Separator from '@/components/libras_componentes/separator';
 
 function AppWord() {
   //trocar por TypeLibrasDataSuggestionWithOutId
@@ -175,25 +176,9 @@ function AppWord() {
       >
         Editar Sugestão
       </Text>
-      {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      <Text style={styles.labelDescription}>Nome</Text>
-      <TextInput
-        style={styles.inputDescription}
-        value={data?.nameWord}
-        onChangeText={(text) => {
-          handleTextSuggestion(text);
-        }}
-      ></TextInput>
-      {/* ---------------------- input description Category  ---------------------------- */}
-      <Text style={styles.labelDescription}>Descrição</Text>
-      <TextInput
-        style={styles.inputDescription}
-        value={data?.wordDefinitions?.[0].descriptionWordDefinition}
-        multiline={true}
-        onChangeText={(text) => {
-          handleTextDescription(text);
-        }}
-      ></TextInput>
+
+      <Separator marginTopProp={15} marginBottomProp={10}></Separator>
+
       {/* ---------------------- select image  ---------------------------- */}
       <Pressable
         style={({ pressed }) => [
@@ -216,6 +201,26 @@ function AppWord() {
         transition={1000}
       />
       <View style={{ marginBottom: 60 }}></View>
+
+      {/* ----------------------  Button and icon to exclude  ---------------------------- */}
+      <Text style={styles.labelDescription}>Nome</Text>
+      <TextInput
+        style={styles.inputDescription}
+        value={data?.nameWord}
+        onChangeText={(text) => {
+          handleTextSuggestion(text);
+        }}
+      ></TextInput>
+      {/* ---------------------- input description Category  ---------------------------- */}
+      <Text style={styles.labelDescription}>Descrição</Text>
+      <TextInput
+        style={styles.inputDescription}
+        value={data?.wordDefinitions?.[0].descriptionWordDefinition}
+        multiline={true}
+        onChangeText={(text) => {
+          handleTextDescription(text);
+        }}
+      ></TextInput>
 
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 

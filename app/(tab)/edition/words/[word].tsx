@@ -136,6 +136,13 @@ function AppWord() {
     }
   }
 
+  function closeModalAndBack() {
+      setModalVisible(false);
+      router.push({
+        pathname: '/edition',
+      });
+    }
+
   function descriptionSinal(item: string, definitionID: number | undefined) {
     const newData = {
       ...data,
@@ -198,6 +205,15 @@ function AppWord() {
     searchData();
   }, []);
   // ----------------------  Image Picker function ----------------------------
+
+  function handleNameWord(text: string) {
+      const newData = {
+        ...data,
+        nameWord: text,
+      };
+      setDataFetch(newData as TypeLibrasDataWithId);
+    }
+
   const handleSelectImage = async (itemID: number | undefined) => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();

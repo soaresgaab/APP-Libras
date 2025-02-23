@@ -180,14 +180,25 @@ function App() {
           value={value}
           items={items}
           setOpen={setOpen}
-          setValue={setValue}
+          setValue={(val) => {
+            if (val) {
+              setValue(val); // Atualiza o estado do dropdown
+              setDataFetch((prevData) => ({
+                ...prevData,
+                showInMenu: val === 'sim', // Garante que o estado seja atualizado corretamente
+              }));
+            }
+          }}
           setItems={setItems}
           placeholder="Selecione uma opção"
           style={styles.dropdown}
           dropDownContainerStyle={styles.dropdownContainer}
         />
       </View>
-      {data.showInMenu}
+      <Text>{data.showInMenu ? 'Sim' : 'Não'}</Text> {/* Exibe o valor atualizado */}
+
+
+
 
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
