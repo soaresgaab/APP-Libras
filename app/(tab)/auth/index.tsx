@@ -158,7 +158,7 @@ const App = () => {
 const styles = StyleSheet.create({
   iconClip: {
     marginTop: 5,
-    marginBottom: 15,
+    // marginBottom: 15,
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',

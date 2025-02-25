@@ -77,7 +77,7 @@ export default function CustomDrawerContent(props: any) {
 
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props} style={{ marginTop: -15 }}>
+      <DrawerContentScrollView {...props} style={{ marginTop: -15 }} showsVerticalScrollIndicator={false}>
         <View
           style={{
             paddingTop: 5,
@@ -97,7 +97,7 @@ export default function CustomDrawerContent(props: any) {
           <SVGNameApp />
         </View>
         <DrawerItem
-          icon={() => <Ionicons name="home" size={20}></Ionicons>}
+          icon={() => <Ionicons name="home" size={24}></Ionicons>}
           label={'Página inicial'}
           onPress={() => router.push('/(tab)')}
           style={{
@@ -105,13 +105,14 @@ export default function CustomDrawerContent(props: any) {
             borderTopColor: '#5e6b66',
             borderTopWidth: 1,
             marginTop: 10,
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -12,
+            marginLeft: 0,
           }}
         ></DrawerItem>
         <DrawerItem
-          icon={() => <Ionicons name="mail-unread" size={20}></Ionicons>}
+          icon={() => <Ionicons name="mail-unread" size={24}></Ionicons>}
           label={'Enviar Sugestão'}
           onPress={() => {
             console.log(path);
@@ -122,9 +123,10 @@ export default function CustomDrawerContent(props: any) {
               path == '/interactionSuite/sendsuggestionn'
                 ? '#a4e1cb'
                 : '#edf8f4',
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -12,
+            marginLeft: 0,
           }}
         ></DrawerItem>
         <DrawerItem
@@ -144,56 +146,65 @@ export default function CustomDrawerContent(props: any) {
               path == '/interactionSuite/about' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -15,
+            marginLeft: 0,
           }}
         ></DrawerItem>
         <DrawerItem
-          icon={() => <SvgCamara />}
+          icon={() =>( 
+          <View style={{marginLeft: -10}}>
+            <SvgCamara />
+          </View>)}
           label={'Camara Municipal de Marabá'}
           onPress={() => {
             router.push('/screensCategory/camara');
           }}
           style={{
-            marginLeft: -0,
+            // marginLeft: -13,
+            // marginRight: 23,
+            // paddingRight: 10,
             backgroundColor:
               path == '/screensCategory/camara' ? '#a4e1cb' : '#edf8f4',
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -25,
+            marginLeft: -7,
           }}
         ></DrawerItem>
         <DrawerItem
           icon={() => (
-            <MaterialCommunityIcons name="map-marker" size={28} color="black" />
+            <MaterialCommunityIcons name="map-marker" size={27} color="black" />
           )}
           label={'Bairros'}
           onPress={() => {
             router.push('/screensCategory/bairros');
           }}
           style={{
-            marginLeft: 8,
+            
             backgroundColor: path == '/bairros' ? '#a4e1cb' : '#edf8f4',
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -16,
+            marginLeft: -4,
           }}
         ></DrawerItem>
         <DrawerItem
-          icon={() => <SvgVila />}
+          icon={() => (<View style={{marginLeft:-10}}><SvgVila /></View>)}
           label={'Vilas'}
           onPress={() => {
             router.push('/screensCategory/vilas');
           }}
           style={{
-            marginLeft: 2,
+            // marginLeft: 2,
             backgroundColor: path == '/vilas' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -23,
+            marginLeft: -6,
           }}
         ></DrawerItem>
         <DrawerItem
@@ -210,14 +221,15 @@ export default function CustomDrawerContent(props: any) {
           }}
           style={{
             backgroundColor: path == '/alfabeto' ? '#a4e1cb' : '#edf8f4',
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -15,
+            marginLeft: -2,
           }}
         ></DrawerItem>
 
         <DrawerItem
-          icon={() => <SvgExpressaoRegional />}
+          icon={() => <View style={{marginLeft:-10}}><SvgExpressaoRegional /></View>}
           label={'Expressões Regionais'}
           onPress={() => {
             router.push('/screensCategory/expressoesregionais');
@@ -228,9 +240,10 @@ export default function CustomDrawerContent(props: any) {
               path == '/screensCategory/expressoesregionais'
                 ? '#a4e1cb'
                 : '#edf8f4',
+              borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -25,
+            marginLeft: -7,
           }}
         ></DrawerItem>
 
@@ -244,9 +257,10 @@ export default function CustomDrawerContent(props: any) {
             backgroundColor: path == '/saudacoes' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -15,
+            marginLeft: 0,
           }}
         ></DrawerItem>
 
@@ -257,34 +271,36 @@ export default function CustomDrawerContent(props: any) {
             router.push('/screensCategory/numeros');
           }}
           style={{
-            marginLeft: 15,
+            // marginLeft: 15,
             backgroundColor: path == '/numeros' ? '#a4e1cb' : '#edf8f4',
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -15,
+            marginLeft: 3,
           }}
         ></DrawerItem>
 
         <DrawerItem
-          icon={() => <Octicons name="number" size={20} color="black" />}
+          icon={() => <Octicons name="number" size={24} color="black" />}
           label={'Matemática'}
           onPress={() => {
             router.push('/screensCategory/matematica');
           }}
           style={{
-            marginLeft: 15,
+            // marginLeft: 15,
             backgroundColor: path == '/matematica' ? '#a4e1cb' : '#edf8f4',
             borderBottomColor: '#5e6b66',
             borderBottomWidth: 1,
+            borderRadius: 5,
           }}
           labelStyle={{
-            marginLeft: -15,
+            marginLeft: 0,
           }}
         ></DrawerItem>
 
         {labelLogout ? (
           <DrawerItem
-            icon={() => <Feather name="edit" size={20} color="black" />}
+            icon={() => (<View><Feather name="edit" size={20} color="black" /></View>)}
             label={'Personalizar'}
             onPress={() => {
               router.push('/edition');
@@ -293,7 +309,7 @@ export default function CustomDrawerContent(props: any) {
               backgroundColor: path == '/edition' ? '#a4e1cb' : '#edf8f4',
             }}
             labelStyle={{
-              marginLeft: -15,
+              marginLeft: -3,
             }}
           ></DrawerItem>
         ) : null}

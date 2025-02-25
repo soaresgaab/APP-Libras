@@ -104,7 +104,7 @@ function RootLayoutNav() {
             headerTitleAlign: 'center',
             // headerTintColor: 'black',
             headerShadowVisible: false,
-            headerStatusBarHeight: isWeb ? 0 : isTablet ? 100 : 26,
+            headerStatusBarHeight: isWeb ? 0 : isTablet ? 100 : 0,
             // headerLeftLabelVisible: false,
             headerTintColor: 'black',
             // headerPressColor: 'red',
