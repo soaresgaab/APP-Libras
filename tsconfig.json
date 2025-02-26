@@ -9,6 +9,7 @@
     }
   },
   "include": [
+    "eslint.config.mjs",
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
