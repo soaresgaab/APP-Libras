@@ -128,9 +128,7 @@ function App() {
       <Text style={styles.headerTitle}>Editar Categoria</Text>
       <Separator marginTopProp={15} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      
       {/* ----------------------  form imput  ---------------------------- */}
-
       {/* ---------------------- input img Category  ---------------------------- */}
       <Pressable
         style={({ pressed }) => [
@@ -170,9 +168,7 @@ function App() {
           handleTextDescription(text);
         }}
       ></TextInput>
-
       {/* ---------------------- create shortcut on main screen?  ---------------------------- */}
-      
       <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
       <View style={styles.selectContainer}>
         <DropDownPicker
@@ -195,13 +191,9 @@ function App() {
           dropDownContainerStyle={styles.dropdownContainer}
         />
       </View>
-      <Text>{data.showInMenu ? 'Sim' : 'Não'}</Text> {/* Exibe o valor atualizado */}
-
-
-
-
+      <Text>{data.showInMenu ? 'Sim' : 'Não'}</Text>{' '}
+      {/* Exibe o valor atualizado */}
       {/* ---------------------- buttons to create Category  ---------------------------- */}
-
       <Pressable
         style={({ pressed }) => [
           {

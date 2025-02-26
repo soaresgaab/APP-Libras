@@ -25,10 +25,8 @@ import { BlurView } from 'expo-blur';
 
 const { width, height } = Dimensions.get('window');
 
-
 const isTablet = width >= 768 && height >= 1024;
 const isWeb = width >= 1000 && height >= 617;
-
 
 function App() {
   const [data, setDataFetch] = useState<any[]>();
@@ -226,7 +224,9 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => routePush('/interactionSuite/sendsuggestionn')}
+                    onPress={() =>
+                      routePush('/interactionSuite/sendsuggestionn')
+                    }
                   >
                     <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}

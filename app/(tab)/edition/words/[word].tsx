@@ -90,25 +90,25 @@ function AppWord() {
       );
       return;
     }
-  
+
     if (!midiaStorageType) {
       console.log('🚨 Tipo de mídia não selecionado'); // 🔹 Log para depuração
       Alert.alert(
         'Erro',
         'Por favor, selecione um tipo de mídia antes de salvar.',
-        [{ text: 'OK' }]
+        [{ text: 'OK' }],
       );
       return;
     }
-  
+
     let updatedDefinitions = data.wordDefinitions;
-  
+
     if (midiaStorageType === 'upload') {
       updatedDefinitions = await Promise.all(
         data.wordDefinitions!.map(async (definition) => ({
           ...definition,
           fileType: 'image',
-        }))
+        })),
       );
     } else if (midiaStorageType === 'linkVideo') {
       console.log('🎥 Tipo de mídia: linkVideo');
@@ -117,31 +117,34 @@ function AppWord() {
           ...definition,
           src: youtubeLinkUri,
           fileType: 'video',
-        }))
+        })),
       );
     }
-  
+
     const newData = {
       ...data,
       wordDefinitions: updatedDefinitions,
     };
-  
+
     setDataFetch(newData as TypeLibrasDataWithId);
-    
+
     try {
       const result = await pushCreateWordById(newData);
       setModalVisible(true);
     } catch (error) {
-      Alert.alert('Erro', 'Não foi possível salvar a palavra. Tente novamente.');
+      Alert.alert(
+        'Erro',
+        'Não foi possível salvar a palavra. Tente novamente.',
+      );
     }
   }
 
   function closeModalAndBack() {
-      setModalVisible(false);
-      router.push({
-        pathname: '/edition',
-      });
-    }
+    setModalVisible(false);
+    router.push({
+      pathname: '/edition',
+    });
+  }
 
   function descriptionSinal(item: string, definitionID: number | undefined) {
     const newData = {
@@ -207,12 +210,12 @@ function AppWord() {
   // ----------------------  Image Picker function ----------------------------
 
   function handleNameWord(text: string) {
-      const newData = {
-        ...data,
-        nameWord: text,
-      };
-      setDataFetch(newData as TypeLibrasDataWithId);
-    }
+    const newData = {
+      ...data,
+      nameWord: text,
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
 
   const handleSelectImage = async (itemID: number | undefined) => {
     const permissionResult =

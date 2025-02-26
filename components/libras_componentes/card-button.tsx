@@ -36,7 +36,11 @@ export const CardButton = ({
             isLongLabel && { marginBottom: 0 }, // Adiciona marginBottom se label for longa
           ]}
         >
-          {<SVGSinaisImageByCategory imageSource={img}></SVGSinaisImageByCategory>}
+          {
+            <SVGSinaisImageByCategory
+              imageSource={img}
+            ></SVGSinaisImageByCategory>
+          }
         </View>
         <View style={styles.separator}></View>
         <Text style={[styles.label, isLongLabel && { marginTop: 9 }]}>

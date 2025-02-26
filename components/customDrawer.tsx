@@ -77,7 +77,11 @@ export default function CustomDrawerContent(props: any) {
 
   return (
     <View style={{ flex: 1 }}>
-      <DrawerContentScrollView {...props} style={{ marginTop: -15 }} showsVerticalScrollIndicator={false}>
+      <DrawerContentScrollView
+        {...props}
+        style={{ marginTop: -15 }}
+        showsVerticalScrollIndicator={false}
+      >
         <View
           style={{
             paddingTop: 5,
@@ -153,10 +157,11 @@ export default function CustomDrawerContent(props: any) {
           }}
         ></DrawerItem>
         <DrawerItem
-          icon={() =>( 
-          <View style={{marginLeft: -10}}>
-            <SvgCamara />
-          </View>)}
+          icon={() => (
+            <View style={{ marginLeft: -10 }}>
+              <SvgCamara />
+            </View>
+          )}
           label={'Camara Municipal de Marabá'}
           onPress={() => {
             router.push('/screensCategory/camara');
@@ -182,7 +187,6 @@ export default function CustomDrawerContent(props: any) {
             router.push('/screensCategory/bairros');
           }}
           style={{
-            
             backgroundColor: path == '/bairros' ? '#a4e1cb' : '#edf8f4',
             borderRadius: 5,
           }}
@@ -191,7 +195,11 @@ export default function CustomDrawerContent(props: any) {
           }}
         ></DrawerItem>
         <DrawerItem
-          icon={() => (<View style={{marginLeft:-10}}><SvgVila /></View>)}
+          icon={() => (
+            <View style={{ marginLeft: -10 }}>
+              <SvgVila />
+            </View>
+          )}
           label={'Vilas'}
           onPress={() => {
             router.push('/screensCategory/vilas');
@@ -229,7 +237,11 @@ export default function CustomDrawerContent(props: any) {
         ></DrawerItem>
 
         <DrawerItem
-          icon={() => <View style={{marginLeft:-10}}><SvgExpressaoRegional /></View>}
+          icon={() => (
+            <View style={{ marginLeft: -10 }}>
+              <SvgExpressaoRegional />
+            </View>
+          )}
           label={'Expressões Regionais'}
           onPress={() => {
             router.push('/screensCategory/expressoesregionais');
@@ -240,7 +252,7 @@ export default function CustomDrawerContent(props: any) {
               path == '/screensCategory/expressoesregionais'
                 ? '#a4e1cb'
                 : '#edf8f4',
-              borderRadius: 5,
+            borderRadius: 5,
           }}
           labelStyle={{
             marginLeft: -7,
@@ -300,7 +312,11 @@ export default function CustomDrawerContent(props: any) {
 
         {labelLogout ? (
           <DrawerItem
-            icon={() => (<View><Feather name="edit" size={20} color="black" /></View>)}
+            icon={() => (
+              <View>
+                <Feather name="edit" size={20} color="black" />
+              </View>
+            )}
             label={'Personalizar'}
             onPress={() => {
               router.push('/edition');
