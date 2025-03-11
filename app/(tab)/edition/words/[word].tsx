@@ -42,9 +42,10 @@ import ImageModal from '@/module/Image-modal';
 import { RadioButton } from 'react-native-paper';
 import Separator from '@/components/libras_componentes/separator';
 import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
-const isWeb = width >= 1000 && height >= 617;
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 function AppWord() {
   const [youtubeLinkUri, setYoutubeLinkUri] = useState<string | undefined>('');
@@ -52,10 +53,12 @@ function AppWord() {
     'upload' | 'linkVideo' | null
   >(null);
 
-  const [data, setDataFetch] = useState<TypeLibrasDataWithOutId>({
+  const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
+    _id: undefined,
     nameWord: '',
     wordDefinitions: [
       {
+        _id: undefined,
         descriptionWordDefinition: '',
         src: '',
         fileType: '',
@@ -132,6 +135,7 @@ function AppWord() {
       const result = await pushCreateWordById(newData);
       setModalVisible(true);
     } catch (error) {
+      console.log(error);
       Alert.alert(
         'Erro',
         'Não foi possível salvar a palavra. Tente novamente.',
@@ -159,7 +163,6 @@ function AppWord() {
         return definition;
       }),
     };
-    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
@@ -227,7 +230,7 @@ function AppWord() {
 
     const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ['images'],
         allowsEditing: true,
         // aspect: [4, 4],
         quality: 0.2,
@@ -308,7 +311,7 @@ function AppWord() {
                 style={{
                   fontSize: 18,
                   borderRadius: 10,
-                  paddingVertical: 10,
+                  paddingVertical: isWeb ? 10 : 0,
                   paddingHorizontal: 5,
                   borderWidth: 1,
                 }}
@@ -477,9 +480,7 @@ function AppWord() {
           style={styles.modalOverlay}
         >
           <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>
-              Alteração realizada com sucesso!
-            </Text>
+            <Text style={styles.modalText}>Palvra criada com sucesso!</Text>
             <Pressable
               style={styles.modalButton}
               onPress={() => closeModalAndBack()}
@@ -501,7 +502,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   headerTitle: {
-    marginTop: isWeb ? 70 : 90,
+    marginTop: isWeb ? 90 : 70,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 26,

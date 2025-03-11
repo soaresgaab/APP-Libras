@@ -20,7 +20,6 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useColorScheme } from '@/components/useColorScheme';
 import { RenderLeftHeader } from '@/components/libras_componentes/icon-left-header';
-import Color from 'color';
 import SVGNameApp from '@/components/libras_componentes/name-app';
 import ImageModal from '@/module/Image-modal';
 import imageLogo from '@/assets/images/logoNoBackground.png';
@@ -100,7 +99,7 @@ function RootLayoutNav() {
               backgroundColor: '#ffffff00',
             },
             headerTransparent: true,
-            unmountOnBlur: true,
+            // unmountOnBlur: true,
             headerTitleAlign: 'center',
             // headerTintColor: 'black',
             headerShadowVisible: false,
@@ -138,9 +137,9 @@ function RootLayoutNav() {
               borderBottomEndRadius: 0,
               // marginHorizontal: '10%',
             },
-            sceneContainerStyle: {
-              // backgroundColor: 'red',
-            },
+            // sceneContainerStyle: {
+            //   // backgroundColor: 'red',
+            // },
             // drawerContentStyle: {
             //   backgroundColor: 'red',
             // },

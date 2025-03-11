@@ -36,16 +36,28 @@ function App() {
     setDataFetch(response.data);
   }
 
+  function onRefreshing() {
+    setRefreshing(true);
+    searchData();
+    setRefreshing(false);
+  }
+
   useEffect(() => {
     // fetchData();
+    setRefreshing(true);
     searchData();
+    setRefreshing(false);
   }, []);
 
   return (
     <ScrollView
       style={styles.container}
       refreshControl={
-        <RefreshControl refreshing={false} progressViewOffset={70} />
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={onRefreshing}
+          progressViewOffset={70}
+        />
       }
     >
       <View style={{ marginTop: isTablet ? 134 : 92 }}></View>
@@ -123,7 +135,6 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   headerTitle: {
-    marginTop: 10,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 26,

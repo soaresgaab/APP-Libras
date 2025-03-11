@@ -25,7 +25,6 @@ import {
   MaterialCommunityIcons,
   Octicons,
 } from '@expo/vector-icons';
-import Color from 'color';
 import { Link, useTheme } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
@@ -323,6 +322,7 @@ export default function CustomDrawerContent(props: any) {
             }}
             style={{
               backgroundColor: path == '/edition' ? '#a4e1cb' : '#edf8f4',
+              borderRadius: 5,
             }}
             labelStyle={{
               marginLeft: -3,

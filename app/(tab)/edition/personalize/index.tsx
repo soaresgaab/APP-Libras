@@ -40,7 +40,7 @@ function App() {
 
   function routePush(id: number) {
     router.push({
-      pathname: '/editionwords/[words]',
+      pathname: '/editionwords/[id]',
       params: { id: `${id}` },
     });
   }

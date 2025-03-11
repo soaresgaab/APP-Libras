@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginTop: 40,
+    marginTop: isWeb ? 40 : 15,
     alignSelf: 'center',
     width: 350,
     paddingLeft: 14,

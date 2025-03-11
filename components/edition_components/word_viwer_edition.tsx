@@ -20,11 +20,11 @@ import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
 import Separator from '../libras_componentes/separator';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
-const isWeb = width >= 1000 && height >= 617;
+const { isPhone, isWeb, isTablet } = useDeviceType();
 
 const WordViewerEdition = ({
   data,
@@ -167,7 +167,8 @@ const WordViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(), closeModal();
+                      handleDelete();
+                      closeModal();
                     }}
                   >
                     <MaterialCommunityIcons
@@ -229,7 +230,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginTop: 40,
+    marginTop: isWeb ? 40 : 15,
     alignSelf: 'center',
     width: 350,
     paddingLeft: 14,

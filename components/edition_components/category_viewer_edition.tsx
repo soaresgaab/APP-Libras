@@ -28,15 +28,11 @@ import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
 import Id from '@/app/(tab)/edition/category/[id]';
 import category from '@/app/(tab)/edition/category';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
-const isWeb = width >= 1000 && height >= 617;
-
-// const handleSelectItem = (id) => {
-//   setIdSelected(id); // Define o ID do item selecionado
-// };
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 const CategoryViewerEdition = ({
   data,
@@ -57,7 +53,7 @@ const CategoryViewerEdition = ({
     setSelectedId(id);
   }
 
-  function closeModalAndBack() {
+  function closeModal() {
     setModalVisible(false);
   }
 
@@ -154,7 +150,7 @@ const CategoryViewerEdition = ({
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <TouchableWithoutFeedback onPress={() => closeModalAndBack()}>
+        <TouchableWithoutFeedback onPress={() => closeModal()}>
           <BlurView
             tint={'systemChromeMaterialDark'}
             intensity={60}
@@ -173,7 +169,7 @@ const CategoryViewerEdition = ({
                     ]}
                     onPress={() => {
                       editCategory(idSelected);
-                      closeModalAndBack();
+                      closeModal();
                     }}
                   >
                     <FontAwesome
@@ -192,7 +188,8 @@ const CategoryViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(), closeModalAndBack();
+                      handleDelete();
+                      closeModal();
                     }}
                   >
                     <MaterialCommunityIcons
@@ -217,7 +214,7 @@ const CategoryViewerEdition = ({
                       styles.modalButtonClose,
                       pressed && styles.modalButtonCloseOnPress,
                     ]}
-                    onPress={() => closeModalAndBack()}
+                    onPress={() => closeModal()}
                   >
                     <Ionicons
                       name="close-circle-outline"
@@ -278,7 +275,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginTop: 40,
+    marginTop: isWeb ? 40 : 15,
     alignSelf: 'center',
     width: 350,
     paddingLeft: 14,

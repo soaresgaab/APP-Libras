@@ -8,6 +8,7 @@ import {
   Button,
   Modal,
   Dimensions,
+  FlatList,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -29,11 +30,11 @@ import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategor
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import DropDownPicker from 'react-native-dropdown-picker';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
-const isWeb = width >= 1000 && height >= 617;
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 function App() {
   const [data, setDataFetch] = useState<TypeCategory>({
@@ -63,7 +64,7 @@ function App() {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [4, 4],
       quality: 0.2,
@@ -79,10 +80,16 @@ function App() {
     }
   };
 
+  const handleValueChange = (newValue: any) => {
+    setDataFetch((prevData) => ({
+      ...prevData,
+      showInMenu: newValue === 'sim',
+    }));
+  };
+
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushUpdateCategoryById(data);
-    result.status;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -94,7 +101,6 @@ function App() {
 
   async function deleteData() {
     const result = await pushDeleteCategoryById(data);
-    result.status;
     setModalVisible(true);
   }
 
@@ -118,108 +124,108 @@ function App() {
     setDataFetch(newData);
   }
   // ----------------------  start of component return  ----------------------------
+  const renderItem = ({ item }: any) => {
+    return (
+      <View>
+        {/* ----------------------  Button and icon to exclude  ---------------------------- */}
+        {/* ----------------------  form imput  ---------------------------- */}
+        {/* ---------------------- input img Category  ---------------------------- */}
+        <Pressable
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+            },
+            styles.button,
+          ]}
+          onPress={() => handleSelectImage()}
+        >
+          <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
+        </Pressable>
+        <Image
+          style={styles.image}
+          source={{
+            uri: `data:image/jpeg;base64,${data.imgCategory}`,
+          }}
+          contentFit="cover"
+        />
+        <View style={{ marginBottom: 60 }}></View>
+        {/* ---------------------- input name Category  ---------------------------- */}
+        <Text style={styles.labelCategory}>Nome</Text>
+        <TextInput
+          style={styles.inputCategory}
+          value={data?.nameCategory}
+          onChangeText={(text) => {
+            handleTextCategory(text);
+          }}
+        ></TextInput>
+        {/* ---------------------- input description Category  ---------------------------- */}
+        <Text style={styles.labelDescription}>Descrição</Text>
+        <TextInput
+          style={styles.inputDescription}
+          value={data?.descriptionCategory}
+          multiline={true}
+          onChangeText={(text) => {
+            handleTextDescription(text);
+          }}
+        ></TextInput>
+        {/* ---------------------- create shortcut on main screen?  ---------------------------- */}
+        <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
+        <View style={styles.selectContainer}>
+          <DropDownPicker
+            open={open}
+            value={value}
+            items={items}
+            setOpen={setOpen}
+            onChangeValue={handleValueChange}
+            setValue={setValue}
+            setItems={setItems}
+            placeholder="Selecione uma opção"
+            style={styles.dropdown}
+            dropDownContainerStyle={styles.dropdownContainer}
+          />
+        </View>
+        {/* <Text>{data.showInMenu ? 'true' : 'false'}</Text> */}
+        {/* Exibe o valor atualizado */}
+        {/* ---------------------- buttons to create Category  ---------------------------- */}
+        <Pressable
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed ? '#3d9577' : '#86c7aa',
+            },
+            styles.buttonSalvar,
+          ]}
+          onPress={() => {
+            sendData();
+          }}
+        >
+          <Text style={{ fontSize: 18 }}>Salvar</Text>
+        </Pressable>
+        <Pressable
+          style={({ pressed }) => [
+            {
+              backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+            },
+            styles.buttonCancelar,
+          ]}
+          onPress={() => {
+            router.dismiss(1);
+          }}
+        >
+          <Text style={{ fontSize: 18 }}>Cancelar</Text>
+        </Pressable>
+      </View>
+    );
+  };
+
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={false} progressViewOffset={70} />
-      }
-    >
+    <View style={styles.container}>
       <Text style={styles.headerTitle}>Editar Categoria</Text>
       <Separator marginTopProp={15} marginBottomProp={10}></Separator>
-      {/* ----------------------  Button and icon to exclude  ---------------------------- */}
-      {/* ----------------------  form imput  ---------------------------- */}
-      {/* ---------------------- input img Category  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
-          },
-          styles.button,
-        ]}
-        onPress={() => handleSelectImage(data._id)}
-      >
-        <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
-      </Pressable>
-      <Image
-        style={styles.image}
-        source={{
-          uri: `data:image/jpeg;base64,${data.imgCategory}`,
-        }}
-        contentFit="cover"
+      <FlatList
+        data={[{ key: 'singleItem' }]} // FlatList expects an array of items
+        renderItem={renderItem}
+        keyExtractor={(item) => item.key}
       />
-      <View style={{ marginBottom: 60 }}></View>
-      {/* ---------------------- input name Category  ---------------------------- */}
-      <Text style={styles.labelCategory}>Nome</Text>
-      <TextInput
-        style={styles.inputCategory}
-        value={data?.nameCategory}
-        onChangeText={(text) => {
-          handleTextCategory(text);
-        }}
-      ></TextInput>
-      {/* ---------------------- input description Category  ---------------------------- */}
-      <Text style={styles.labelDescription}>Descrição</Text>
-      <TextInput
-        style={styles.inputDescription}
-        value={data?.descriptionCategory}
-        multiline={true}
-        onChangeText={(text) => {
-          handleTextDescription(text);
-        }}
-      ></TextInput>
-      {/* ---------------------- create shortcut on main screen?  ---------------------------- */}
-      <Text style={styles.labelDescription}>Criar card na tela inicial?</Text>
-      <View style={styles.selectContainer}>
-        <DropDownPicker
-          open={open}
-          value={value}
-          items={items}
-          setOpen={setOpen}
-          setValue={(val) => {
-            if (val) {
-              setValue(val); // Atualiza o estado do dropdown
-              setDataFetch((prevData) => ({
-                ...prevData,
-                showInMenu: val === 'sim', // Garante que o estado seja atualizado corretamente
-              }));
-            }
-          }}
-          setItems={setItems}
-          placeholder="Selecione uma opção"
-          style={styles.dropdown}
-          dropDownContainerStyle={styles.dropdownContainer}
-        />
-      </View>
-      <Text>{data.showInMenu ? 'Sim' : 'Não'}</Text>{' '}
-      {/* Exibe o valor atualizado */}
-      {/* ---------------------- buttons to create Category  ---------------------------- */}
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
-          },
-          styles.buttonSalvar,
-        ]}
-        onPress={() => {
-          sendData();
-        }}
-      >
-        <Text style={{ fontSize: 18 }}>Salvar</Text>
-      </Pressable>
-      <Pressable
-        style={({ pressed }) => [
-          {
-            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
-          },
-          styles.buttonCancelar,
-        ]}
-        onPress={() => {
-          router.dismiss(1);
-        }}
-      >
-        <Text style={{ fontSize: 18 }}>Cancelar</Text>
-      </Pressable>
       {/* ---------------------- confirmation modal ---------------------------- */}
       <Modal
         animationType="fade"
@@ -245,7 +251,7 @@ function App() {
           </View>
         </BlurView>
       </Modal>
-    </ScrollView>
+    </View>
   );
 }
 

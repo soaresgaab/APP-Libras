@@ -61,7 +61,6 @@ function AppWord() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushUpdateWordById(data);
-    result.data;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -77,7 +76,6 @@ function AppWord() {
 
   async function deleteData() {
     const result = await pushDeleteWordById(data);
-    result.status;
     setModalVisible(true);
   }
   async function deleteDataSignal(id: number | undefined) {
@@ -166,7 +164,6 @@ function AppWord() {
         return definition;
       }),
     };
-    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
