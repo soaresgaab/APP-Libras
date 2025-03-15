@@ -28,7 +28,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { Foundation } from '@expo/vector-icons';
 import ImageModal, { ImageDetail } from '@/module/Image-modal';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import YoutubeIframe from 'react-native-youtube-iframe';
+import YoutubeIframe from '@/module/iframe-yt';
 import Separator from '@/components/libras_componentes/separator';
 const { width, height } = Dimensions.get('window');
 
