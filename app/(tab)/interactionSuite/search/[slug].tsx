@@ -124,7 +124,6 @@ function App() {
         },
       );
 
-      (dataResponseItens);
       setData(dataResponseItens);
       return;
     }
@@ -136,7 +135,6 @@ function App() {
   }
   useEffect(() => {
     clearData();
-    (slug);
     searchData();
   }, [slug]);
 

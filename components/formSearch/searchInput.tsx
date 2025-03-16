@@ -11,10 +11,11 @@ import { View } from '@/components/Themed';
 import { Ionicons } from '@expo/vector-icons';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 function SearchInput({ fetchData, setRefreshing }: any) {
   const [search2, setMes] = useState('');
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   container2: {
     flex: 1,
     backgroundColor: '#edf8f4',
-    marginTop: isTablet ? 164 : 112,
+    marginTop: isTablet ? 164 : 75,
     width: 'auto',
     flexDirection: 'row',
     justifyContent: 'center',

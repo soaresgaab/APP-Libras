@@ -30,9 +30,10 @@ import ImageModal, { ImageDetail } from '@/module/Image-modal';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import YoutubeIframe from 'react-native-youtube-iframe';
 import Separator from '@/components/libras_componentes/separator';
+import useDeviceType from '@/hooks/useDeviceType';
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
+const { isPhone, isWeb, isTablet } = useDeviceType();
 
 function App() {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
@@ -43,7 +44,6 @@ function App() {
     const data = await searchByRoute(`word/category/${slug}`).finally(() =>
       setIsLoading(false),
     );
-    data.data;
     setFetchData(data.data);
   }
 
@@ -80,7 +80,7 @@ function App() {
         </View>
       ) : (
         <View style={{ backgroundColor: '#edf8f4' }}>
-          <View style={{ marginTop: 40 }}></View>
+          <View style={{ marginTop: isWeb ? 80 : 80 }}></View>
           <Text
             style={{
               alignSelf: 'center',
