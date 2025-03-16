@@ -14,7 +14,7 @@ import { useEffect, useState } from 'react';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { ActivityIndicator } from 'react-native';
-import YoutubeIframe from '@/module/iframe-yt';
+import YoutubeIframe from 'react-native-youtube-iframe';
 
 const { width, height } = Dimensions.get('window');
 
@@ -33,7 +33,7 @@ export const Libras_container = ({
       setIsLoading(false),
     );
     setFetchData(data.data);
-    console.log(data.data);
+    (data.data);
   }
 
   useEffect(() => {

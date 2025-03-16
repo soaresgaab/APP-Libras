@@ -89,9 +89,9 @@ function AppWord() {
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    console.log('entrou');
+    ('entrou');
     const response = await searchById('suggestion_id', id);
-    console.log(response.data);
+    (response.data);
     setDataFetch(response.data);
   }
 

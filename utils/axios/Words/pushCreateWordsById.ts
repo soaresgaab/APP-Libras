@@ -10,13 +10,13 @@ export async function pushCreateWordById(
   dataWord?: TypeLibrasDataWithId | TypeLibrasDataWithOutId,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
-    console.log(dataWord);
+    (dataWord);
     try {
       const data: AxiosResponse<any> = await axios.post(
         `${process.env.EXPO_PUBLIC_API_URL}/word/`,
         dataWord,
       );
-      console.log('response');
+      ('response');
       resolve(data);
     } catch (error) {
       reject(error);

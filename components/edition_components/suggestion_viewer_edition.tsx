@@ -43,10 +43,10 @@ const SuggestionViewerEdition = ({
   const filteredItems = (data || []).filter((item) =>
     item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
   );
-  console.log(data, filteredItems);
+  data, filteredItems;
 
   function deleteSuggestion(id: any) {
-    console.log(idSelected);
+    idSelected;
     setModalVisible(true);
     setSelectedId(id);
   }
@@ -63,7 +63,7 @@ const SuggestionViewerEdition = ({
           method: 'DELETE',
         },
       );
-      console.log(response);
+      response;
       router.push('/edition');
     } catch (error) {
       console.error('Erro ao deletar palavra', error);

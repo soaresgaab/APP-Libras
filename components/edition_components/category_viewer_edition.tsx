@@ -48,7 +48,7 @@ const CategoryViewerEdition = ({
   );
 
   function deleteCategory(id: number) {
-    console.log(idSelected);
+    (idSelected);
     setModalVisible(true);
     setSelectedId(id);
   }
@@ -65,7 +65,7 @@ const CategoryViewerEdition = ({
           method: 'DELETE',
         },
       );
-      console.log(response);
+      (response);
       router.push('/edition');
     } catch (error) {
       console.error('Erro ao deletar categoria:', error);

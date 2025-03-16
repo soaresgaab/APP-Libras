@@ -13,7 +13,7 @@ import { View } from '../Themed';
 import ImageModal from '@/module/Image-modal/index';
 import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import YoutubeIframe from '@/module/iframe-yt';
+import YoutubeIframe from 'react-native-youtube-iframe';
 
 const { width, height } = Dimensions.get('window');
 

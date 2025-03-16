@@ -40,7 +40,7 @@ const WordViewerEdition = ({
   );
 
   function deleteWord(id: number) {
-    console.log(idSelected);
+    idSelected;
     setModalVisible(true);
     setSelectedId(id);
   }
@@ -56,7 +56,7 @@ const WordViewerEdition = ({
           method: 'DELETE',
         },
       );
-      console.log(response);
+      response;
       router.push('/edition');
     } catch (error) {
       console.error('Erro ao deletar palavra', error);
