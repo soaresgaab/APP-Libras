@@ -29,6 +29,10 @@ export default function TabLayout() {
       <Stack.Screen name="words/addSinal" options={{ headerShown: false }} />
       <Stack.Screen name="words/index" options={{ headerShown: false }} />
       <Stack.Screen name="words/[word]" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="category/dynamicCategory/[slug]"
+        options={{ headerShown: false }}
+      />
     </Stack>
   );
 }

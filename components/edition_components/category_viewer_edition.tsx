@@ -48,7 +48,6 @@ const CategoryViewerEdition = ({
   );
 
   function deleteCategory(id: number) {
-    (idSelected);
     setModalVisible(true);
     setSelectedId(id);
   }
@@ -65,7 +64,6 @@ const CategoryViewerEdition = ({
           method: 'DELETE',
         },
       );
-      (response);
       router.push('/edition');
     } catch (error) {
       console.error('Erro ao deletar categoria:', error);
@@ -76,6 +74,12 @@ const CategoryViewerEdition = ({
     router.push({
       pathname: '/(tab)/edition/category/[id]',
       params: { id: `${id}` },
+    });
+  }
+  function viewCategory(id: string) {
+    router.push({
+      pathname: '/(tab)/edition/category/dynamicCategory/[slug]',
+      params: { slug: `${id}` },
     });
   }
 
@@ -100,9 +104,12 @@ const CategoryViewerEdition = ({
       >
         <View style={[isWeb ? styles.divCategoriesWeb : {}]}>
           {filteredItems?.map((category, index) => (
-            <View
+            <Pressable
               key={index}
               style={[isWeb ? styles.listContainerWeb : styles.listContainer]}
+              onPress={() => {
+                viewCategory(category.nameCategory);
+              }}
             >
               <View style={styles.divImage}>
                 <ImageModal
@@ -139,7 +146,7 @@ const CategoryViewerEdition = ({
                   </Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
           ))}
         </View>
       </ScrollView>

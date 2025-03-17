@@ -234,7 +234,7 @@ export default function CustomDrawerContent(props: any) {
             marginLeft: -2,
           }}
         ></DrawerItem>
-
+        {/* 
         <DrawerItem
           icon={() => (
             <View style={{ marginLeft: -10 }}>
@@ -256,7 +256,7 @@ export default function CustomDrawerContent(props: any) {
           labelStyle={{
             marginLeft: -7,
           }}
-        ></DrawerItem>
+        ></DrawerItem> */}
 
         <DrawerItem
           icon={() => <Ionicons name="hand-left" size={20}></Ionicons>}
