@@ -40,7 +40,6 @@ const WordViewerEdition = ({
   );
 
   function deleteWord(id: number) {
-    idSelected;
     setModalVisible(true);
     setSelectedId(id);
   }
@@ -64,8 +63,8 @@ const WordViewerEdition = ({
 
   function editWord(id: number) {
     router.push({
-      pathname: '/(tab)/edition/personalize/[word]',
-      params: { id: `${id}` },
+      pathname: '/(tab)/edition/words/[name]',
+      params: { name: `${id}` },
     });
   }
 
