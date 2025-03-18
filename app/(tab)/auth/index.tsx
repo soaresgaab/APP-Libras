@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, RefreshControl, Dimensions } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
@@ -8,18 +8,15 @@ import { CoresButton } from '@/components/libras_componentes/cores-button';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
 import * as Crypto from 'expo-crypto';
-const { width, height } = Dimensions.get('window');
-
-const isTablet = width >= 768 && height >= 1024;
-
-import { View } from 'react-native';
-import { TextInput } from 'react-native';
+import { View, TextInput, Pressable } from 'react-native';
 import { Foundation } from '@expo/vector-icons';
-import { Pressable } from 'react-native';
 import { GetToken } from '@/utils/axios/auth/GetToken';
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Separator from '@/components/libras_componentes/separator';
+import Toast, { ToastRef } from 'react-native-toast-notifications';
+
+const { width, height } = Dimensions.get('window');
+const isTablet = width >= 768 && height >= 1024;
 
 const App = () => {
   const [DataUser, setDataUser] = useState({
@@ -28,7 +25,9 @@ const App = () => {
   });
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState('');
-  useEffect(() => {});
+  const toastRef = React.useRef<ToastRef>(null); 
+
+  useEffect(() => {}, []);
 
   async function submitData() {
     const response = await GetToken(DataUser);
@@ -38,10 +37,18 @@ const App = () => {
         ['token', response.data.token],
         ['user', response.data.user],
       ]);
+
+      toastRef.current?.show('Login realizado com sucesso!', {
+        type: 'success',
+        placement: 'top',
+        duration: 2000,
+      });
+
       router.navigate('/');
+    } else {
+      setError('Usuário ou senha incorretos.');
+      setTimeout(() => setError(''), 3000);
     }
-    setError('Usuário ou senha incorretos.');
-    setTimeout(() => setError(''), 3000);
   }
 
   async function handleInput(text: string, field: string) {
@@ -151,6 +158,7 @@ const App = () => {
       >
         <Text style={{ fontSize: 18 }}>Entrar</Text>
       </Pressable>
+      <Toast ref={toastRef} />
     </ScrollView>
   );
 };
