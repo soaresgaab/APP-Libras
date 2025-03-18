@@ -61,7 +61,6 @@ function AppWord() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushAddSignalById(data);
-    result.data;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -94,7 +93,6 @@ function AppWord() {
         return definition;
       }),
     };
-    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
@@ -108,9 +106,11 @@ function AppWord() {
   }
 
   function categorySelectNull(item: any) {
+    const idConvert =
+      typeof item._id === 'string' ? parseInt(item._id) : item._id;
     const newData = {
       ...data,
-      _id: id,
+      _id: idConvert,
       wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
         if (index === 0) {
           return {

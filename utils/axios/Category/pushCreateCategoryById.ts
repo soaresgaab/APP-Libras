@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { ProgressTransitionManager } from 'react-native-reanimated/lib/typescript/reanimated2/layoutReanimation';
 import { TypeCategory } from '@/@types/Category';
 
 export async function pushCreateCategoryById(

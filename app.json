@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Libras Sudeste Pará",
-    "slug": "LIbrasSudestePara",
+       "slug": "LIbrasSudesPara",
     "version": "2.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#edf8f4"
       },
-      "package": "com.ericksousa312.LIbrasSudestePara"
+      "package": "com.ericksousa312.LIbrasSudesPara"
     },
     "web": {
       "bundler": "metro",
@@ -42,7 +42,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1c6bb6eb-bce0-46d2-9b60-8d7a036e9462"
+        "projectId": "f6300c6a-3301-4529-a859-d1c20ebe332b"
       }
     }
   }

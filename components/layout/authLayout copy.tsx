@@ -17,7 +17,6 @@ export function LayoutRoot() {
           borderBottomEndRadius: 15,
         },
         headerTransparent: true,
-        unmountOnBlur: true,
         headerTitleAlign: 'center',
         // headerTintColor: 'black',
         headerShadowVisible: false,
@@ -53,9 +52,9 @@ export function LayoutRoot() {
           borderBottomEndRadius: 28,
           // marginHorizontal: '10%',
         },
-        sceneContainerStyle: {
-          backgroundColor: 'red',
-        },
+        // sceneContainerStyle: {
+        //   backgroundColor: 'red',
+        // },
         // drawerContentStyle: {
         //   backgroundColor: 'red',
         // },

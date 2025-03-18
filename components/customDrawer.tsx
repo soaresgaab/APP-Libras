@@ -51,7 +51,6 @@ export default function CustomDrawerContent(props: any) {
   const token = useToken(props);
   const path = usePathname();
   useEffect(() => {
-    path;
     const filterRoutes = () => {
       if (token === null) {
         setLabel(null);
@@ -118,7 +117,6 @@ export default function CustomDrawerContent(props: any) {
           icon={() => <Ionicons name="mail-unread" size={24}></Ionicons>}
           label={'Enviar Sugestão'}
           onPress={() => {
-            path;
             router.push('/interactionSuite/sendsuggestionn');
           }}
           style={{

@@ -10,16 +10,7 @@ import {
 import { ScrollView } from 'react-native-gesture-handler';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
-import { CoresButton } from '@/components/libras_componentes/cores-button';
-import { CardButton } from '@/components/libras_componentes/card-button';
-import { router } from 'expo-router';
-import SearchInput from '@/components/formSearch/searchInput';
-import { searchByRoute } from '@/utils/axios/searchByRote';
-import { SVGSinaisImage } from '@/components/libras_componentes/image-component-home';
-import { SVGSinaisImageByCategory } from '@/components/libras_componentes/image-component-homeByCategory';
-import Separator from '@/components/libras_componentes/separator';
 import { TypeCategory } from '@/@types/Category';
-import { CardsInMenu } from '../../components/libras_componentes/cores-button-dynamic';
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,10 +21,7 @@ function App() {
   const [data, setDataFetch] = useState<TypeCategory[]>();
   const [refreshing, setRefreshing] = useState(true);
 
-  async function searchData() {
-    const response = await searchByRoute('category_showInMenu');
-    setDataFetch(response.data);
-  }
+  async function searchData() {}
 
   function onRefreshing() {
     setRefreshing(true);
@@ -63,30 +51,6 @@ function App() {
       <StatusBar backgroundColor={'black'} barStyle={'light-content'} />
       <Text style={styles.headerTitle}>GLOSSÁRIO DE LIBRAS</Text>
       <Text style={styles.subHeaderTitle}>Região sudeste do Pará</Text>
-
-      <Separator />
-
-      {data ? (
-        <View
-          style={
-            isTablet ? styles.buttonContainerTablet : styles.buttonContainer
-          }
-        >
-          {data.map((item) => {
-            if (item.showInMenu) {
-              return (
-                <View key={item._id}>
-                  <CardsInMenu
-                    routerCategory={item.nameCategory}
-                    imageBase64={item.imgCategory}
-                    label={item.nameCategory}
-                  ></CardsInMenu>
-                </View>
-              );
-            }
-          })}
-        </View>
-      ) : null}
 
       <View
         style={isTablet ? styles.buttonContainerTablet : styles.buttonContainer}

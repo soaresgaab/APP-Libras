@@ -3,9 +3,9 @@
   "main": "expo-router/entry",
   "version": "1.0.0",
   "scripts": {
-    "start": "expo start",
-    "android": "expo run:android",
-    "ios": "expo run:ios",
+    "start": "npx expo start",
+    "rebuild": "npx expo start -c",
+    "tunnel": "npx expo start --tunnel -c",
     "web": "expo start --web",
     "test": "jest --watchAll"
   },

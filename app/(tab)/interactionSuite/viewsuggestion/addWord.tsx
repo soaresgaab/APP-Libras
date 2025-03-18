@@ -55,7 +55,6 @@ function AppWord() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushCreateWordById(data);
-    result.data;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -152,7 +151,6 @@ function AppWord() {
         return definition;
       }),
     };
-    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
