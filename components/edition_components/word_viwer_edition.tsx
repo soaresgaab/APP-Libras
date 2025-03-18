@@ -35,10 +35,11 @@ const WordViewerEdition = ({
   const [idSelected, setSelectedId] = useState(0);
 
   const [filter, setFilter] = useState<string>('');
-  const filteredItems = (data || []).filter((item) =>
-    item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
-  );
-
+  const filteredItems = (data || []).filter((item) => {
+    if (item) {
+      return item.nameWord?.toLowerCase().includes(filter.toLowerCase());
+    }
+  });
   function deleteWord(id: number) {
     setModalVisible(true);
     setSelectedId(id);

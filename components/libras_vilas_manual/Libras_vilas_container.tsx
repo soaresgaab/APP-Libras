@@ -24,7 +24,7 @@ export const Libras_vilas_container = ({}): React.ReactNode => {
   const [isLoading, setIsLoading] = useState(true);
 
   async function SearchData() {
-    const data = await searchByRoute('word/category/Bairro').finally(() =>
+    const data = await searchByRoute('word/category/Vilas').finally(() =>
       setIsLoading(false),
     );
     setFetchData(data.data);

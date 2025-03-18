@@ -40,13 +40,13 @@ const SuggestionViewerEdition = ({
   const [idSelected, setSelectedId] = useState(0);
 
   const [filter, setFilter] = useState<string>('');
-  const filteredItems = (data || []).filter((item) =>
-    item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
-  );
-  data, filteredItems;
+  const filteredItems = (data || []).filter((item) => {
+    if (item) {
+      return item.nameWord?.toLowerCase().includes(filter.toLowerCase());
+    }
+  });
 
   function deleteSuggestion(id: any) {
-    idSelected;
     setModalVisible(true);
     setSelectedId(id);
   }

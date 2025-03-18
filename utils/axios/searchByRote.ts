@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from 'axios';
-import { ProgressTransitionManager } from 'react-native-reanimated/lib/typescript/reanimated2/layoutReanimation';
 
 export async function searchByRoute(
   route: string | string[],
@@ -10,7 +9,6 @@ export async function searchByRoute(
       const data: AxiosResponse<any> = await axios.get(
         `${process.env.EXPO_PUBLIC_API_URL}/${route}`,
       );
-      (data.data);
       resolve(data);
     } catch (error) {
       reject(error);

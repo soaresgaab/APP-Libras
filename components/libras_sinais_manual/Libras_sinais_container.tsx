@@ -27,6 +27,7 @@ export const Libras_sinais_container = ({}): React.ReactNode => {
     const data = await searchByRoute('word/category/Bairro').finally(() =>
       setIsLoading(false),
     );
+    console.log(data.data);
     setFetchData(data.data);
   }
 
