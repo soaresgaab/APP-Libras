@@ -1,13 +1,13 @@
 import axios, { AxiosResponse } from 'axios';
-import { ProgressTransitionManager } from 'react-native-reanimated/lib/typescript/reanimated2/layoutReanimation';
 import { TypeCategory } from '@/@types/Category';
 import {
   TypeLibrasData,
+  TypeLibrasDataSuggestion,
   TypeLibrasDataWithId,
 } from '../../../@types/LibrasData';
 
 export async function pushUpdateSuggestionById(
-  dataWord?: TypeLibrasDataWithId,
+  dataWord?: TypeLibrasDataSuggestion,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {

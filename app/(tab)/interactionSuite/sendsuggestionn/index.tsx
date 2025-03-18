@@ -34,7 +34,6 @@ import { Picker } from '@react-native-picker/picker';
 import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';
-import Joyride, { STATUS } from 'react-joyride';
 import Separator from '@/components/libras_componentes/separator';
 
 const { width, height } = Dimensions.get('window');
@@ -52,6 +51,7 @@ function AppWord() {
         _id: undefined,
         descriptionWordDefinition: '',
         src: '',
+        fileType: 'image',
         category: undefined,
       },
     ],
@@ -69,9 +69,26 @@ function AppWord() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     setLoading(true);
-    const result = await pushCreateSuggestionById(data);
+    const dataUpdate = {
+      ...data,
+      wordDefinitions: [{ ...data.wordDefinitions![0], fileType: 'image' }],
+    };
+    const result = await pushCreateSuggestionById(dataUpdate);
+    setDataFetch({
+      _id: undefined,
+      emailContact: '',
+      nameWord: '',
+      wordDefinitions: [
+        {
+          _id: undefined,
+          descriptionWordDefinition: '',
+          src: '',
+          fileType: 'image',
+          category: undefined,
+        },
+      ],
+    });
     setLoading(false);
-    result.data;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -171,7 +188,6 @@ function AppWord() {
         return definition;
       }),
     };
-    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 

@@ -76,7 +76,6 @@ function AppWord() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushUpdateSuggestionById(data);
-    result.data;
     setModalVisible(true);
   }
 
@@ -91,7 +90,6 @@ function AppWord() {
   async function searchData() {
     ('entrou');
     const response = await searchById('suggestion_id', id);
-    (response.data);
     setDataFetch(response.data);
   }
 

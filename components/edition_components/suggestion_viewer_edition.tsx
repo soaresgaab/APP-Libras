@@ -63,7 +63,6 @@ const SuggestionViewerEdition = ({
           method: 'DELETE',
         },
       );
-      response;
       router.push('/edition');
     } catch (error) {
       console.error('Erro ao deletar palavra', error);
@@ -72,8 +71,8 @@ const SuggestionViewerEdition = ({
 
   function editSuggestion(id: number) {
     router.push({
-      pathname: '/(tab)/edition/personalize/addSinal',
-      params: { id: `${id}` },
+      pathname: '/(tab)/edition/personalize/view/[suggestion]',
+      params: { suggestion: `${id}` },
     });
   }
 
@@ -185,7 +184,8 @@ const SuggestionViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(), closeModal();
+                      handleDelete();
+                      closeModal();
                     }}
                   >
                     <MaterialCommunityIcons

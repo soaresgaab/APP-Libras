@@ -57,6 +57,7 @@ function App() {
 
   function routePush(route: RelativePathString | ExternalPathString | Route) {
     setModalVisible(false);
+    console.log(route);
     router.push(route);
   }
 
@@ -211,7 +212,7 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => routePush('/edition/words/[word]')}
+                    onPress={() => routePush('/edition/words/createWord')}
                   >
                     <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}

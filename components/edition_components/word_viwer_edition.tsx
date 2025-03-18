@@ -56,7 +56,7 @@ const WordViewerEdition = ({
           method: 'DELETE',
         },
       );
-      router.push('/edition');
+      router.replace('/edition');
     } catch (error) {
       console.error('Erro ao deletar palavra', error);
     }
