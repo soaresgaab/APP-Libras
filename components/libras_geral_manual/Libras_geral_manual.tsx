@@ -33,13 +33,14 @@ export const Libras_container = ({
       setIsLoading(false),
     );
     setFetchData(data.data);
+    (data.data);
   }
 
   useEffect(() => {
     SearchData();
   }, []);
 
-  const extractYoutubeVideoId = (url: any) => {
+  const extractYoutubeVideoId = (url) => {
     let videoId = null;
     // Verifica se a URL é do formato longo (youtube.com)
     if (url.includes('youtube.com/watch?v=')) {

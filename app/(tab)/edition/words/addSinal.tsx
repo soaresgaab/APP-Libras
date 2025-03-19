@@ -34,7 +34,7 @@ import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
-    _id: 0,
+    _id: undefined,
     nameWord: 'nada',
     wordDefinitions: [
       {
@@ -61,6 +61,7 @@ function AppWord() {
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
     const result = await pushAddSignalById(data);
+    (result.data);
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -93,6 +94,7 @@ function AppWord() {
         return definition;
       }),
     };
+    (newData);
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
@@ -106,10 +108,9 @@ function AppWord() {
   }
 
   function categorySelectNull(item: any) {
-    const idConverted = typeof id === 'string' ? parseInt(id) : id;
     const newData = {
       ...data,
-      _id: idConverted,
+      _id: id,
       wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
         if (index === 0) {
           return {

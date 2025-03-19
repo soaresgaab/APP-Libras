@@ -95,7 +95,7 @@ function AppWord() {
     }
 
     if (!midiaStorageType) {
-      // ('🚨 Tipo de mídia não selecionado'); // 🔹 Log para depuração
+      ('🚨 Tipo de mídia não selecionado'); // 🔹 Log para depuração
       Alert.alert(
         'Erro',
         'Por favor, selecione um tipo de mídia antes de salvar.',
@@ -114,7 +114,7 @@ function AppWord() {
         })),
       );
     } else if (midiaStorageType === 'linkVideo') {
-      // ('🎥 Tipo de mídia: linkVideo');
+      ('🎥 Tipo de mídia: linkVideo');
       updatedDefinitions = await Promise.all(
         data.wordDefinitions!.map(async (definition) => ({
           ...definition,
@@ -135,7 +135,7 @@ function AppWord() {
       const result = await pushCreateWordById(newData);
       setModalVisible(true);
     } catch (error) {
-      // error;
+      (error);
       Alert.alert(
         'Erro',
         'Não foi possível salvar a palavra. Tente novamente.',

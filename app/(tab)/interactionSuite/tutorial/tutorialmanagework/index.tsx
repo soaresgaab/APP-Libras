@@ -21,6 +21,7 @@ function App() {
 
   async function searchData() {
     const response = await searchByRoute('category_showInMenu');
+    (response.data);
     setDataFetch(response.data);
   }
 
