@@ -20,11 +20,11 @@ import { TypeLibrasDataWithId } from '@/@types/LibrasData';
 import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
 import Separator from '../libras_componentes/separator';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
-const isWeb = width >= 1000 && height >= 617;
+const { isPhone, isWeb, isTablet } = useDeviceType();
 
 const WordViewerEdition = ({
   data,
@@ -35,12 +35,12 @@ const WordViewerEdition = ({
   const [idSelected, setSelectedId] = useState(0);
 
   const [filter, setFilter] = useState<string>('');
-  const filteredItems = (data || []).filter((item) =>
-    item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
-  );
-
+  const filteredItems = (data || []).filter((item) => {
+    if (item) {
+      return item.nameWord?.toLowerCase().includes(filter.toLowerCase());
+    }
+  });
   function deleteWord(id: number) {
-    console.log(idSelected);
     setModalVisible(true);
     setSelectedId(id);
   }
@@ -48,14 +48,6 @@ const WordViewerEdition = ({
   function closeModal() {
     setModalVisible(false);
   }
-
-  function routePush(id: number) {
-    router.push({
-      pathname: '/(editionwords)/[words]',
-      params: { id: `${id}` },
-    });
-  }
-
   async function handleDelete() {
     try {
       const response = await fetch(
@@ -64,8 +56,7 @@ const WordViewerEdition = ({
           method: 'DELETE',
         },
       );
-      console.log(response);
-      router.push('/edition');
+      router.replace('/edition');
     } catch (error) {
       console.error('Erro ao deletar palavra', error);
     }
@@ -73,8 +64,8 @@ const WordViewerEdition = ({
 
   function editWord(id: number) {
     router.push({
-      pathname: '/(tab)/edition/personalize/[word]',
-      params: { id: `${id}` },
+      pathname: '/(tab)/edition/words/[name]',
+      params: { name: `${id}` },
     });
   }
 
@@ -175,7 +166,8 @@ const WordViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(), closeModal();
+                      handleDelete();
+                      closeModal();
                     }}
                   >
                     <MaterialCommunityIcons
@@ -237,7 +229,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginTop: 5,
+    marginTop: isWeb ? 40 : 15,
     alignSelf: 'center',
     width: 350,
     paddingLeft: 14,

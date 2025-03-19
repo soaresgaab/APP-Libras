@@ -10,7 +10,13 @@ import {
 } from 'react-native';
 import { gestureHandlerRootHOC } from 'react-native-gesture-handler';
 import { Text } from '@/components/Themed';
-import { Link, router } from 'expo-router';
+import {
+  ExternalPathString,
+  Link,
+  RelativePathString,
+  Route,
+  router,
+} from 'expo-router';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import {
   AntDesign,
@@ -49,11 +55,10 @@ function App() {
     searchData();
   }, [activeButton]);
 
-  function routePush(route: string) {
+  function routePush(route: RelativePathString | ExternalPathString | Route) {
     setModalVisible(false);
-    router.push({
-      pathname: `${route}`,
-    });
+    console.log(route);
+    router.push(route);
   }
 
   return (
@@ -190,7 +195,7 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => routePush('edition/category/add')}
+                    onPress={() => routePush('/edition/category/add')}
                   >
                     <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}
@@ -207,7 +212,7 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => routePush('edition/words/[word]')}
+                    onPress={() => routePush('/edition/words/createWord')}
                   >
                     <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}
@@ -224,15 +229,17 @@ function App() {
                       styles.modalButton,
                       pressed && styles.modalButtonOnPress,
                     ]}
-                    onPress={() => closeModalAndBack()}
+                    onPress={() =>
+                      routePush('/interactionSuite/sendsuggestionn')
+                    }
                   >
-                    <Ionicons
+                    <MaterialCommunityIcons
                       style={{ alignSelf: 'center' }}
-                      name="mail-outline"
+                      name="plus-box-multiple-outline"
                       size={23}
                       color="black"
                     />
-                    <Text style={styles.modalText}>Sugerir Palavras</Text>
+                    <Text style={styles.modalText}>Adicionar Sugestão</Text>
                   </Pressable>
                 </View>
                 <Separator
@@ -274,7 +281,7 @@ const styles = StyleSheet.create({
     paddingVertical: 0,
   },
   headerTitle: {
-    marginTop: isWeb ? 70 : 90,
+    marginTop: isWeb ? 70 : 80,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 26,

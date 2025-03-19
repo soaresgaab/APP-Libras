@@ -6,13 +6,13 @@ import {
   TypeLibrasDataWithOutId,
 } from '../../../@types/LibrasData';
 
-export async function pushCreateWordById(
+export async function pushCreateWordByIdfull(
   dataWord?: TypeLibrasDataWithId | TypeLibrasDataWithOutId,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
     try {
       const data: AxiosResponse<any> = await axios.post(
-        `${process.env.EXPO_PUBLIC_API_URL}/word/`,
+        `${process.env.EXPO_PUBLIC_API_URL}/word/update`,
         dataWord,
       );
       resolve(data);

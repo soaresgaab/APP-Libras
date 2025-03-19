@@ -70,7 +70,9 @@ const Header = ({
       {children ? (
         children
       ) : (
-        <SafeAreaView style={{ marginTop: isTranslucent ? StatusBar.currentHeight : 0 }}>
+        <SafeAreaView
+          style={{ marginTop: isTranslucent ? StatusBar.currentHeight : 0 }}
+        >
           <TouchableOpacity onPress={onClose}>
             <Text style={Styles['closeButton']}>×</Text>
           </TouchableOpacity>

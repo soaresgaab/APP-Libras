@@ -16,5 +16,3 @@ export async function searchById(
     }
   });
 }
-
-// https://run.mocky.io/v3/a44a54fa-8fc5-4796-9086-16493c5259df

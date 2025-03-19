@@ -22,6 +22,8 @@ import { pushCreateCategoryById } from '@/utils/axios/Category/pushCreateCategor
 import * as ImagePicker from 'expo-image-picker';
 import { Image } from 'expo-image';
 import Separator from '@/components/libras_componentes/separator';
+import useDeviceType from '@/hooks/useDeviceType';
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 function App() {
   const [data, setDataFetch] = useState<Partial<TypeCategory>>({
@@ -45,7 +47,7 @@ function App() {
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [16, 9],
       quality: 0.3,
@@ -70,7 +72,7 @@ function App() {
 
   function closeModalAndBack() {
     setModalVisible(false);
-    router.push('edition');
+    router.push('/edition');
   }
 
   // ----------------------  Controller data change by input ----------------------------
@@ -84,12 +86,7 @@ function App() {
   }
   // ----------------------  start of component return  ----------------------------
   return (
-    <ScrollView
-      style={styles.container}
-      refreshControl={
-        <RefreshControl refreshing={false} progressViewOffset={70} />
-      }
-    >
+    <ScrollView style={styles.container}>
       <Text style={styles.headerTitle}>Criar Categoria</Text>
       <Separator marginTopProp={10} marginBottomProp={10}></Separator>
       {/* ---------------------- input name Category  ---------------------------- */}
@@ -224,7 +221,7 @@ const styles = StyleSheet.create({
     width: 'auto',
   },
   headerTitle: {
-    marginTop: 95,
+    marginTop: isWeb ? 95 : 75,
     alignSelf: 'center',
     textAlign: 'center',
     fontSize: 26,

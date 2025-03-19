@@ -33,7 +33,7 @@ export const Libras_container = ({
       setIsLoading(false),
     );
     setFetchData(data.data);
-    console.log(data.data);
+    (data.data);
   }
 
   useEffect(() => {

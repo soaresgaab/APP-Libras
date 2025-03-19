@@ -23,7 +23,6 @@ import {
 import { NoResultsComponent } from '@/components/formSearch/erroSearch';
 import { Image } from 'expo-image';
 import { DataLibrasReducer } from '@/utils/reducer/DataLibrasReducer';
-import { initialStateDataLibrasReducer } from '../../../../utils/reducer/DataLibrasReducer';
 import * as ImagePicker from 'expo-image-picker';
 import { Foundation } from '@expo/vector-icons';
 import ImageModal, { ImageDetail } from '@/module/Image-modal';
@@ -41,6 +40,7 @@ function App() {
   const { slug } = useLocalSearchParams();
 
   async function SearchData() {
+    console.log(slug);
     const data = await searchByRoute(`word/category/${slug}`).finally(() =>
       setIsLoading(false),
     );
@@ -94,32 +94,35 @@ function App() {
             {slug}
           </Text>
           <Separator marginTopProp={15} marginBottomProp={10}></Separator>
-          {fetchData?.map((item, index) => (
-            <View key={index} style={{ backgroundColor: '#edf8f4' }}>
-              {item.wordDefinitions?.map((item2, index2) => (
-                <View key={index2} style={styles.container}>
-                  <Pressable style={styles.div}>
-                    {item2.fileType === 'image' && (
-                      <ImageModal
-                        style={styles.image}
-                        source={{
-                          uri: `data:image/jpeg;base64,${item2.src}`,
-                        }}
-                      ></ImageModal>
-                    )}
-                    {item2.fileType === 'video' && (
-                      <YoutubeIframe
-                        videoId={extractYoutubeVideoId(item2.src)}
-                        height={isTablet ? 295 : 180}
-                        width={isTablet ? 660 : 340}
-                      />
-                    )}
-                    <Text style={styles.label}>{item.nameWord}</Text>
-                  </Pressable>
-                </View>
-              ))}
-            </View>
-          ))}
+
+          <ScrollView>
+            {fetchData?.map((item, index) => (
+              <View key={index} style={{ backgroundColor: '#edf8f4' }}>
+                {item.wordDefinitions?.map((item2, index2) => (
+                  <View key={index2} style={styles.container}>
+                    <Pressable style={styles.div}>
+                      {item2.fileType === 'image' && (
+                        <ImageModal
+                          style={styles.image}
+                          source={{
+                            uri: `data:image/jpeg;base64,${item2.src}`,
+                          }}
+                        ></ImageModal>
+                      )}
+                      {item2.fileType === 'video' && (
+                        <YoutubeIframe
+                          videoId={extractYoutubeVideoId(item2.src)}
+                          height={isTablet ? 295 : 180}
+                          width={isTablet ? 660 : 340}
+                        />
+                      )}
+                      <Text style={styles.label}>{item.nameWord}</Text>
+                    </Pressable>
+                  </View>
+                ))}
+              </View>
+            ))}
+          </ScrollView>
         </View>
       )}
     </>

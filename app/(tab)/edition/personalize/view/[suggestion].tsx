@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useReducer, useState, useRef } from 'react';
 import {
   StyleSheet,
   RefreshControl,
@@ -7,6 +7,9 @@ import {
   TextInput,
   Button,
   Modal,
+  TouchableOpacity,
+  Dimensions,
+  Alert,
 } from 'react-native';
 import SearchInput from '@/components/formSearch/searchInput';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -23,7 +26,12 @@ import { router } from 'expo-router';
 import { pushUpdateCategoryById } from '@/utils/axios/Category/pushUpdateCategoryById';
 import { BlurView } from 'expo-blur';
 import { pushDeleteCategoryById } from '@/utils/axios/Category/pushDeleteCategoryById';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import {
+  TypeLibrasData,
+  TypeLibrasDataSuggestion,
+  TypeLibrasDataWithId,
+  TypeLibrasDataWithOutId,
+} from '@/@types/LibrasData';
 import { TypeCategory } from '@/@types/Category';
 import { searchByRoute } from '@/utils/axios/searchByRote';
 import { Picker } from '@react-native-picker/picker';
@@ -31,24 +39,48 @@ import { Image } from 'expo-image';
 import * as ImagePicker from 'expo-image-picker';
 import { pushUpdateWordById } from '@/utils/axios/Words/pushUpdateWordById';
 import { pushAddSignalById } from '@/utils/axios/Words/pushAddSignalById';
+import ImageModal from '@/module/Image-modal';
+import { RadioButton } from 'react-native-paper';
+import Separator from '@/components/libras_componentes/separator';
+import { pushCreateWordById } from '@/utils/axios/Words/pushCreateWordsById';
+import useDeviceType from '@/hooks/useDeviceType';
+import { pushCreateWordByIdfull } from '@/utils/axios/Words/pushCreateWordsByIdFull';
+import { pushUpdateSuggestionById } from '@/utils/axios/Suggestion/pushUpdateSuggestionById';
+
+const { width, height } = Dimensions.get('window');
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 function AppWord() {
-  const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
-    _id: undefined,
-    nameWord: 'nada',
+  const { suggestion } = useLocalSearchParams();
+  const [youtubeLinkUri, setYoutubeLinkUri] = useState<string | undefined>('');
+  const [midiaStorageType, setMidiaStorageType] = useState<
+    'upload' | 'linkVideo' | null
+  >(null);
+
+  const [data, setDataFetch] = useState<TypeLibrasDataSuggestion>({
+    _id: 0,
+    nameWord: '',
+    emailContact: '',
     wordDefinitions: [
       {
-        _id: undefined,
+        _id: 101,
         descriptionWordDefinition: '',
         src: '',
-        category: undefined,
+        fileType: '',
+        category: 1,
+      },
+      {
+        _id: 0,
+        descriptionWordDefinition: 'Another description of the word.',
+        src: 'https://example.com/video.mp4',
+        fileType: 'video/mp4',
+        category: 2,
       },
     ],
   });
   const [category, setCategory] = useState<TypeCategory[]>();
   const [selectedCategory, setSelectedCategory] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const { id } = useLocalSearchParams();
   const blurhash =
     '|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[';
 
@@ -60,25 +92,73 @@ function AppWord() {
 
   // ----------------------  Controller data change by input ----------------------------
   async function sendData() {
-    const result = await pushAddSignalById(data);
-    result.data;
-    setModalVisible(true);
+    if (
+      !data.nameWord ||
+      !data.wordDefinitions!.every(
+        (def) => def.descriptionWordDefinition && def.category,
+      )
+    ) {
+      Alert.alert(
+        'Campos obrigatórios',
+        'Por favor, preencha todos os campos obrigatórios antes de salvar.',
+        [{ text: 'OK' }],
+      );
+      return;
+    }
+
+    if (!midiaStorageType) {
+      console.log('🚨 Tipo de mídia não selecionado'); // 🔹 Log para depuração
+      Alert.alert(
+        'Erro',
+        'Por favor, selecione um tipo de mídia antes de salvar.',
+        [{ text: 'OK' }],
+      );
+      return;
+    }
+
+    let updatedDefinitions = data.wordDefinitions;
+
+    if (midiaStorageType === 'upload') {
+      updatedDefinitions = await Promise.all(
+        data.wordDefinitions!.map(async (definition) => ({
+          ...definition,
+          fileType: 'image',
+        })),
+      );
+    } else if (midiaStorageType === 'linkVideo') {
+      console.log('🎥 Tipo de mídia: linkVideo');
+      updatedDefinitions = await Promise.all(
+        data.wordDefinitions!.map(async (definition) => ({
+          ...definition,
+          src: youtubeLinkUri,
+          fileType: 'video',
+        })),
+      );
+    }
+
+    const newData = {
+      ...data,
+      wordDefinitions: updatedDefinitions,
+    };
+
+    setDataFetch(newData as TypeLibrasDataWithId);
+
+    try {
+      const result = await pushUpdateSuggestionById(newData);
+      setModalVisible(true);
+    } catch (error) {
+      Alert.alert(
+        'Erro',
+        'Não foi possível salvar a palavra. Tente novamente.',
+      );
+    }
   }
+
   function closeModalAndBack() {
     setModalVisible(false);
     router.push({
-      pathname: '/(editionwords)',
+      pathname: '/edition',
     });
-  }
-
-  function handleNameWord(text: string) {
-    setDataFetch((prev) => ({ ...prev, nameWord: text }));
-  }
-
-  async function deleteData() {
-    // const result = await pushDeleteCategoryById(data);
-    // (result.status);
-    setModalVisible(true);
   }
 
   function descriptionSinal(item: string, definitionID: number | undefined) {
@@ -94,23 +174,31 @@ function AppWord() {
         return definition;
       }),
     };
-    newData;
     setDataFetch(newData as TypeLibrasDataWithId);
   }
 
   // ----------------------  function to fetch data ----------------------------
   async function searchData() {
-    // const response = await searchById('word_id', id);
+    const response = await searchById('suggestion_id', suggestion);
     const category = await searchByRoute('category');
     setCategory(category.data);
     categorySelectNull(category.data[0]);
-    // setDataFetch(response.data)
+    setDataFetch(response.data);
+    console.log(response.data);
+    console.log(response.data.wordDefinitions[0].fileType);
+    setMidiaStorageType(
+      response.data.wordDefinitions[0].fileType === 'image'
+        ? 'upload'
+        : 'linkVideo',
+    );
+    if (response.data.wordDefinitions[0].fileType !== 'image') {
+      setYoutubeLinkUri(response.data.wordDefinitions[0].src);
+    }
   }
 
   function categorySelectNull(item: any) {
     const newData = {
       ...data,
-      _id: id,
       wordDefinitions: data!.wordDefinitions?.map((definition, index) => {
         if (index === 0) {
           return {
@@ -142,8 +230,18 @@ function AppWord() {
 
   useEffect(() => {
     searchData();
+    // console.log('🔹 data', data);
   }, []);
   // ----------------------  Image Picker function ----------------------------
+
+  function handleNameWord(text: string) {
+    const newData = {
+      ...data,
+      nameWord: text,
+    };
+    setDataFetch(newData as TypeLibrasDataWithId);
+  }
+
   const handleSelectImage = async (itemID: number | undefined) => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -154,7 +252,7 @@ function AppWord() {
 
     const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ['images'],
         allowsEditing: true,
         // aspect: [4, 4],
         quality: 0.2,
@@ -195,80 +293,58 @@ function AppWord() {
         <RefreshControl refreshing={false} progressViewOffset={70} />
       }
     >
-      <SearchInput></SearchInput>
-      <Text
-        style={{
-          marginTop: 10,
-          alignSelf: 'center',
-          textAlign: 'center',
-          fontSize: 20,
-          width: '75%',
-          fontStyle: 'italic',
-          fontWeight: 'bold',
-        }}
-      >
-        Adicionar Sinal
-      </Text>
+      <Text style={styles.headerTitle}>Editar Sugestão</Text>
+      <Separator marginTopProp={10} marginBottomProp={10}></Separator>
       {/* ----------------------  Button and icon to exclude  ---------------------------- */}
 
+      <Text style={styles.labelDescription}>Nome da palavra:</Text>
       {/* ----------------------  form imput  ---------------------------- */}
-      <Foundation
-        style={styles.iconClip}
-        name="paperclip"
-        size={35}
-        color="black"
-      />
 
+      <TextInput
+        style={styles.inputDescription}
+        value={data.nameWord}
+        placeholder="Informe um nome para a palavra"
+        multiline={true}
+        onChangeText={(text) => {
+          handleNameWord(text);
+        }}
+      />
       {data &&
         data.wordDefinitions?.map((definition, index) => (
           <View key={index}>
-            <Text
-              style={{
-                alignSelf: 'center',
-                textAlign: 'center',
-                fontSize: 25,
-                width: '85%',
-                fontWeight: 'bold',
-              }}
-            >
-              Sinal
+            <Text style={styles.labelDescription}>
+              Email: {data.emailContact}
             </Text>
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelDescription}>Descrição do sinal</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="white"
-              />
-            </View>
+            <Text style={styles.labelDescription}>Descrição da palavra:</Text>
+
             <TextInput
               style={styles.inputDescription}
               value={definition.descriptionWordDefinition}
+              placeholder="Informe uma descrição para a palavra"
+              multiline={true}
               onChangeText={(text) => {
-                descriptionSinal(text, definition._id);
+                descriptionSinal(text, 0);
               }}
             ></TextInput>
+
             {/* ----------------------  form picker  ---------------------------- */}
-            <View style={styles.groupDescription}>
-              <Text style={styles.labelCategory}>Categoria</Text>
-              <Feather
-                style={styles.iconEditDescription}
-                name="edit"
-                size={24}
-                color="white"
-              />
-            </View>
+
+            <Text style={styles.labelCategory}>Categoria:</Text>
             <View style={styles.dropdown}>
               <Picker // Adicionando uma chave única para cada item
                 prompt="Escolha uma categoria"
-                style={{ fontSize: 18 }}
+                style={{
+                  fontSize: 18,
+                  borderRadius: 10,
+                  paddingVertical: isWeb ? 10 : 0,
+                  paddingHorizontal: 5,
+                  borderWidth: 1,
+                }}
                 mode="dialog"
                 dropdownIconColor="black"
                 dropdownIconRippleColor="#fcce9b"
                 selectedValue={definition.category}
                 onValueChange={(itemValue, itemIndex) => {
-                  // setSelectedCategory(itemValue);
                   categorySelect(itemValue, definition._id);
                 }}
               >
@@ -284,28 +360,69 @@ function AppWord() {
               </Picker>
             </View>
 
-            {/* ---------------------- select image  ---------------------------- */}
-            <Pressable
-              style={({ pressed }) => [
-                {
-                  backgroundColor: pressed ? '#fcce9b' : '#DB680B',
-                },
-                styles.button,
-              ]}
-              onPress={() => handleSelectImage(definition._id)}
-            >
-              <Text style={{ fontSize: 17 }}>Trocar Imagem</Text>
-            </Pressable>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `data:image/jpeg;base64,${definition.src}`,
-              }}
-              contentFit="cover"
-              placeholder={{ blurhash }}
-              transition={1000}
-            />
-            <View style={{ marginBottom: 60 }}></View>
+            {/* ---------------------- Radio Buttons para selecionar Imagem ou Vídeo ---------------------------- */}
+            <Text style={styles.label}>Selecione o tipo de mídia:</Text>
+            <View style={styles.radioContainer}>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="upload"
+                  status={
+                    midiaStorageType === 'upload' ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setMidiaStorageType('upload')}
+                />
+                <Text>Upload da mídia</Text>
+              </View>
+              <View style={styles.radioItem}>
+                <RadioButton
+                  value="linkVideo"
+                  status={
+                    midiaStorageType === 'linkVideo' ? 'checked' : 'unchecked'
+                  }
+                  onPress={() => setMidiaStorageType('linkVideo')}
+                />
+                <Text>Link do Youtube</Text>
+              </View>
+            </View>
+
+            {/* ---------------------- select image - opção Upload de mídia ---------------------------- */}
+            {midiaStorageType === 'upload' && (
+              <Pressable
+                style={({ pressed }) => [
+                  {
+                    backgroundColor: pressed ? '#86c7aa' : '#ffffff',
+                  },
+                  styles.button,
+                ]}
+                onPress={() => handleSelectImage(definition._id)}
+              >
+                <Text style={{ fontSize: 17 }}>Trocar mídia</Text>
+              </Pressable>
+            )}
+            {midiaStorageType === 'upload' && (
+              <ImageModal
+                style={styles.image}
+                source={{
+                  uri: `data:image/jpeg;base64,${definition.src}`,
+                }}
+              />
+            )}
+
+            {/* ---------------------- Se a opção Link do youtube for selecionada  ---------------------------- */}
+            {midiaStorageType === 'linkVideo' && (
+              <View>
+                <Text style={styles.label}>
+                  Edite o link do vídeo do YouTube:
+                </Text>
+                <TextInput
+                  style={styles.input}
+                  placeholder="https://www.youtube.com/..."
+                  value={youtubeLinkUri}
+                  onChangeText={(text) => setYoutubeLinkUri(text)}
+                />
+              </View>
+            )}
+            <View style={{ marginBottom: 20 }}></View>
           </View>
         ))}
 
@@ -348,10 +465,11 @@ function AppWord() {
       </ScrollView> */}
       {/* ---------------------- buttons to create Category  ---------------------------- */}
 
+      <Separator marginTopProp={5} marginBottomProp={10}></Separator>
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#a9caf5',
+            backgroundColor: pressed ? '#3d9577' : '#86c7aa',
           },
           styles.buttonSalvar,
         ]}
@@ -364,7 +482,7 @@ function AppWord() {
       <Pressable
         style={({ pressed }) => [
           {
-            backgroundColor: pressed ? '#6ca5f0' : '#f5f5f5',
+            backgroundColor: pressed ? '#86c7aa' : '#ffffff',
           },
           styles.buttonCancelar,
         ]}
@@ -387,9 +505,7 @@ function AppWord() {
           style={styles.modalOverlay}
         >
           <View style={styles.modalContainer}>
-            <Text style={styles.modalText}>
-              Alteração realizada com sucesso!
-            </Text>
+            <Text style={styles.modalText}>Palvra alterada com sucesso!</Text>
             <Pressable
               style={styles.modalButton}
               onPress={() => closeModalAndBack()}
@@ -410,6 +526,15 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
+  headerTitle: {
+    marginTop: isWeb ? 20 : 20,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 26,
+    width: '90%',
+    fontWeight: 'bold',
+    color: '#03459e',
+  },
   inputNameWord: {
     backgroundColor: 'white',
     width: '75%',
@@ -418,44 +543,44 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     color: 'Red',
     fontSize: 20,
     marginBottom: 40,
   },
   inputDescription: {
-    justifyContent: 'space-around',
-    textAlignVertical: 'top',
-    paddingHorizontal: 6,
     backgroundColor: 'white',
-    width: '85%',
-    height: 70,
-    alignSelf: 'center',
-    textAlign: 'center',
-    paddingVertical: 6,
-    borderBottomLeftRadius: 10,
-    borderBottomRightRadius: 10,
-    borderWidth: 2,
-    borderColor: '#e7503b',
-    color: 'Red',
-    fontWeight: 'bold',
-    fontSize: 15,
-  },
-  labelCategory: {
+    width: 360,
     alignSelf: 'center',
     textAlign: 'left',
-    fontSize: 18,
-    width: '80%',
+    paddingVertical: 6,
+    paddingLeft: 11,
+    borderRadius: 15,
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    color: 'Red',
+    fontSize: 17,
+    elevation: 6,
+  },
+  labelCategory: {
+    marginTop: 20,
+    alignSelf: 'center',
+    textAlign: 'left',
+    paddingLeft: 18,
+    fontSize: 20,
+    width: 360,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#03459e',
   },
   labelDescription: {
+    marginTop: 20,
     alignSelf: 'center',
     textAlign: 'left',
     fontSize: 20,
-    width: '80%',
+    paddingLeft: 18,
     fontWeight: 'bold',
-    color: 'white',
+    width: 360,
+    color: '#03459e',
   },
   iconClip: {
     marginTop: 5,
@@ -463,7 +588,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontWeight: 'bold',
-    color: '#e7503b',
+    color: '#03459e',
   },
   iconEditDescription: {
     alignSelf: 'center',
@@ -474,7 +599,7 @@ const styles = StyleSheet.create({
   groupDescription: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     marginTop: 10,
     flexDirection: 'row',
     width: '85%',
@@ -485,10 +610,10 @@ const styles = StyleSheet.create({
   groupCategory: {
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     marginTop: 10,
     flexDirection: 'row',
-    width: '85%',
+    width: 370,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
@@ -505,40 +630,49 @@ const styles = StyleSheet.create({
   },
   buttonCancelar: {
     marginTop: 15,
-    alignSelf: 'flex-end',
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
     marginBottom: 25,
   },
   buttonSalvar: {
-    alignSelf: 'flex-end',
+    marginTop: 10,
+    alignSelf: 'center',
     width: 190,
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 20,
-    marginRight: '5%',
     borderWidth: 2,
-    borderColor: '#6ca5f0',
+    borderColor: '#3d9577',
   },
   dropdown: {
     marginTop: 0,
-    width: '85%',
+    width: 360,
+    height: isWeb ? 45 : 55,
     alignSelf: 'center',
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
     backgroundColor: 'white',
-    borderTopRightRadius: 0,
-    borderTopLeftRadius: 0,
   },
   image: {
+    width: 290,
+    height: 280,
+    marginTop: 18,
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 20,
+    fontStyle: 'italic',
+    fontWeight: 'bold',
+    borderRadius: 15,
+  },
+  video: {
     width: 290,
     height: 280,
     marginTop: 18,
@@ -563,14 +697,14 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
     borderWidth: 2,
-    borderColor: '#e7503b',
+    borderColor: '#3d9577',
   },
   modalText: {
     fontSize: 18,
     marginBottom: 20,
   },
   modalButton: {
-    backgroundColor: '#e7503b',
+    backgroundColor: '#3d9577',
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 10,
@@ -580,7 +714,37 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-
+  radioContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginVertical: 20,
+  },
+  radioItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  label: {
+    marginTop: 20,
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    color: '#03459e',
+  },
+  input: {
+    backgroundColor: 'white',
+    width: '85%',
+    alignSelf: 'center',
+    textAlign: 'center',
+    paddingVertical: 6,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: '#3d9577',
+    color: 'black',
+    fontSize: 16,
+    marginBottom: 20,
+  },
   button: {
     width: 150,
     paddingVertical: 10,
@@ -588,7 +752,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    borderRadius: 10,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#3d9577',
   },
 });
 

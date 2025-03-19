@@ -31,11 +31,11 @@ import ImageModal from '@/module/Image-modal';
 import { Video } from 'expo-av';
 import Separator from '@/components/libras_componentes/separator';
 import { pushCreateSuggestionById } from '@/utils/axios/Suggestion/pushCreateSuggestionById';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
-const isWeb = width >= 1000 && height >= 617;
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 function AppWord() {
   const [data, setDataFetch] = useState<TypeLibrasDataWithId>({
@@ -68,7 +68,6 @@ function AppWord() {
     setLoading(true);
     const result = await pushCreateSuggestionById(data);
     setLoading(false);
-    result.data;
     setModalVisible(true);
   }
   function closeModalAndBack() {
@@ -108,7 +107,7 @@ function AppWord() {
 
     const result: ImagePicker.ImagePickerResult =
       await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes: ['images'],
         allowsEditing: true,
         aspect: [4, 4],
         quality: 0.2,
@@ -508,7 +507,7 @@ const styles = StyleSheet.create({
   dropdown: {
     marginTop: 0,
     width: 360,
-    height: isWeb ? 45 : 55,
+    height: isWeb ? 45 : 25,
     alignSelf: 'center',
     borderRadius: 10,
     borderWidth: 2,

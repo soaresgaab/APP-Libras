@@ -31,8 +31,7 @@ function App() {
   const [refreshing, setRefreshing] = useState(true);
 
   async function searchData() {
-    const response = await searchByRoute('category_showInMenu');
-    console.log(response.data);
+    const response = await searchByRoute('category');
     setDataFetch(response.data);
   }
 
@@ -50,7 +49,7 @@ function App() {
     >
       <SearchInput></SearchInput>
       <Separator marginTopProp={15} marginBottomProp={15} />
-
+      <Text style={styles.headerTitle}>Categorias disponiveis</Text>
       {data ? (
         <View
           style={
@@ -58,17 +57,15 @@ function App() {
           }
         >
           {data.map((item) => {
-            if (item.showInMenu) {
-              return (
-                <View key={item._id}>
-                  <CardsInMenu
-                    routerCategory={item.nameCategory}
-                    imageBase64={item.imgCategory}
-                    label={item.nameCategory}
-                  ></CardsInMenu>
-                </View>
-              );
-            }
+            return (
+              <View key={item._id}>
+                <CardsInMenu
+                  routerCategory={item.nameCategory}
+                  imageBase64={item.imgCategory}
+                  label={item.nameCategory}
+                ></CardsInMenu>
+              </View>
+            );
           })}
         </View>
       ) : null}
@@ -118,26 +115,6 @@ const styles = StyleSheet.create({
     width: 'auto',
     paddingVertical: 0,
   },
-  headerTitle: {
-    marginTop: 10,
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 26,
-    letterSpacing: 2,
-    width: '90%',
-    fontWeight: 'bold',
-    color: '#49688D',
-  },
-  subHeaderTitle: {
-    marginTop: -5,
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontSize: 20,
-    letterSpacing: 2,
-    width: '90%',
-    fontWeight: '600',
-    color: '#49688D',
-  },
   separator: {
     width: '90%',
     marginTop: 19,
@@ -145,6 +122,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     borderTopWidth: 2,
     borderTopColor: '#cac9c99c',
+  },
+  headerTitle: {
+    alignSelf: 'center',
+    textAlign: 'center',
+    fontSize: 26,
+    letterSpacing: 1,
+    width: '90%',
+    fontWeight: 'bold',
+    color: '#49688D',
+    marginBottom: 15,
   },
   buttonContainer: {
     flexDirection: 'row',

@@ -1,29 +1,27 @@
 {
   "expo": {
-    "name": "Libras Sudeste Pará",
-    "slug": "LIbrasSudestePara",
-    "version": "2.1.0",
+    "name": "libras sudeste pará",
+    "slug": "libras-sudeste-para",
+    "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "light",
+    "newArchEnabled": true,
     "splash": {
       "image": "./assets/images/newSplashArt.png",
       "resizeMode": "contain",
-      "backgroundColor": "#edf8f4"
+      "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#edf8f4"
+        "backgroundColor": "#ffffff"
       },
-      "package": "com.ericksousa312.LIbrasSudestePara"
+      "package": "com.ericksousa312.librassudestepara"
     },
     "web": {
       "bundler": "metro",
@@ -41,7 +39,7 @@
         "origin": false
       },
       "eas": {
-        "projectId": "1c6bb6eb-bce0-46d2-9b60-8d7a036e9462"
+        "projectId": "c1b6b45c-e7b3-4ade-8918-3314925e8260"
       }
     }
   }

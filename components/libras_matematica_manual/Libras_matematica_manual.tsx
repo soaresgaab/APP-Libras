@@ -21,6 +21,7 @@ const isTablet = width >= 768 && height >= 1024;
 export const Libras_matematica_container = ({}): React.ReactNode => {
   const [fetchData, setFetchData] = useState<TypeLibrasDataWithId[]>();
   const [isLoading, setIsLoading] = useState(true);
+
   async function SearchData() {
     const data = await searchByRoute('word/category/Matemática').finally(() =>
       setIsLoading(false),
@@ -73,6 +74,7 @@ export const Libras_matematica_container = ({}): React.ReactNode => {
     </>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     // paddingTop: 25,

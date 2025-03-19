@@ -27,7 +27,7 @@ const DisplayImageArea = ({
   // On Android, the status bar height should be added to the top position of the image.
   const statusBarHeight =
     isTranslucent && Platform.OS === 'android'
-      ? StatusBar.currentHeight ?? 0
+      ? (StatusBar.currentHeight ?? 0)
       : 0;
   const containerAnimateConf = {
     left: animatedFrame.interpolate({

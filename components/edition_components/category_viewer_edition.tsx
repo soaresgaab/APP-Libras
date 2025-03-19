@@ -28,15 +28,11 @@ import { BlurView } from 'expo-blur';
 import { router } from 'expo-router';
 import Id from '@/app/(tab)/edition/category/[id]';
 import category from '@/app/(tab)/edition/category';
+import useDeviceType from '@/hooks/useDeviceType';
 
 const { width, height } = Dimensions.get('window');
 
-const isTablet = width >= 768 && height >= 1024;
-const isWeb = width >= 1000 && height >= 617;
-
-// const handleSelectItem = (id) => {
-//   setIdSelected(id); // Define o ID do item selecionado
-// };
+const { isPhone, isTablet, isWeb } = useDeviceType();
 
 const CategoryViewerEdition = ({
   data,
@@ -47,25 +43,19 @@ const CategoryViewerEdition = ({
   const [idSelected, setSelectedId] = useState(0);
 
   const [filter, setFilter] = useState<string>('');
-  const filteredItems = (data || []).filter((item) =>
-    item.nameCategory.toLowerCase().includes(filter.toLowerCase()),
-  );
+  const filteredItems = (data || []).filter((item) => {
+    if (item) {
+      return item.nameCategory?.toLowerCase().includes(filter.toLowerCase());
+    }
+  });
 
   function deleteCategory(id: number) {
-    console.log(idSelected);
     setModalVisible(true);
     setSelectedId(id);
   }
 
-  function closeModalAndBack() {
+  function closeModal() {
     setModalVisible(false);
-  }
-
-  function routePush(id: number) {
-    router.push({
-      pathname: '/(editionwords)/[words]',
-      params: { id: `${id}` },
-    });
   }
 
   async function handleDelete() {
@@ -76,7 +66,6 @@ const CategoryViewerEdition = ({
           method: 'DELETE',
         },
       );
-      console.log(response);
       router.push('/edition');
     } catch (error) {
       console.error('Erro ao deletar categoria:', error);
@@ -87,6 +76,12 @@ const CategoryViewerEdition = ({
     router.push({
       pathname: '/(tab)/edition/category/[id]',
       params: { id: `${id}` },
+    });
+  }
+  function viewCategory(id: string) {
+    router.push({
+      pathname: '/(tab)/edition/category/dynamicCategory/[slug]',
+      params: { slug: `${id}` },
     });
   }
 
@@ -111,9 +106,12 @@ const CategoryViewerEdition = ({
       >
         <View style={[isWeb ? styles.divCategoriesWeb : {}]}>
           {filteredItems?.map((category, index) => (
-            <View
+            <Pressable
               key={index}
               style={[isWeb ? styles.listContainerWeb : styles.listContainer]}
+              onPress={() => {
+                viewCategory(category.nameCategory);
+              }}
             >
               <View style={styles.divImage}>
                 <ImageModal
@@ -150,7 +148,7 @@ const CategoryViewerEdition = ({
                   </Text>
                 </View>
               </View>
-            </View>
+            </Pressable>
           ))}
         </View>
       </ScrollView>
@@ -161,7 +159,7 @@ const CategoryViewerEdition = ({
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <TouchableWithoutFeedback onPress={() => closeModalAndBack()}>
+        <TouchableWithoutFeedback onPress={() => closeModal()}>
           <BlurView
             tint={'systemChromeMaterialDark'}
             intensity={60}
@@ -180,7 +178,7 @@ const CategoryViewerEdition = ({
                     ]}
                     onPress={() => {
                       editCategory(idSelected);
-                      closeModalAndBack();
+                      closeModal();
                     }}
                   >
                     <FontAwesome
@@ -199,7 +197,8 @@ const CategoryViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(), closeModalAndBack();
+                      handleDelete();
+                      closeModal();
                     }}
                   >
                     <MaterialCommunityIcons
@@ -224,7 +223,7 @@ const CategoryViewerEdition = ({
                       styles.modalButtonClose,
                       pressed && styles.modalButtonCloseOnPress,
                     ]}
-                    onPress={() => closeModalAndBack()}
+                    onPress={() => closeModal()}
                   >
                     <Ionicons
                       name="close-circle-outline"
@@ -285,7 +284,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginTop: 5,
+    marginTop: isWeb ? 40 : 15,
     alignSelf: 'center',
     width: 350,
     paddingLeft: 14,

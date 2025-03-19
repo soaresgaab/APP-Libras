@@ -151,7 +151,6 @@ const ImageModal = ({
     imageOpacity.setValue(VISIBLE_OPACITY);
     hideModal();
   };
-  (style);
   return (
     <View
       ref={imageRef}

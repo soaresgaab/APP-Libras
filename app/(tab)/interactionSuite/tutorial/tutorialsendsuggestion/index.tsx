@@ -9,11 +9,7 @@ import { CardTutorial } from '@/components/card_tutorial/card_tutorial';
 import { router } from 'expo-router';
 import SearchInput from '@/components/formSearch/searchInput';
 import { searchByRoute } from '@/utils/axios/searchByRote';
-import {
-  View,
-  Pressable,
-  Dimensions,
-} from 'react-native';
+import { View, Pressable, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 const isTablet = width >= 768 && height >= 1024;
@@ -25,7 +21,7 @@ function App() {
 
   async function searchData() {
     const response = await searchByRoute('category_showInMenu');
-    console.log(response.data);
+    (response.data);
     setDataFetch(response.data);
   }
 

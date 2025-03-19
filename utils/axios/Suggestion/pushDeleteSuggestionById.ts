@@ -7,7 +7,6 @@ export async function pushDeleteSuggestionById(
   dataWord?: Partial<TypeLibrasDataWithId>,
 ): Promise<AxiosResponse> {
   return new Promise(async (resolve, reject) => {
-    dataWord;
     try {
       const data: AxiosResponse<any> = await axios.delete(
         `${process.env.EXPO_PUBLIC_API_URL}/suggestion/${dataWord?._id}`,

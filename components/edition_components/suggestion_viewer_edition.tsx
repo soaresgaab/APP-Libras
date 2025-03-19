@@ -21,7 +21,7 @@ import { RefreshControl, ScrollView } from 'react-native-gesture-handler';
 import { BlurView } from 'expo-blur';
 import { Image } from 'expo-image';
 import { CreateButton } from '../createData/create-Button';
-import { TypeLibrasData, TypeLibrasDataWithId } from '@/@types/LibrasData';
+import { TypeLibrasData, TypeLibrasDataSuggestion } from '@/@types/LibrasData';
 import ImageModal from '@/module/Image-modal';
 import Separator from '../libras_componentes/separator';
 import { router } from 'expo-router';
@@ -34,18 +34,19 @@ const isWeb = width >= 1000 && height >= 617;
 const SuggestionViewerEdition = ({
   data,
 }: {
-  data: TypeLibrasDataWithId[] | undefined;
+  data: TypeLibrasDataSuggestion[] | undefined;
 }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [idSelected, setSelectedId] = useState(0);
 
   const [filter, setFilter] = useState<string>('');
-  const filteredItems = (data || []).filter((item) =>
-    item.nameWord!.toLowerCase().includes(filter.toLowerCase()),
-  );
+  const filteredItems = (data || []).filter((item) => {
+    if (item) {
+      return item.nameWord?.toLowerCase().includes(filter.toLowerCase());
+    }
+  });
 
   function deleteSuggestion(id: any) {
-    console.log(idSelected);
     setModalVisible(true);
     setSelectedId(id);
   }
@@ -62,11 +63,17 @@ const SuggestionViewerEdition = ({
           method: 'DELETE',
         },
       );
-      console.log(response);
       router.push('/edition');
     } catch (error) {
       console.error('Erro ao deletar palavra', error);
     }
+  }
+
+  function editSuggestion(id: number) {
+    router.push({
+      pathname: '/(tab)/edition/personalize/view/[suggestion]',
+      params: { suggestion: `${id}` },
+    });
   }
 
   return (
@@ -157,7 +164,7 @@ const SuggestionViewerEdition = ({
                       },
                     ]}
                     onPress={() => {
-                      console.log('Editar');
+                      editSuggestion(idSelected);
                       closeModal();
                     }}
                   >
@@ -177,7 +184,8 @@ const SuggestionViewerEdition = ({
                       pressed && styles.modalButtonOnPress,
                     ]}
                     onPress={() => {
-                      handleDelete(), closeModal();
+                      handleDelete();
+                      closeModal();
                     }}
                   >
                     <MaterialCommunityIcons
@@ -236,7 +244,7 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: 'white',
-    marginTop: 5,
+    marginTop: isWeb ? 40 : 15,
     alignSelf: 'center',
     width: 350,
     paddingLeft: 14,
